@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    Iniciar Sesión
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "user/login.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+    <div id="alert">
+        <h2>Error</h2>
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <section id="login-form">
+        <h2>Iniciar Sesión</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Login" />
+        </form>
+    </section>
+
+{% endblock %}
