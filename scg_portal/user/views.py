@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from .forms import UserForm
-from .models import Usuario
+from .models import Usuario, Cuenta
 
 def sign_in(request):
     if request.method == 'GET':
@@ -25,7 +27,19 @@ def sign_in(request):
                     if usuario.tipo == 'Admin':
                         return redirect('index')
                     elif usuario.tipo == 'Cliente':
-                        return redirect('client')
+                        # Verificar el campo 'cuenta'
+                        cuenta_nombre = usuario.cuenta.nombre
+
+                        try:
+                            # Buscar la cuenta en la base de datos
+                            cuenta = get_object_or_404(Cuenta, nombre=cuenta_nombre)
+
+                            # Realizar la redirección con el nombre de la cuenta
+                            return HttpResponseRedirect(reverse("client", kwargs={'nombre_cuenta': cuenta_nombre}))
+
+                        except Cuenta.DoesNotExist:
+                            messages.error(request, 'La cuenta no existe')
+                            return redirect('login')
                     else:
                         messages.error(request, 'Tipo de usuario no reconocido')
                         # Puedes ajustar la redirección en este caso según tus necesidades

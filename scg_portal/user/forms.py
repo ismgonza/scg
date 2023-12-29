@@ -4,7 +4,7 @@ from .models import Usuario
 class UserForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        exclude = ["tipo"]
+        exclude = ["tipo", "cuenta"]
         labels = {
             "correo": "Su correo:",
             "password": "Su contraseña:"

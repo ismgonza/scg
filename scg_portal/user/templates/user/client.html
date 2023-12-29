@@ -1,17 +1,15 @@
 {% extends "base.html" %}
 
 {% block title %} 
-    Dasboard - Client
+    Dasboard - {{ nombre_cuenta }}
 {% endblock %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% block css_files %}
     
-</body>
-</html>
+{% endblock %}
+
+{% block content %}
+    <h1>Bienvenido a {{ nombre_cuenta }}</h1>  
+    
+
+{% endblock %}

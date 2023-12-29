@@ -33,3 +33,5 @@ class Usuario(models.Model):
     def verificar_contrasena(self, raw_password):
         # Implementación para verificar la contraseña
         return raw_password == self.password
+    
+    
