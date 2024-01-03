@@ -29,7 +29,7 @@ h3 {
   top: 0;
   left: 0;
   background: linear-gradient(to right top, #6305dd, #390281);
-  padding: 5%;
+  padding: 3%;
 }
 
 #main-navigation a {
@@ -47,4 +47,14 @@ h3 {
 #main-navigation h1 a:hover,
 #main-navigation h1 a:active {
   color: white;
+}
+
+#main-footer {
+  background: linear-gradient(to right top, #6305dd, #390281);
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
