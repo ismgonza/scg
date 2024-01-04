@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from .forms import UserForm
-from .models import Usuario, Cuenta
+from .models import Usuario, Cuenta, Reporte
 
 def sign_in(request):
     if request.method == 'GET':
@@ -68,8 +68,9 @@ def client_view(request, nombre_cuenta):
 
         # Verificar si el usuario tiene el tipo correcto y la cuenta correcta
         if user_tipo == 'Cliente' and user_cuenta_nombre == nombre_cuenta:
+            reportes = Reporte.objects.filter(cuenta_reporte=cuenta)
             # Tu lógica de vista aquí
-            return render(request, 'user/client.html', {'nombre_cuenta': nombre_cuenta})
+            return render(request, 'user/client.html', {'nombre_cuenta': nombre_cuenta, 'reportes': reportes})
         else:
             return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
     

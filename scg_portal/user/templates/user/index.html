@@ -1,7 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %} 
     Dasboard - Admin
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "user/index.css" %}">
 {% endblock %}
 
 <!DOCTYPE html>

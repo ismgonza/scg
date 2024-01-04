@@ -1,15 +1,30 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %} 
     Dasboard - {{ nombre_cuenta }}
 {% endblock %}
 
 {% block css_files %}
-    
+    <link rel="stylesheet" href="{% static "user/report.css"%}">
+    <link rel="stylesheet" href="{% static "user/client.css" %}">
 {% endblock %}
 
 {% block content %}
-    <h1>Bienvenido a {{ nombre_cuenta }}</h1>  
-    
 
+    <section id="all-reports">
+        <h2>Reportes de {{ nombre_cuenta }}</h2>
+
+
+        {% if reportes %}
+            <ul>
+                {% for reporte in reportes %}
+                    {% include "user/includes/report.html" %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay informes disponibles para esta cuenta.</p>
+        {% endif %}
+    </section>
+    
 {% endblock %}
