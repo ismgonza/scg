@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import UserForm
 from .models import Usuario, Cuenta, Reporte
 
@@ -68,9 +69,24 @@ def client_view(request, nombre_cuenta):
 
         # Verificar si el usuario tiene el tipo correcto y la cuenta correcta
         if user_tipo == 'Cliente' and user_cuenta_nombre == nombre_cuenta:
-            reportes = Reporte.objects.filter(cuenta_reporte=cuenta)
-            # Tu lógica de vista aquí
-            return render(request, 'user/client.html', {'nombre_cuenta': nombre_cuenta, 'reportes': reportes})
+            # Obtener todos los informes y ordenarlos por fecha de creación
+            reportes = Reporte.objects.filter(cuenta_reporte=cuenta).order_by('-fecha_reporte')
+
+            # Configurar la paginación
+            elementos_por_pagina = 10  # Ajusta según tus necesidades
+            paginator = Paginator(reportes, elementos_por_pagina)
+            page = request.GET.get('page')
+
+            try:
+                reportes_paginados = paginator.page(page)
+            except PageNotAnInteger:
+                reportes_paginados = paginator.page(1)
+            except EmptyPage:
+                reportes_paginados = paginator.page(paginator.num_pages)
+
+            # Pasar los informes paginados al contexto
+            context = {'nombre_cuenta': nombre_cuenta, 'reportes': reportes_paginados}
+            return render(request, 'user/client.html', context)
         else:
             return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
     

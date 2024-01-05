@@ -43,18 +43,22 @@ class Reporte(models.Model):
     target = models.CharField(max_length=100)
     cuenta_reporte = models.ForeignKey(
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_reportes")
+    source = models.CharField(max_length=150)
     
     def __str__(self):
         return self.target
     
     def save(self, *args, **kwargs):
-        # Genera un número aleatorio único
-        while True:
-            nuevo_id_reporte = random.randint(100000, 999999)  # Puedes ajustar el rango según tus necesidades
+        # Si el objeto aún no tiene un ID asignado
+        if not self.id_reporte:
+            # Genera un número aleatorio único
+            while True:
+                nuevo_id_reporte = random.randint(100000, 999999)  # Puedes ajustar el rango según tus necesidades
 
-            # Verifica si el número aleatorio ya existe en la base de datos
-            if not Reporte.objects.filter(id_reporte=nuevo_id_reporte).exists():
-                break
+                # Verifica si el número aleatorio ya existe en la base de datos
+                if not Reporte.objects.filter(id_reporte=nuevo_id_reporte).exists():
+                    break
 
-        self.id_reporte = nuevo_id_reporte
+            self.id_reporte = nuevo_id_reporte
+
         super().save(*args, **kwargs)
