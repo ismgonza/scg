@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %} 
+    REPORTE - {{ reporte.id_reporte }}
+{% endblock %}
+
+{% block content %}
+  <div>
+    {{ html_content | safe }}
+  </div>
+{% endblock %}

@@ -7,7 +7,7 @@ class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('correo', 'tipo', 'cuenta')
 
 class ReporteAdmin(admin.ModelAdmin):
-    list_display = ('id_reporte', 'fecha_reporte', 'target')
+    list_display = ('id_reporte', 'fecha_reporte', 'target', 'cuenta_reporte')
 
 admin.site.register(Usuario, UsuarioAdmin)
 admin.site.register(Cuenta)

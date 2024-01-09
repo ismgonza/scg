@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.template.loader import render_to_string
 from .forms import UserForm
 from .models import Usuario, Cuenta, Reporte
 
@@ -113,3 +114,29 @@ def index_view(request, nombre_cuenta):
     except Cuenta.DoesNotExist:
         messages.error(request, 'La cuenta no existe')
         return redirect('login')
+    
+def view_reporte(request, id_reporte, nombre_cuenta):
+    # Obtén el objeto Reporte específico utilizando el id_reporte y nombre_cuenta
+    reporte = get_object_or_404(Reporte, id_reporte=id_reporte, cuenta_reporte__nombre=nombre_cuenta)
+
+    # Construye la ruta del archivo HTML basándote en el nombre de cuenta y el id_reporte
+    filename = f"uploads/reports/{id_reporte}_{nombre_cuenta.lower()}.html"
+
+    try:
+        # Abre y lee el contenido del archivo HTML
+        with open(filename, 'r', encoding='utf-8') as file:
+            html_content = file.read()
+
+        # Renderiza la plantilla con el contenido del archivo HTML
+        rendered_html = render_to_string('user/view_reporte.html', {'reporte': reporte, 'html_content': html_content})
+
+        # Devuelve la respuesta HTTP con el HTML renderizado
+        return HttpResponse(rendered_html)
+
+    except FileNotFoundError:
+        print(f"Archivo no encontrado: {filename}")
+        return HttpResponse("El informe no está disponible.")
+
+    except IOError as e:
+        print(f"Error al leer el archivo: {e}")
+        return HttpResponse("Error al leer el informe.")
