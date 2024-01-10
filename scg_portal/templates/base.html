@@ -13,6 +13,9 @@
     <header id="main-navigation">
         <h1><a href="">SECURITY GROUP CR</a></h1>
         <nav>
+            {% block reporte_button %}{% endblock %}
+        </nav>
+        <nav>
             {% if request.path != "/login/" %}
                 <a href="{% url "login" %}">Cerrar Sesión</a>
             {% endif %}
@@ -21,6 +24,9 @@
 
     <footer id="main-footer">
         <p>&copy; 2024 SCG</p>
+        <div id="volver-container">
+            {% block volver_button %}{% endblock %}
+        </div>
     </footer>
 
     {% block content %}

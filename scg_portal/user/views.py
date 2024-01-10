@@ -116,8 +116,15 @@ def index_view(request, nombre_cuenta):
         return redirect('login')
     
 def view_reporte(request, id_reporte, nombre_cuenta):
+
+    user_cuenta_nombre = request.session.get('user_cuenta_nombre')
+
     # Obtén el objeto Reporte específico utilizando el id_reporte y nombre_cuenta
     reporte = get_object_or_404(Reporte, id_reporte=id_reporte, cuenta_reporte__nombre=nombre_cuenta)
+
+    # Verifica que el usuario tenga acceso a la cuenta asociada al informe
+    if user_cuenta_nombre != reporte.cuenta_reporte.nombre:  # Asumiendo que tienes una relación ForeignKey entre Cuenta y Usuario en tu modelo
+        return HttpResponseForbidden("No tienes permisos para ver este informe.")
 
     # Construye la ruta del archivo HTML basándote en el nombre de cuenta y el id_reporte
     filename = f"uploads/reports/{id_reporte}_{nombre_cuenta.lower()}.html"
@@ -139,4 +146,25 @@ def view_reporte(request, id_reporte, nombre_cuenta):
 
     except IOError as e:
         print(f"Error al leer el archivo: {e}")
+        return HttpResponse("Error al leer el informe.")
+    
+def download_html_content(request, id_reporte, nombre_cuenta):
+    # Construye la ruta del archivo HTML basándote en el nombre de cuenta y el id_reporte
+    filename = f"uploads/reports/{id_reporte}_{nombre_cuenta.lower()}.html"
+
+    try:
+        # Abre y lee el contenido del archivo HTML
+        with open(filename, 'r', encoding='utf-8') as file:
+            html_content = file.read()
+
+        # Devuelve el contenido como una respuesta para la descarga
+        response = HttpResponse(html_content, content_type='text/html')
+        response['Content-Disposition'] = f'attachment; filename="{id_reporte}_{nombre_cuenta.lower()}.html"'
+
+        return response
+
+    except FileNotFoundError:
+        return HttpResponse("El informe no está disponible.")
+
+    except IOError as e:
         return HttpResponse("Error al leer el informe.")

@@ -58,3 +58,21 @@ h3 {
   bottom: 0;
   width: 100%;
 }
+
+#volver-container {
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+#volver-container a {
+  text-decoration: none;
+  color: #fff; /* Color blanco por defecto */
+  }
+
+#volver-container a:hover {
+  color: #cf79f1; /* Cambio de color al pasar el mouse */
+}

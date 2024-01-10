@@ -1,6 +1,6 @@
 <li>
     <article class="report">
-        <a href="{% url 'view_reporte' reporte.id_reporte reporte.cuenta_reporte.nombre %}">
+        <a href="{% url 'view_reporte' reporte.cuenta_reporte.nombre reporte.id_reporte %}">
             <div class="report_content">
                 <h3>{{ reporte.target }}</h3>
                 <p>

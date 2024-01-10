@@ -4,8 +4,19 @@
     REPORTE - {{ reporte.id_reporte }}
 {% endblock %}
 
+{% block reporte_button %}
+  <a href="{% url 'download_html_content' id_reporte=reporte.id_reporte nombre_cuenta=reporte.cuenta_reporte.nombre %}" download>
+    Descargar Informe
+  </a>
+{% endblock %}
+
+{% block volver_button %}
+  <p><a href="{% url "client" reporte.cuenta_reporte.nombre %}">VOLVER</a></p>  
+{% endblock %}
+
 {% block content %}
   <div>
     {{ html_content | safe }}
   </div>
+
 {% endblock %}
