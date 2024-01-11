@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="{% static "user/index.css" %}">
 {% endblock %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% block content %}
+
+    <h2>Dasboard de {{ nombre_cuenta }}</h2>
+
+    <section id="botones">
+        <a href="{% url 'crear_usuario' nombre_cuenta=nombre_cuenta %}">Crear Usuario</a>
+        <a href="{% url 'crear_cuenta' nombre_cuenta=nombre_cuenta %}">Registrar Cuenta</a>
+        <a href="{% url 'crear_reporte' nombre_cuenta=nombre_cuenta %}">Registrar Reporte</a>
+    </section>
     
-</body>
-</html>
+{% endblock %}

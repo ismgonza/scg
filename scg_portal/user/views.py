@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
-from .forms import UserForm
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm
 from .models import Usuario, Cuenta, Reporte
 
 def sign_in(request):
@@ -127,7 +127,7 @@ def view_reporte(request, id_reporte, nombre_cuenta):
         return HttpResponseForbidden("No tienes permisos para ver este informe.")
 
     # Construye la ruta del archivo HTML basándote en el nombre de cuenta y el id_reporte
-    filename = f"uploads/reports/{id_reporte}_{nombre_cuenta.lower()}.html"
+    filename = f"uploads/nessus/{id_reporte}_{nombre_cuenta.lower()}.html"
 
     try:
         # Abre y lee el contenido del archivo HTML
@@ -150,7 +150,7 @@ def view_reporte(request, id_reporte, nombre_cuenta):
     
 def download_html_content(request, id_reporte, nombre_cuenta):
     # Construye la ruta del archivo HTML basándote en el nombre de cuenta y el id_reporte
-    filename = f"uploads/reports/{id_reporte}_{nombre_cuenta.lower()}.html"
+    filename = f"uploads/dradis/{id_reporte}_{nombre_cuenta.lower()}.html"
 
     try:
         # Abre y lee el contenido del archivo HTML
@@ -168,3 +168,48 @@ def download_html_content(request, id_reporte, nombre_cuenta):
 
     except IOError as e:
         return HttpResponse("Error al leer el informe.")
+    
+def crear_reporte(request, nombre_cuenta):
+    if request.method == 'GET':
+        form = ReporteForm()
+        return render(request, 'user/crear_reporte.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
+    elif request.method == 'POST':
+        form = ReporteForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('index', nombre_cuenta=nombre_cuenta)
+            # Lógica adicional después de guardar el reporte
+    else:
+        form = ReporteForm()
+
+    return render(request, 'crear_reporte', {'form': form, 'nombre_cuenta': nombre_cuenta})
+
+def crear_cuenta(request, nombre_cuenta):
+    if request.method == 'GET':
+        form = CuentaForm()
+        return render(request, 'user/crear_cuenta.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
+    elif request.method == 'POST':
+        form = CuentaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index', nombre_cuenta=nombre_cuenta)
+            # Lógica adicional después de guardar el reporte
+    else:
+        form = ReporteForm()
+
+    return render(request, 'crear_cuenta', {'form': form, 'nombre_cuenta': nombre_cuenta})
+
+def crear_usuario(request, nombre_cuenta):
+    if request.method == 'GET':
+        form = UsuarioForm()
+        return render(request, 'user/crear_usuario.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
+    elif request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index', nombre_cuenta=nombre_cuenta)
+            # Lógica adicional después de guardar el reporte
+    else:
+        form = ReporteForm()
+
+    return render(request, 'crear_usuario', {'form': form, 'nombre_cuenta': nombre_cuenta})

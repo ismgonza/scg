@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    CREAR CUENTA
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "user/crear_cuenta.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <section id="cuenta-form">
+        <h2>CREAR CUENTA</h2>
+        <form method="post" action="{% url 'crear_cuenta' nombre_cuenta=nombre_cuenta %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="purple-button">Crear Cuenta</button>
+        </form>
+    </section>
+
+{% endblock %}

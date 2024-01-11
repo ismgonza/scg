@@ -1,0 +1,15 @@
+/* Estilo básico para los enlaces dentro de la sección con id "botones" */
+#botones a {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #8a2be2; /* Color morado, puedes ajustarlo según tus preferencias */
+    border-radius: 5px;
+    margin-right: 10px; /* Añade margen derecho entre los botones */
+}
+
+/* Cambio de color al pasar el ratón sobre los enlaces */
+#botones a:hover {
+    background-color: #6a1a9a; /* Puedes ajustar el color del hover según tus preferencias */
+}

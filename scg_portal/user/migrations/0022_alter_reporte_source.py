@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='reporte',
             name='source',
-            field=models.FileField(null=True, upload_to=user.models.generate_report_filename),
+            field=models.FileField(null=True, upload_to=user.models.generate_nessus_filename),
         ),
     ]
