@@ -13,11 +13,15 @@
     <header id="main-navigation">
         <h1><a href="">SECURITY GROUP CR</a></h1>
         <nav>
-            {% block reporte_button %}{% endblock %}
-        </nav>
-        <nav>
             {% if request.path != "/login/" %}
-                <a href="{% url "login" %}">Cerrar Sesión</a>
+                {% block reporte_button %}{% endblock %}
+                <div class="dropdown">
+                    <span class="dropbtn">Mi Perfil</span>
+                    <div class="dropdown-content">
+                        <a href="{% url 'perfil' nombre_cuenta=nombre_cuenta %}">Ver Detalles del Perfil</a>
+                        <a href="{% url 'logout' %}">Cerrar Sesión</a>
+                    </div>
+                </div>
             {% endif %}
         </nav>
     </header>
@@ -33,3 +37,4 @@
     {% endblock %}
 </body>
 </html>
+

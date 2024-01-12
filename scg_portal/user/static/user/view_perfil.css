@@ -1,0 +1,25 @@
+/* Estilo para el contenedor del formulario */
+#perfil-container {
+    max-width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el título del formulario */
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Estilo para el formulario */
+#perfil {
+    margin-top: 20px;
+}
+
+/* Estilo para los campos del formulario */
+#perfil p {
+    margin: 10px 0;
+}

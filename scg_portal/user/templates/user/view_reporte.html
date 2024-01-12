@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block reporte_button %}
-  <a href="{% url 'download_html_content' id_reporte=reporte.id_reporte nombre_cuenta=reporte.cuenta_reporte.nombre %}" download>
+  <a href="{% url 'download_report' id_reporte=reporte.id_reporte nombre_cuenta=reporte.cuenta_reporte.nombre %}" download>
     Descargar Informe
   </a>
 {% endblock %}

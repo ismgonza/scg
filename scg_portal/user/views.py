@@ -58,6 +58,14 @@ def sign_in(request):
     form = UserForm()
     return render(request, 'user/login.html', {'form': form})
 
+def sign_out(request):
+    # Elimina las variables de sesión relevantes
+    del request.session['user_correo']
+    del request.session['user_tipo']
+    del request.session['user_cuenta_nombre']
+
+    # Redirige a la página de inicio de sesión u otra página deseada
+    return redirect('login')
 
 def client_view(request, nombre_cuenta):
     # Recupera la información del usuario de la sesión
@@ -135,7 +143,7 @@ def view_reporte(request, id_reporte, nombre_cuenta):
             html_content = file.read()
 
         # Renderiza la plantilla con el contenido del archivo HTML
-        rendered_html = render_to_string('user/view_reporte.html', {'reporte': reporte, 'html_content': html_content})
+        rendered_html = render_to_string('user/view_reporte.html', {'nombre_cuenta': nombre_cuenta, 'reporte': reporte, 'html_content': html_content})
 
         # Devuelve la respuesta HTTP con el HTML renderizado
         return HttpResponse(rendered_html)
@@ -148,18 +156,16 @@ def view_reporte(request, id_reporte, nombre_cuenta):
         print(f"Error al leer el archivo: {e}")
         return HttpResponse("Error al leer el informe.")
     
-def download_html_content(request, id_reporte, nombre_cuenta):
+def download_report(request, id_reporte, nombre_cuenta):
     # Construye la ruta del archivo HTML basándote en el nombre de cuenta y el id_reporte
-    filename = f"uploads/dradis/{id_reporte}_{nombre_cuenta.lower()}.html"
+    filename = f"uploads/dradis/{id_reporte}_{nombre_cuenta.lower()}.docx"
 
     try:
-        # Abre y lee el contenido del archivo HTML
-        with open(filename, 'r', encoding='utf-8') as file:
-            html_content = file.read()
-
-        # Devuelve el contenido como una respuesta para la descarga
-        response = HttpResponse(html_content, content_type='text/html')
-        response['Content-Disposition'] = f'attachment; filename="{id_reporte}_{nombre_cuenta.lower()}.html"'
+        # Abre y lee el contenido del archivo DOCX
+        with open(filename, 'rb') as docx_file:
+            # Devuelve el contenido como una respuesta para la descarga
+            response = HttpResponse(docx_file.read(), content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+            response['Content-Disposition'] = f'attachment; filename="{id_reporte}_{nombre_cuenta.lower()}.docx"'
 
         return response
 
@@ -213,3 +219,17 @@ def crear_usuario(request, nombre_cuenta):
         form = ReporteForm()
 
     return render(request, 'crear_usuario', {'form': form, 'nombre_cuenta': nombre_cuenta})
+
+def view_perfil(request, nombre_cuenta):
+    user_cuenta_nombre = request.session.get('user_cuenta_nombre', '')
+    user_correo = request.session.get('user_correo', '')
+    user_tipo = request.session.get('user_tipo', '')
+
+    # Puedes agregar más datos según sea necesario
+
+    return render(request, 'user/view_perfil.html', {
+        'nombre_cuenta': nombre_cuenta,
+        'user_cuenta_nombre': user_cuenta_nombre,
+        'user_correo': user_correo,
+        'user_tipo': user_tipo,
+    })

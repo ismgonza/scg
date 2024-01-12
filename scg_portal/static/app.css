@@ -76,3 +76,38 @@ h3 {
 #volver-container a:hover {
   color: #cf79f1; /* Cambio de color al pasar el mouse */
 }
+
+/* Elimina el estilo del botón y deja solo el texto */
+.dropdown {
+  display: inline-block;
+  position: relative;
+  color: #fff;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #6305dd;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  right: 0; /* Ajusta la posición del dropdown a la derecha */
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropbtn {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  background-color: #6305dd;
+}

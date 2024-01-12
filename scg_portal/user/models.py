@@ -43,7 +43,7 @@ def generate_nessus_filename(instance, filename):
 
 def generate_dradis_filename(instance, filename):
     # No es necesario incluir la extensión aquí
-    return os.path.join("dradis", f"{instance.id_reporte}_{instance.cuenta_reporte.nombre.lower()}.html")
+    return os.path.join("dradis", f"{instance.id_reporte}_{instance.cuenta_reporte.nombre.lower()}.docx")
     
 class Reporte(models.Model):
     id_reporte = models.IntegerField(unique=True, editable=False)

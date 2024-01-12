@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    Mi Perfil
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "user/view_perfil.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <div id="perfil-container">
+        <h2>Mi Perfil</h2>
+
+        <section id="perfil">
+            <p>Correo: {{ user_correo }}</p>
+            <p>Tipo de Usuario: {{ user_tipo }}</p>
+            <p>Tipo de Cuenta: {{ user_cuenta_nombre }}</p>
+            {# Puedes agregar más campos según sea necesario #}
+        </section>
+    </div>
+    
+{% endblock %}
