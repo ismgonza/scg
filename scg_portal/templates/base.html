@@ -12,13 +12,20 @@
 <body>
     <header id="main-navigation">
         <h1><a href="">SECURITY GROUP CR</a></h1>
+        {% if request.path != "/login/" %}
+            {% if nombre_cuenta != "SCG" %}
+                <h2><a href="{% url 'client' nombre_cuenta %}">Inicio</a></h2>
+            {% else %}
+                <h2><a href="{% url 'index' nombre_cuenta %}">Inicio</a></h2>
+            {% endif %}
+        {% endif %}
         <nav>
             {% if request.path != "/login/" %}
                 {% block reporte_button %}{% endblock %}
                 <div class="dropdown">
                     <span class="dropbtn">Mi Perfil</span>
                     <div class="dropdown-content">
-                        <a href="{% url 'perfil' nombre_cuenta=nombre_cuenta %}">Ver Detalles del Perfil</a>
+                        <a href="{% url 'perfil' nombre_cuenta %}">Ver Detalles del Perfil</a>
                         <a href="{% url 'logout' %}">Cerrar Sesión</a>
                     </div>
                 </div>
@@ -28,9 +35,6 @@
 
     <footer id="main-footer">
         <p>&copy; 2024 SCG</p>
-        <div id="volver-container">
-            {% block volver_button %}{% endblock %}
-        </div>
     </footer>
 
     {% block content %}

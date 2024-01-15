@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %} 
-    CREAR CUENTA
+    CREAR REPORTE
 {% endblock %}
 
 {% block css_files %}
@@ -16,7 +16,8 @@
         <form method="post" action="{% url 'crear_reporte' nombre_cuenta=nombre_cuenta %}" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="purple-button">Crear Reporte</button>
+            <button type="submit" class="crear-button">Crear Reporte</button>
+            <a class="cancelar-button" href="">Cancelar</a>
         </form>
     </section>
 

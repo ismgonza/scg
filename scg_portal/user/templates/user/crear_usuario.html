@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %} 
-    CREAR CUENTA
+    CREAR USUARIO
 {% endblock %}
 
 {% block css_files %}
@@ -16,7 +16,8 @@
         <form method="post" action="{% url 'crear_usuario' nombre_cuenta=nombre_cuenta %}">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="purple-button">Crear Usuario</button>
+            <button type="submit" class="crear-button">Crear Usuario</button>
+            <a class="cancelar-button" href="">Cancelar</a>
         </form>
     </section>
 

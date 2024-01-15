@@ -201,7 +201,7 @@ def crear_cuenta(request, nombre_cuenta):
             return redirect('index', nombre_cuenta=nombre_cuenta)
             # Lógica adicional después de guardar el reporte
     else:
-        form = ReporteForm()
+        form = CuentaForm()
 
     return render(request, 'crear_cuenta', {'form': form, 'nombre_cuenta': nombre_cuenta})
 
@@ -210,13 +210,13 @@ def crear_usuario(request, nombre_cuenta):
         form = UsuarioForm()
         return render(request, 'user/crear_usuario.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
     elif request.method == 'POST':
-        form = UserForm(request.POST)
+        form = UsuarioForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('index', nombre_cuenta=nombre_cuenta)
             # Lógica adicional después de guardar el reporte
     else:
-        form = ReporteForm()
+        form = UsuarioForm()
 
     return render(request, 'crear_usuario', {'form': form, 'nombre_cuenta': nombre_cuenta})
 

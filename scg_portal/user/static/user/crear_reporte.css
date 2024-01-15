@@ -1,7 +1,7 @@
 /* Estilo para el contenedor del formulario */
 #reporte-form {
     max-width: 300px;
-    margin: 50px auto;
+    margin: 50px auto 100px;
     padding: 20px;
     background: #f4f4f4;
     border-radius: 8px;
@@ -56,7 +56,7 @@ label {
 }
 
 /* Estilo para el botón de envío */
-.purple-button {
+.crear-button {
     display: inline-block;
     padding: 10px 20px;
     text-decoration: none;
@@ -67,6 +67,21 @@ label {
     cursor: pointer;
 }
 
-.purple-button:hover {
+.crear-button:hover {
+    background-color: #4B0082;
+}
+
+.cancelar-button {
+    display: inline-block;
+    padding: 7px 20px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #808080; /* Color morado, puedes ajustarlo según tus preferencias */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancelar-button:hover {
     background-color: #4B0082;
 }

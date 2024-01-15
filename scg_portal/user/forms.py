@@ -36,7 +36,7 @@ class UsuarioForm(forms.ModelForm):
 class ReporteForm(forms.ModelForm):
     class Meta:
         model = Reporte
-        fields = ['tipo_reporte', 'target', 'cuenta_reporte', 'source']
+        fields = ['tipo_reporte', 'target', 'cuenta_reporte', 'source', 'file_report']
         widgets = {
             'tipo_reporte': forms.TextInput(attrs={'class': 'estilo-input'}),
             'target': forms.TextInput(attrs={'class': 'estilo-input'}),

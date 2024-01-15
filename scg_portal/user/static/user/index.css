@@ -1,3 +1,9 @@
+#botones {
+    justify-content: center; /* Centra horizontalmente los elementos en el contenedor */
+    display: flex; /* Activa el modelo de caja flexible */
+    align-items: center; /* Centra verticalmente los elementos en el contenedor */
+}
+
 /* Estilo básico para los enlaces dentro de la sección con id "botones" */
 #botones a {
     display: inline-block;
