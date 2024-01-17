@@ -18,5 +18,121 @@
         <a href="{% url 'crear_cuenta' nombre_cuenta=nombre_cuenta %}">Registrar Cuenta</a>
         <a href="{% url 'crear_reporte' nombre_cuenta=nombre_cuenta %}">Registrar Reporte</a>
     </section>
+
+    <br/>
+
+    <form id="filtro-form">
+        <label for="filtro-cuenta">Filtrar por Cuenta:</label>
+        <select id="filtro-cuenta">
+            <option value="">Todas las cuentas</option>
+            {% for cuenta in cuentas %}
+                <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+            {% endfor %}
+        </select>
+        <button type="button" onclick="aplicarFiltro()">Aplicar Filtro</button>
+    </form>
+
+    <h2 style='margin-left: 25px;'>Tabla de usuarios registrados</h2>
+    <table id="tabla-usuarios">
+        <thead>
+            <tr>
+                <th>Correo</th>
+                <th>Tipo</th>
+                <th>Cuenta</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.correo }}</td>
+                    <td>{{ usuario.tipo }}</td>
+                    <td>{{ usuario.cuenta }}</td>
+                    <td style="max-width: 50px;">
+                        <a href="#" class="btn btn-editar">Editar</a>
+                        <a href="#" class="btn btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 style='margin-left: 25px;'>Tabla de cuentas registradas</h2>
+    <table id="tabla-cuentas">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cuenta in cuentas %}
+                <tr>
+                    <td>{{ cuenta.nombre }}</td>
+                    <td style="max-width: 25px;">
+                        <a href="#" class="btn btn-editar">Editar</a>
+                        <a href="#" class="btn btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 style='margin-left: 25px;'>Tabla de reportes registrados</h2>
+    <table id="tabla-reportes">
+        <thead>
+            <tr>
+                <th>ID Reporte</th>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Target</th>
+                <th>Cuenta</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reporte in reportes %}
+                <tr>
+                    <td>{{ reporte.id_reporte }}</td>
+                    <td>{{ reporte.fecha_reporte }}</td>
+                    <td>{{ reporte.tipo_reporte }}</td>
+                    <td>{{ reporte.target }}</td>
+                    <td>{{ reporte.cuenta_reporte }}</td>
+                    <td style="max-width: 100px;">
+                        <a href="#" class="btn btn-editar">Editar</a>
+                        <a href="#" class="btn btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br/><br/><br/><br/><br/><br/>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function aplicarFiltro() {
+            var filtroCuenta = $('#filtro-cuenta').val();
+
+            // Actualiza la tabla de usuarios
+            filtrarTabla('tabla-usuarios', filtroCuenta, 2);
+
+            // Actualiza la tabla de cuentas
+            filtrarTabla('tabla-cuentas', filtroCuenta, 0);
+
+            // Actualiza la tabla de reportes
+            filtrarTabla('tabla-reportes', filtroCuenta, 4); // 4 es la posición de la columna "Cuenta" en la tabla de reportes
+        }
+
+        function filtrarTabla(idTabla, filtro, columna) {
+            $('#' + idTabla + ' tbody tr').each(function () {
+                if (filtro === '' || $(this).children('td').eq(columna).text() === filtro) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    </script>
     
 {% endblock %}

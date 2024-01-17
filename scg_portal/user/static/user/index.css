@@ -19,3 +19,92 @@
 #botones a:hover {
     background-color: #6a1a9a; /* Puedes ajustar el color del hover según tus preferencias */
 }
+
+#filtro-form {
+    margin-bottom: 20px;
+}
+
+#filtro-form button {
+    background-color: #6305dd;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#filtro-form button:hover {
+    background-color: #4b0497;
+}
+
+#filtro-cuenta {
+    padding: 8px;
+}
+
+#tabla-usuarios,
+#tabla-cuentas,
+#tabla-reportes {
+    width: 95%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    margin-left: 25px;
+}
+
+#tabla-usuarios th,
+#tabla-cuentas th,
+#tabla-reportes th,
+#tabla-usuarios td,
+#tabla-cuentas td,
+#tabla-reportes td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#tabla-usuarios th,
+#tabla-cuentas th,
+#tabla-reportes th {
+    background-color: #f2f2f2;
+}
+
+#tabla-usuarios td,
+#tabla-cuentas td,
+#tabla-reportes td {
+    background-color: #fff;
+}
+
+/* Agrega estilos para los botones */
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid #3498db;
+    color: #fff;
+    background-color: #3498db;
+    border-radius: 4px;
+}
+
+/* Estilos específicos para los botones de editar y eliminar */
+.btn-editar {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.btn-eliminar {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.btn-editar:hover {
+    background-color: #228B22;
+}
+
+.btn-eliminar:hover {
+    background-color: #8B0000;
+}

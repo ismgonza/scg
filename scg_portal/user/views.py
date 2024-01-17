@@ -115,7 +115,19 @@ def index_view(request, nombre_cuenta):
         # Verificar si el usuario tiene el tipo correcto y la cuenta correcta
         if user_tipo == 'Admin' and user_cuenta_nombre == nombre_cuenta:
             # Tu lógica de vista aquí
-            return render(request, 'user/index.html', {'nombre_cuenta': nombre_cuenta})
+            usuarios = Usuario.objects.all()
+            cuentas = Cuenta.objects.all()
+            reportes = Reporte.objects.all()
+
+            # Pasa los datos al contexto de la plantilla
+            context = {
+                'nombre_cuenta': nombre_cuenta,
+                'usuarios': usuarios,
+                'cuentas': cuentas,
+                'reportes': reportes,
+            }
+
+            return render(request, 'user/index.html', context)
         else:
             return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
     
