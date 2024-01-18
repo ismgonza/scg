@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    Iniciar Sesión
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "user/reset_correo.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <section id="reset-form">
+        <h2>Cambiar Clave</h2>
+        <h4>Ingrese su correo:</h4>
+        <input type='email'></input>
+        <button type="submit" class="reset-button">Aceptar</button>
+    </section>
+
+{% endblock %}

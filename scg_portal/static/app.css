@@ -28,8 +28,13 @@ h3 {
   position: static;
   top: 0;
   left: 0;
-  background: linear-gradient(to right top, #6305dd, #390281);
+  background: linear-gradient(to right top, #002d74, #3a8dde);
   padding: 3%;
+}
+
+#main-navigation img {
+  width: 200px; 
+  height: auto;
 }
 
 #main-navigation h2 {
@@ -54,7 +59,7 @@ h3 {
 }
 
 #main-footer {
-  background: linear-gradient(to right top, #6305dd, #390281);
+  background: linear-gradient(to right top, #002d74, #3a8dde);
   color: #fff;
   text-align: center;
   padding: 10px;
@@ -93,8 +98,6 @@ h3 {
 }
 
 .dropbtn {
-  padding: 12px;
-  font-size: 16px;
-  border: none;
-  background-color: #6305dd;
+  max-width: 50px; 
+  max-height: 50px;
 }

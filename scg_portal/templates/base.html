@@ -11,8 +11,8 @@
 </head>
 <body>
     <header id="main-navigation">
-        <h1><a href="">SECURITY GROUP CR</a></h1>
-        {% if request.path != "/login/" %}
+        <img src="{% static "images/ImagotipoNegativo.png"%}" alt="LOGO SCG" />
+        {% if request.path != "/login/" and request.path != "/reset_password/" %}
             {% if nombre_cuenta != "SCG" %}
                 <h2><a href="{% url 'client' nombre_cuenta %}">Inicio</a></h2>
             {% else %}
@@ -20,10 +20,10 @@
             {% endif %}
         {% endif %}
         <nav>
-            {% if request.path != "/login/" %}
+            {% if request.path != "/login/" and request.path != "/reset_password/" %}
                 {% block reporte_button %}{% endblock %}
                 <div class="dropdown">
-                    <span class="dropbtn">Mi Perfil</span>
+                    <img class='dropbtn' src="{% static "images/profile.png"%}" alt="PERFIL" />
                     <div class="dropdown-content">
                         <a href="{% url 'perfil' nombre_cuenta %}">Ver Detalles del Perfil</a>
                         <a href="{% url 'logout' %}">Cerrar Sesión</a>

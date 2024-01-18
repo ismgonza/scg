@@ -47,14 +47,14 @@ label {
     padding: 10px 20px;
     text-decoration: none;
     color: #fff;
-    background-color: #8a2be2; /* Color morado, puedes ajustarlo según tus preferencias */
+    background-color: #002d74; /* Color morado, puedes ajustarlo según tus preferencias */
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 .crear-button:hover {
-    background-color: #4B0082;
+    background-color: #3a8dde;
 }
 
 .cancelar-button {
@@ -69,5 +69,5 @@ label {
 }
 
 .cancelar-button:hover {
-    background-color: #4B0082;
+    background-color: #000000;
 }

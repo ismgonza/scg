@@ -11,17 +11,9 @@
 
 {% block content %}
 
-    <h2>Dasboard de {{ nombre_cuenta }}</h2>
+    <h2 style='margin-left: 25px;'>Dasboard de {{ nombre_cuenta }}</h2>
 
-    <section id="botones">
-        <a href="{% url 'crear_usuario' nombre_cuenta=nombre_cuenta %}">Crear Usuario</a>
-        <a href="{% url 'crear_cuenta' nombre_cuenta=nombre_cuenta %}">Registrar Cuenta</a>
-        <a href="{% url 'crear_reporte' nombre_cuenta=nombre_cuenta %}">Registrar Reporte</a>
-    </section>
-
-    <br/>
-
-    <form id="filtro-form">
+    <form style='margin-left: 25px;' id="filtro-form">
         <label for="filtro-cuenta">Filtrar por Cuenta:</label>
         <select id="filtro-cuenta">
             <option value="">Todas las cuentas</option>
@@ -32,7 +24,30 @@
         <button type="button" onclick="aplicarFiltro()">Aplicar Filtro</button>
     </form>
 
+    <h2 style='margin-left: 25px;'>Tabla de cuentas registradas</h2>
+    <a id="botones" href="{% url 'crear_cuenta' nombre_cuenta=nombre_cuenta %}">Registrar Cuenta</a>
+    <table id="tabla-cuentas">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cuenta in cuentas %}
+                <tr>
+                    <td>{{ cuenta.nombre }}</td>
+                    <td style="max-width: 25px;">
+                        <a href="#" class="btn btn-editar">Editar</a>
+                        <a href="#" class="btn btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <h2 style='margin-left: 25px;'>Tabla de usuarios registrados</h2>
+    <a id="botones" href="{% url 'crear_usuario' nombre_cuenta=nombre_cuenta %}">Registrar Usuario</a>
     <table id="tabla-usuarios">
         <thead>
             <tr>
@@ -57,28 +72,8 @@
         </tbody>
     </table>
 
-    <h2 style='margin-left: 25px;'>Tabla de cuentas registradas</h2>
-    <table id="tabla-cuentas">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cuenta in cuentas %}
-                <tr>
-                    <td>{{ cuenta.nombre }}</td>
-                    <td style="max-width: 25px;">
-                        <a href="#" class="btn btn-editar">Editar</a>
-                        <a href="#" class="btn btn-eliminar">Eliminar</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
     <h2 style='margin-left: 25px;'>Tabla de reportes registrados</h2>
+    <a id="botones" href="{% url 'crear_reporte' nombre_cuenta=nombre_cuenta %}">Registrar Reporte</a>
     <table id="tabla-reportes">
         <thead>
             <tr>
@@ -107,7 +102,7 @@
         </tbody>
     </table>
 
-    <br/><br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>

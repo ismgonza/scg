@@ -245,3 +245,6 @@ def view_perfil(request, nombre_cuenta):
         'user_correo': user_correo,
         'user_tipo': user_tipo,
     })
+
+def view_reset(request):
+    return render(request, 'user/reset_correo.html')

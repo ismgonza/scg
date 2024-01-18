@@ -8,6 +8,22 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+#login-form img{
+    max-width: 50px;
+    max-height: 50px;
+    margin-left: 105px;
+}
+
+#login-form a{
+    text-decoration: none;
+    color: black;
+}
+
+#login-form a:hover{
+    text-decoration: underline;
+    color: black;
+}
+
 /* Estilo para el título del formulario */
 h2 {
     text-align: center;
@@ -44,7 +60,7 @@ input[type="password"] {
 
 /* Estilo para el botón de envío */
 input[type="submit"] {
-    background-color: #6305dd;
+    background-color: #002d74;
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -53,7 +69,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #4B0082;
+    background-color: #3a8dde;
 }
 
 #alert {

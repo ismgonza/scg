@@ -2,11 +2,11 @@
     <article class="report">
         <a href="{% url 'view_reporte' reporte.cuenta_reporte.nombre reporte.id_reporte %}">
             <div class="report_content">
-                <h3>{{ reporte.target }}</h3>
+                <h3>{{ reporte.id_reporte }}</h3>
                 <p>
                     {{ reporte.fecha_reporte }} -
                     {{ reporte.tipo_reporte }} -
-                    {{ reporte.id_reporte }}
+                    {{ reporte.cuenta_reporte.nombre }}
                 </p>
             </div>
         </a>

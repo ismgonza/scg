@@ -48,8 +48,8 @@ ul {
     padding: 8px 16px;
     margin: 0 4px;
     text-decoration: none;
-    border: 1px solid #6B46C1; /* Morado */
-    color: #6B46C1; /* Morado */
+    border: 1px solid #002d74 ; /* Morado */
+    color: #002d74; /* Morado */
     background-color: #FFFFFF; /* Blanco */
     border-radius: 4px;
     transition: background-color 0.3s, color 0.3s;
@@ -67,20 +67,20 @@ ul {
 
 /* Cambios en hover para los botones */
 .pagination a:hover {
-    background-color: #6B46C1; /* Morado */
+    background-color: #3a8dde; /* Morado */
     color: #FFFFFF; /* Blanco */
 }
 
 /* Estilos para los botones de navegación (Primera, Anterior, Siguiente, Última) */
 .pagination a:first-child,
 .pagination a:last-child {
-    background-color: #6B46C1; /* Morado */
+    background-color: #002d74 ; /* Morado */
     color: #FFFFFF; /* Blanco */
 }
 
 .pagination a:first-child:hover,
 .pagination a:last-child:hover {
-    background-color: #431F7A; /* Morado más oscuro para hover */
+    background-color: #3a8dde; /* Morado más oscuro para hover */
 }
 
 /* Estilos para la etiqueta "Página x de y" */

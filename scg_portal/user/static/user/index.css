@@ -1,23 +1,18 @@
-#botones {
-    justify-content: center; /* Centra horizontalmente los elementos en el contenedor */
-    display: flex; /* Activa el modelo de caja flexible */
-    align-items: center; /* Centra verticalmente los elementos en el contenedor */
-}
-
 /* Estilo básico para los enlaces dentro de la sección con id "botones" */
-#botones a {
+#botones {
     display: inline-block;
     padding: 10px 20px;
     text-decoration: none;
     color: #fff;
-    background-color: #8a2be2; /* Color morado, puedes ajustarlo según tus preferencias */
+    background-color: #002d74; /* Color morado, puedes ajustarlo según tus preferencias */
     border-radius: 5px;
-    margin-right: 10px; /* Añade margen derecho entre los botones */
+    margin-left: 25px; /* Añade margen derecho entre los botones */
+    margin-bottom: 10px;
 }
 
 /* Cambio de color al pasar el ratón sobre los enlaces */
-#botones a:hover {
-    background-color: #6a1a9a; /* Puedes ajustar el color del hover según tus preferencias */
+#botones:hover {
+    background-color: #3a8dde; /* Puedes ajustar el color del hover según tus preferencias */
 }
 
 #filtro-form {
@@ -25,7 +20,7 @@
 }
 
 #filtro-form button {
-    background-color: #6305dd;
+    background-color: #002d74;
     color: #fff;
     padding: 8px 16px;
     border: none;
@@ -34,7 +29,7 @@
 }
 
 #filtro-form button:hover {
-    background-color: #4b0497;
+    background-color: #3a8dde;
 }
 
 #filtro-cuenta {
@@ -103,8 +98,10 @@
 
 .btn-editar:hover {
     background-color: #228B22;
+    border-color: #228B22;
 }
 
 .btn-eliminar:hover {
     background-color: #8B0000;
+    border-color: #8B0000;
 }

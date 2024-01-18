@@ -21,12 +21,14 @@
     {% endif %}
 
     <section id="login-form">
+        <img class='dropbtn' src="{% static "user/images/IsotipoColor.png"%}" alt="LOGIN" />
         <h2>Iniciar Sesión</h2>
         <form method="POST">
             {% csrf_token %}
             {{form.as_p}}
             <input type="submit" value="Ingresar"/>
-        </form>
+        </form><br/>
+        <a href="{% url 'reset' %}">Forgot Password?</a>
     </section>
 
 {% endblock %}
