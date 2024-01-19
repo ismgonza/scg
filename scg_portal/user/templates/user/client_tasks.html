@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    Dasboard - {{ nombre_cuenta }}
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "user/report.css"%}">
+    <link rel="stylesheet" href="{% static "user/client.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <section id="all-reports">
+        <h2>Open Tasks</h2>
+    </section>
+
+    <section id="all-reports">
+        <h2>Completed Tasks</h2>
+    </section>
+
+    <section id="all-reports">
+        <h2>LOE Overview</h2>
+    </section>
+
+    <br/><br/><br/><br/>
+    
+{% endblock %}

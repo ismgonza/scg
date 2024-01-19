@@ -4,6 +4,9 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm
 from .models import Usuario, Cuenta, Reporte
 
@@ -67,6 +70,27 @@ def sign_out(request):
     # Redirige a la página de inicio de sesión u otra página deseada
     return redirect('login')
 
+def generate_line_chart():
+    # Tu lógica para obtener los datos del gráfico aquí
+    x_values = [1, 2, 3, 4, 5]
+    y_values = [10, 20, 15, 25, 30]
+
+    # Crea el gráfico
+    plt.plot(x_values, y_values)
+    plt.xlabel('Eje X')
+    plt.ylabel('Eje Y')
+    plt.title('Gráfico Lineal')
+
+    # Guarda el gráfico en un BytesIO para convertirlo a base64
+    image_stream = BytesIO()
+    plt.savefig(image_stream, format='png')
+    plt.close()
+
+    # Convierte el gráfico a formato base64
+    image_base64 = base64.b64encode(image_stream.getvalue()).decode('utf-8')
+
+    return image_base64
+
 def client_view(request, nombre_cuenta):
     # Recupera la información del usuario de la sesión
     user_tipo = request.session.get('user_tipo')
@@ -93,8 +117,12 @@ def client_view(request, nombre_cuenta):
             except EmptyPage:
                 reportes_paginados = paginator.page(paginator.num_pages)
 
+            chart_data = generate_line_chart()
+
             # Pasar los informes paginados al contexto
-            context = {'nombre_cuenta': nombre_cuenta, 'reportes': reportes_paginados}
+            context = {'nombre_cuenta': nombre_cuenta,
+                        'reportes': reportes_paginados,
+                        'chart_data': chart_data}
             return render(request, 'user/client.html', context)
         else:
             return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
@@ -248,3 +276,43 @@ def view_perfil(request, nombre_cuenta):
 
 def view_reset(request):
     return render(request, 'user/reset_correo.html')
+
+def client_reports_view(request, nombre_cuenta):
+    # Recupera la información del usuario de la sesión
+    user_tipo = request.session.get('user_tipo')
+    user_cuenta_nombre = request.session.get('user_cuenta_nombre')
+
+    try:
+        # Buscar la cuenta en la base de datos
+        cuenta = get_object_or_404(Cuenta, nombre=user_cuenta_nombre)
+
+        # Verificar si el usuario tiene el tipo correcto y la cuenta correcta
+        if user_tipo == 'Cliente' and user_cuenta_nombre == nombre_cuenta:
+            # Obtener todos los informes y ordenarlos por fecha de creación
+            reportes = Reporte.objects.filter(cuenta_reporte=cuenta).order_by('-fecha_reporte')
+
+            # Configurar la paginación
+            elementos_por_pagina = 10  # Ajusta según tus necesidades
+            paginator = Paginator(reportes, elementos_por_pagina)
+            page = request.GET.get('page')
+
+            try:
+                reportes_paginados = paginator.page(page)
+            except PageNotAnInteger:
+                reportes_paginados = paginator.page(1)
+            except EmptyPage:
+                reportes_paginados = paginator.page(paginator.num_pages)
+
+            # Pasar los informes paginados al contexto
+            context = {'nombre_cuenta': nombre_cuenta, 'reportes': reportes_paginados}
+            return render(request, 'user/client_reports.html', context)
+        else:
+            return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+    
+    except Cuenta.DoesNotExist:
+        messages.error(request, 'La cuenta no existe')
+        return redirect('login')
+    
+def client_tasks_view(request, nombre_cuenta):
+    context = {'nombre_cuenta': nombre_cuenta}
+    return render(request, 'user/client_tasks.html', context)

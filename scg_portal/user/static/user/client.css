@@ -1,5 +1,50 @@
+#security,
+#tasks {
+    margin: 25px;
+    width: 50%;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+}
+
+#security h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #2e2e2e;
+    margin: 3rem 0;
+}
+
+#security img {
+    max-width: 100%;  /* La imagen ocupará el 100% del ancho disponible */
+    height: auto;  /* Mantendrá la proporción de aspecto de la imagen */
+}
+
+#tasks h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #2e2e2e;
+    margin: 3rem 0;
+}
+
+#tabla-tasks {
+    width: 100%; /* O ajusta el ancho según tus necesidades */
+    border-collapse: collapse;
+}
+
+#tabla-tasks th,
+#tabla-tasks td {
+    padding: 10px; /* Ajusta el relleno según tus preferencias */
+    border: 1px solid #ddd; /* Agrega bordes para separar las celdas */
+}
+
+#tabla-tasks th {
+    background-color: #f2f2f2; /* Un color de fondo para las celdas del encabezado */
+    text-align: left; /* Alinea el texto a la izquierda en las celdas del encabezado */
+}
+
 #all-reports {
-    margin: 50px auto;
+    margin: 30px auto;
     width: 90%;
     max-width: 90rem;
     background-color: #f4f4f4;
@@ -32,58 +77,4 @@ ul {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     border-radius: 12px;
     background-color: white;
-}
-
-/* Estilos generales para la paginación */
-.pagination {
-    display: flex;
-    justify-content: flex-end; /* Alinea los elementos hacia el extremo derecho */
-    align-items: center;
-    margin-top: 20px;
-}
-
-/* Estilos para los botones */
-.pagination a {
-    display: inline-block;
-    padding: 8px 16px;
-    margin: 0 4px;
-    text-decoration: none;
-    border: 1px solid #002d74 ; /* Morado */
-    color: #002d74; /* Morado */
-    background-color: #FFFFFF; /* Blanco */
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-/* Estilos para el enlace activo (página actual) */
-.pagination .current {
-    display: inline-block;
-    padding: 8px 16px;
-    margin: 0 4px;
-    text-align: center;
-    color: #000; /* Negro */
-    border-radius: 4px;
-}
-
-/* Cambios en hover para los botones */
-.pagination a:hover {
-    background-color: #3a8dde; /* Morado */
-    color: #FFFFFF; /* Blanco */
-}
-
-/* Estilos para los botones de navegación (Primera, Anterior, Siguiente, Última) */
-.pagination a:first-child,
-.pagination a:last-child {
-    background-color: #002d74 ; /* Morado */
-    color: #FFFFFF; /* Blanco */
-}
-
-.pagination a:first-child:hover,
-.pagination a:last-child:hover {
-    background-color: #3a8dde; /* Morado más oscuro para hover */
-}
-
-/* Estilos para la etiqueta "Página x de y" */
-.pagination .current {
-    font-weight: bold;
 }

@@ -50,7 +50,7 @@ h3 {
 
 #main-navigation a:hover,
 #main-navigation a:active {
-  color: #cf79f1;
+  color: #3a8dde;
 }
 
 #main-navigation h1 a:hover,
@@ -79,7 +79,7 @@ h3 {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #6305dd;
+  background-color: #002d74;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;

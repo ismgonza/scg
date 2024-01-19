@@ -14,7 +14,9 @@
         <img src="{% static "images/ImagotipoNegativo.png"%}" alt="LOGO SCG" />
         {% if request.path != "/login/" and request.path != "/reset_password/" %}
             {% if nombre_cuenta != "SCG" %}
-                <h2><a href="{% url 'client' nombre_cuenta %}">Inicio</a></h2>
+                <h2><a href="{% url 'client' nombre_cuenta %}">Home</a></h2>
+                <h2><a href="{% url 'reports' nombre_cuenta %}">Reports</a></h2>
+                <h2><a href="{% url 'tasks' nombre_cuenta %}">Tasks</a></h2>
             {% else %}
                 <h2><a href="{% url 'index' nombre_cuenta %}">Inicio</a></h2>
             {% endif %}

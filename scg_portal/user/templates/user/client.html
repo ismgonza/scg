@@ -12,38 +12,61 @@
 
 {% block content %}
 
+    <div style="display: flex; justify-content: space-between;">
+        <section id="security">
+            <h2>Security Overview</h2>
+            <img src="data:image/png;base64,{{ chart_data }}" alt="Gráfico Lineal">
+        </section>
+
+        <section id="tasks">
+            <h2>Ongoing Actions</h2>
+            <table id="tabla-tasks">
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>Tarea 1</td>
+                            <td>In Progress</td>
+                        </tr>
+                        <tr>
+                            <td>Tarea 2</td>
+                            <td>In Progress</td>
+                        </tr>
+                        <tr>
+                            <td>Tarea 3</td>
+                            <td>In Progress</td>
+                        </tr>
+                        <tr>
+                            <td>Tarea 4</td>
+                            <td>In Progress</td>
+                        </tr>
+                        <tr>
+                            <td>Tarea 5</td>
+                            <td>In Progress</td>
+                        </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
     <section id="all-reports">
-        <h2>Reportes de {{ nombre_cuenta }}</h2>
+        <h2>Recent reports</h2>
 
         {% if reportes %}
             <ul>
-                {% for reporte in reportes %}
+                {% for reporte in reportes|slice:":5" %}
                     {% include "user/includes/report.html" %}
                 {% endfor %}
             </ul>
-
-            <div class="pagination">
-                <span class="step-links">
-    
-                    <span class="current">
-                        Página {{ reportes.number }} de {{ reportes.paginator.num_pages }}.
-                    </span>
-
-                    {% if reportes.has_previous %}
-                        <a href="?page=1">&laquo; Primera</a>
-                        <a href="?page={{ reportes.previous_page_number }}">Anterior</a>
-                    {% endif %}
-    
-                    {% if reportes.has_next %}
-                        <a href="?page={{ reportes.next_page_number }}">Siguiente</a>
-                        <a href="?page={{ reportes.paginator.num_pages }}">Última &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
-
         {% else %}
             <p>No hay informes disponibles para esta cuenta.</p>
         {% endif %}
     </section>
+
+    <br/><br/><br/><br/>
     
 {% endblock %}
