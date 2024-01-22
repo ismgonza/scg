@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    EDITAR REPORTE
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "user/crear_reporte.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <section id="reporte-form" action="">
+        <h2>Editar Reporte</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="crear-button">Guardar Cambios</button>
+        </form>
+    </section>
+
+{% endblock %}

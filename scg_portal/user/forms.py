@@ -33,6 +33,17 @@ class UsuarioForm(forms.ModelForm):
             'cuenta': forms.Select(attrs={'class': 'estilo-input'})
         }
 
+class UsuarioFormEdit(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        exclude = ['password']  # Excluye el campo de contraseña del formulario
+        fields = ['correo', 'tipo', 'cuenta']
+        widgets = {
+            'correo': forms.EmailInput(attrs={'class': 'estilo-input'}),
+            'tipo': forms.Select(attrs={'class': 'estilo-input'}),
+            'cuenta': forms.Select(attrs={'class': 'estilo-input'})
+        }
+
 class ReporteForm(forms.ModelForm):
     class Meta:
         model = Reporte

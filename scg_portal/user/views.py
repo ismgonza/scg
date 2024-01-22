@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
-from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit
 from .models import Usuario, Cuenta, Reporte
 
 def sign_in(request):
@@ -316,3 +316,51 @@ def client_reports_view(request, nombre_cuenta):
 def client_tasks_view(request, nombre_cuenta):
     context = {'nombre_cuenta': nombre_cuenta}
     return render(request, 'user/client_tasks.html', context)
+
+def editar_cuenta(request, nombre_cuenta, id_cuenta):
+    cuenta = get_object_or_404(Cuenta, id=id_cuenta)
+    if request.method == 'POST':
+        form = CuentaForm(request.POST, instance=cuenta)
+        if form.is_valid():
+            form.save()
+            return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
+    else:
+        form = CuentaForm(instance=cuenta)
+    return render(request, 'user/editar_cuenta.html', {'form': form, 'cuenta': cuenta, 'nombre_cuenta': nombre_cuenta})
+
+def eliminar_cuenta(request, nombre_cuenta, id_cuenta):
+    cuenta = get_object_or_404(Cuenta, id=id_cuenta)
+    cuenta.delete()
+    return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
+
+def editar_reporte(request, nombre_cuenta, id_reporte):
+    reporte = get_object_or_404(Reporte, id=id_reporte)
+    if request.method == 'POST':
+        form = ReporteForm(request.POST, instance=reporte)
+        if form.is_valid():
+            form.save()
+            return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
+    else:
+        form = ReporteForm(instance=reporte)
+    return render(request, 'user/editar_reporte.html', {'form': form, 'reporte': reporte, 'nombre_cuenta': nombre_cuenta})
+
+def eliminar_reporte(request, nombre_cuenta, id_reporte):
+    reporte = get_object_or_404(Reporte, id=id_reporte)
+    reporte.delete()
+    return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
+
+def editar_usuario(request, nombre_cuenta, id_usuario):
+    usuario = get_object_or_404(Usuario, id=id_usuario)
+    if request.method == 'POST':
+        form = UsuarioFormEdit(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
+    else:
+        form = UsuarioFormEdit(instance=usuario)
+    return render(request, 'user/editar_usuario.html', {'form': form, 'usuario': usuario, 'nombre_cuenta': nombre_cuenta})
+
+def eliminar_usuario(request, nombre_cuenta, id_usuario):
+    usuario = get_object_or_404(Usuario, id=id_usuario)
+    usuario.delete()
+    return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal

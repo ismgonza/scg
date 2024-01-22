@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    EDITAR CUENTA
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "user/crear_cuenta.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <section id="cuenta-form" action="">
+        <h2>Editar Cuenta</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="crear-button">Guardar Cambios</button>
+        </form>
+    </section>
+
+{% endblock %}

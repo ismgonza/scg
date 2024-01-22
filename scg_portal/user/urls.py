@@ -13,7 +13,13 @@ urlpatterns = [
     path('<str:nombre_cuenta>/report/<int:id_reporte>/', views.view_reporte, name='view_reporte'),
     path('<str:nombre_cuenta>/report/<int:id_reporte>/download_report/', views.download_report, name='download_report'),
     path('<str:nombre_cuenta>/index/crear_reporte/', views.crear_reporte, name="crear_reporte"),
+    path('<str:nombre_cuenta>/index/editar_reporte/<int:id_reporte>/', views.editar_reporte, name='editar_reporte'),
+    path('<str:nombre_cuenta>/index/eliminar_reporte/<int:id_reporte>/', views.eliminar_reporte, name='eliminar_reporte'),
     path('<str:nombre_cuenta>/index/crear_cuenta/', views.crear_cuenta, name="crear_cuenta"),
+    path('<str:nombre_cuenta>/index/editar_cuenta/<int:id_cuenta>/', views.editar_cuenta, name='editar_cuenta'),
+    path('<str:nombre_cuenta>/index/eliminar_cuenta/<int:id_cuenta>/', views.eliminar_cuenta, name='eliminar_cuenta'),
     path('<str:nombre_cuenta>/index/crear_usuario/', views.crear_usuario, name="crear_usuario"),
+    path('<str:nombre_cuenta>/index/editar_usuario/<int:id_usuario>/', views.editar_usuario, name='editar_usuario'),
+    path('<str:nombre_cuenta>/index/eliminar_usuario/<int:id_usuario>/', views.eliminar_usuario, name='eliminar_usuario'),
     path('<str:nombre_cuenta>/Perfil', views.view_perfil, name="perfil")
 ]

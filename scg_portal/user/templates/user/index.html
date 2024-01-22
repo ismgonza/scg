@@ -38,8 +38,8 @@
                 <tr>
                     <td>{{ cuenta.nombre }}</td>
                     <td style="max-width: 25px;">
-                        <a href="#" class="btn btn-editar">Editar</a>
-                        <a href="#" class="btn btn-eliminar">Eliminar</a>
+                        <a href="{% url 'editar_cuenta' nombre_cuenta=nombre_cuenta id_cuenta=cuenta.id %}" class="btn btn-editar">Editar</a>
+                        <a href="{% url 'eliminar_cuenta' nombre_cuenta=nombre_cuenta id_cuenta=cuenta.id %}" class="btn btn-eliminar">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -63,9 +63,9 @@
                     <td>{{ usuario.correo }}</td>
                     <td>{{ usuario.tipo }}</td>
                     <td>{{ usuario.cuenta }}</td>
-                    <td style="max-width: 50px;">
-                        <a href="#" class="btn btn-editar">Editar</a>
-                        <a href="#" class="btn btn-eliminar">Eliminar</a>
+                    <td style="max-width: 25px;">
+                        <a href="{% url 'editar_usuario' nombre_cuenta=nombre_cuenta id_usuario=usuario.id %}" class="btn btn-editar">Editar</a>
+                        <a href="{% url 'eliminar_usuario' nombre_cuenta=nombre_cuenta id_usuario=usuario.id %}" class="btn btn-eliminar">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -94,8 +94,8 @@
                     <td>{{ reporte.target }}</td>
                     <td>{{ reporte.cuenta_reporte }}</td>
                     <td style="max-width: 100px;">
-                        <a href="#" class="btn btn-editar">Editar</a>
-                        <a href="#" class="btn btn-eliminar">Eliminar</a>
+                        <a href="{% url 'editar_reporte' nombre_cuenta=nombre_cuenta id_reporte=reporte.id %}" class="btn btn-editar">Editar</a>
+                        <a href="{% url 'eliminar_reporte' nombre_cuenta=nombre_cuenta id_reporte=reporte.id %}" class="btn btn-eliminar">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}
