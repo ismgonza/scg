@@ -7,12 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static "app.css" %}">
+    <link rel="icon" type="image/x-icon" href="{% static "images/IsotipoColor.png"%}">
     {% block css_files %}{% endblock %}
 </head>
 <body>
     <header id="main-navigation">
         <img src="{% static "images/ImagotipoNegativo.png"%}" alt="LOGO SCG" />
-        {% if request.path != "/login/" and request.path != "/reset_password/" %}
+        {% if request.path != "/login/" and request.path != "/reset_password/" and request.path != "/reset_password/sent/" and request.path != "/reset/<uidb64>/<token>/" and request.path != "/reset_password/completed/" %}
             {% if nombre_cuenta != "SCG" %}
                 <h2><a href="{% url 'client' nombre_cuenta %}">Home</a></h2>
                 <h2><a href="{% url 'reports' nombre_cuenta %}">Reports</a></h2>
@@ -22,7 +23,7 @@
             {% endif %}
         {% endif %}
         <nav>
-            {% if request.path != "/login/" and request.path != "/reset_password/" %}
+            {% if request.path != "/login/" and request.path != "/reset_password/" and request.path != "/reset_password/sent/" and request.path != "/reset/<uidb64>/<token>/" and request.path != "/reset_password/completed/" %}
                 {% block reporte_button %}{% endblock %}
                 <div class="dropdown">
                     <img class='dropbtn' src="{% static "images/profile.png"%}" alt="PERFIL" />

@@ -1,11 +1,18 @@
 from django.urls import path
-from django.views.generic import TemplateView
+from django.contrib.auth import views as auth_views
+from .views import CustomPasswordResetConfirmView
+from django.views.generic.base import TemplateView
 from . import views
 
 urlpatterns = [
     path('login/', views.sign_in, name='login'),
     path('logout/', views.sign_out, name='logout'),
-    path('reset_password/', views.view_reset, name='reset'),
+
+    path('reset_password/', views.view_reset_correo, name='reset'),
+    path('reset_password/sent/', TemplateView.as_view(template_name='user/reset_correo_sent.html'), name='reset_sent'),
+    path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(template_name='user/reset_clave.html'), name='reset_confirm'),
+    path('reset_password/completed/', auth_views.PasswordResetCompleteView.as_view(template_name='user/reset_clave_done.html'), name='reset_complete'),
+
     path('<str:nombre_cuenta>/index/', views.index_view, name="index"),
     path('<str:nombre_cuenta>/', views.client_view, name="client"),
     path('<str:nombre_cuenta>/reports', views.client_reports_view, name="reports"),

@@ -7,8 +7,14 @@ from django.template.loader import render_to_string
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
+from django.contrib.auth.views import PasswordResetConfirmView
+from django.contrib.auth.forms import PasswordResetForm
+from django.core.mail import send_mail
 from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit
 from .models import Usuario, Cuenta, Reporte
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'user/reset_clave.html'  # Personaliza la plantilla según tus necesidades
 
 def sign_in(request):
     if request.method == 'GET':
@@ -274,8 +280,34 @@ def view_perfil(request, nombre_cuenta):
         'user_tipo': user_tipo,
     })
 
-def view_reset(request):
-    return render(request, 'user/reset_correo.html')
+def view_reset_correo(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            correo = form.cleaned_data['email']
+            # Verificar si el correo existe en la base de datos
+            if Usuario.objects.filter(correo=correo).exists():
+                # Generar el token y enviar el correo
+                form.save(request=request)
+
+                # Enviar correo electrónico con el enlace para restablecer la contraseña
+                subject = 'Restablecer Contraseña'
+                message = 'Por favor, sigue este enlace para restablecer tu contraseña.'
+                from_email = 'juandiego@securitygroupcr.com'  # Reemplaza con tu dirección de correo electrónico
+                recipient_list = [correo]
+
+                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                
+                messages.success(request, 'Se ha enviado un correo con instrucciones para cambiar la contraseña.')
+                return redirect('reset_sent')
+            else:
+                messages.error(request, 'El correo proporcionado no existe en nuestra base de datos.')
+    else:
+        form = PasswordResetForm()
+    return render(request, 'user/reset_correo.html', {'form': form})
+
+def view_reset_clave(request):
+    return render(request, 'user/reset_clave.html')
 
 def client_reports_view(request, nombre_cuenta):
     # Recupera la información del usuario de la sesión

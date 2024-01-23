@@ -12,11 +12,12 @@
 {% block content %}
 
     <section id="reset-form">
-        <h2>Iniciar Cambio de Contraseña</h2>
+        <h2>Confirmar Cambio de Clave</h2>
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="reset-button">Enviar Correo</button>
+            {{ form.new_password1 }}
+            {{ form.new_password2 }}
+            <button type="submit" class="reset-button">Confirmar Cambio</button>
         </form>
     </section>
 
