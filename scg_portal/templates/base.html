@@ -18,13 +18,13 @@
                 <h2><a href="{% url 'client' nombre_cuenta %}">Home</a></h2>
                 <h2><a href="{% url 'reports' nombre_cuenta %}">Reports</a></h2>
                 <h2><a href="{% url 'tasks' nombre_cuenta %}">Tasks</a></h2>
+                <h2>{% block reporte_button %}{% endblock %}</h2>
             {% else %}
-                <h2><a href="{% url 'index' nombre_cuenta %}">Inicio</a></h2>
+                <h2><a href="{% url 'index' nombre_cuenta %}">Home</a></h2>
             {% endif %}
         {% endif %}
         <nav>
             {% if request.path != "/login/" and request.path != "/reset_password/" and request.path != "/reset_password/sent/" and request.path != "/reset/<uidb64>/<token>/" and request.path != "/reset_password/completed/" %}
-                {% block reporte_button %}{% endblock %}
                 <div class="dropdown">
                     <img class='dropbtn' src="{% static "images/profile.png"%}" alt="PERFIL" />
                     <div class="dropdown-content">

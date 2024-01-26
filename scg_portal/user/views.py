@@ -97,6 +97,32 @@ def generate_line_chart():
 
     return image_base64
 
+def grafico_circular():
+    labels = ['Manzanas', 'Plátanos', 'Uvas', 'Naranjas']
+    sizes = [30, 25, 20, 25]
+
+    # Colores para cada porción
+    colors = ['gold', 'lightcoral', 'lightskyblue', 'lightgreen']
+
+    # Destacar una porción (opcional)
+    explode = (0.1, 0, 0, 0)
+
+    # Crear el gráfico de pizza
+    plt.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=140)
+
+    # Añadir un título
+    plt.title('Distribución de Frutas')
+
+    # Guarda el gráfico en un BytesIO para convertirlo a base64
+    image_stream = BytesIO()
+    plt.savefig(image_stream, format='png')
+    plt.close()
+
+    # Convierte el gráfico a formato base64
+    image_base64 = base64.b64encode(image_stream.getvalue()).decode('utf-8')
+
+    return image_base64
+
 def client_view(request, nombre_cuenta):
     # Recupera la información del usuario de la sesión
     user_tipo = request.session.get('user_tipo')
@@ -141,6 +167,9 @@ def index_view(request, nombre_cuenta):
     # Recupera la información del usuario de la sesión
     user_tipo = request.session.get('user_tipo')
     user_cuenta_nombre = request.session.get('user_cuenta_nombre')
+    registro_exitoso = request.session.pop('registro_exitoso', False)
+    registro_editado = request.session.pop('registro_editado', False)
+    registro_eliminado = request.session.pop('registro_eliminado', False)
 
     try:
         # Buscar la cuenta en la base de datos
@@ -159,6 +188,9 @@ def index_view(request, nombre_cuenta):
                 'usuarios': usuarios,
                 'cuentas': cuentas,
                 'reportes': reportes,
+                'registro_exitoso': registro_exitoso,
+                'registro_editado': registro_editado,
+                'registro_eliminado': registro_eliminado
             }
 
             return render(request, 'user/index.html', context)
@@ -229,6 +261,7 @@ def crear_reporte(request, nombre_cuenta):
         form = ReporteForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            request.session['registro_exitoso'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)
             # Lógica adicional después de guardar el reporte
     else:
@@ -244,6 +277,7 @@ def crear_cuenta(request, nombre_cuenta):
         form = CuentaForm(request.POST)
         if form.is_valid():
             form.save()
+            request.session['registro_exitoso'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)
             # Lógica adicional después de guardar el reporte
     else:
@@ -259,6 +293,7 @@ def crear_usuario(request, nombre_cuenta):
         form = UsuarioForm(request.POST)
         if form.is_valid():
             form.save()
+            request.session['registro_exitoso'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)
             # Lógica adicional después de guardar el reporte
     else:
@@ -346,7 +381,9 @@ def client_reports_view(request, nombre_cuenta):
         return redirect('login')
     
 def client_tasks_view(request, nombre_cuenta):
-    context = {'nombre_cuenta': nombre_cuenta}
+    graf_circular = grafico_circular()
+    context = {'nombre_cuenta': nombre_cuenta,
+               'graf_circular': graf_circular}
     return render(request, 'user/client_tasks.html', context)
 
 def editar_cuenta(request, nombre_cuenta, id_cuenta):
@@ -355,6 +392,7 @@ def editar_cuenta(request, nombre_cuenta, id_cuenta):
         form = CuentaForm(request.POST, instance=cuenta)
         if form.is_valid():
             form.save()
+            request.session['registro_editado'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
     else:
         form = CuentaForm(instance=cuenta)
@@ -363,6 +401,7 @@ def editar_cuenta(request, nombre_cuenta, id_cuenta):
 def eliminar_cuenta(request, nombre_cuenta, id_cuenta):
     cuenta = get_object_or_404(Cuenta, id=id_cuenta)
     cuenta.delete()
+    request.session['registro_eliminado'] = True
     return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
 
 def editar_reporte(request, nombre_cuenta, id_reporte):
@@ -371,6 +410,7 @@ def editar_reporte(request, nombre_cuenta, id_reporte):
         form = ReporteForm(request.POST, instance=reporte)
         if form.is_valid():
             form.save()
+            request.session['registro_editado'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
     else:
         form = ReporteForm(instance=reporte)
@@ -379,6 +419,7 @@ def editar_reporte(request, nombre_cuenta, id_reporte):
 def eliminar_reporte(request, nombre_cuenta, id_reporte):
     reporte = get_object_or_404(Reporte, id=id_reporte)
     reporte.delete()
+    request.session['registro_eliminado'] = True
     return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
 
 def editar_usuario(request, nombre_cuenta, id_usuario):
@@ -387,6 +428,7 @@ def editar_usuario(request, nombre_cuenta, id_usuario):
         form = UsuarioFormEdit(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
+            request.session['registro_editado'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
     else:
         form = UsuarioFormEdit(instance=usuario)
@@ -395,4 +437,5 @@ def editar_usuario(request, nombre_cuenta, id_usuario):
 def eliminar_usuario(request, nombre_cuenta, id_usuario):
     usuario = get_object_or_404(Usuario, id=id_usuario)
     usuario.delete()
+    request.session['registro_eliminado'] = True
     return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
