@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-73s%_(1$k_0773xgl_-tit%zy#=xrwpiam7uq+=l))e@2t$@3l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -51,6 +50,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'scg_portal.urls'
+
+LOGIN_URL = '/login/'
 
 TEMPLATES = [
     {
