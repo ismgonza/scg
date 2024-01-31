@@ -1,15 +1,20 @@
-{% extends "base.html" %}
 {% load static %}
 
 {% block title %} 
-    Cambiar Clave
+    <title>Cambiar clave</title>
 {% endblock %}
 
 {% block css_files %}
+    <link rel="stylesheet" href="{% static "app.css" %}">
     <link rel="stylesheet" href="{% static "user/reset_correo.css" %}">
+    <link rel="icon" type="image/x-icon" href="{% static "images/IsotipoColor.png"%}">
 {% endblock %}
 
 {% block content %}
+
+    <header id="main-navigation">
+        <img src="{% static "images/ImagotipoNegativo.png"%}" alt="LOGO SCG" />
+    </header>
 
     <section id="reset-form">
         <h2>Confirmar Cambio de Clave</h2>
@@ -20,5 +25,9 @@
             <button type="submit" class="reset-button">Confirmar Cambio</button>
         </form>
     </section>
+
+    <footer id="main-footer">
+        <p>&copy; 2024 SCG</p>
+    </footer>
 
 {% endblock %}

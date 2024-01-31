@@ -10,6 +10,9 @@ import base64
 from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from .models import generate_reset_token
 from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit
 from .models import Usuario, Cuenta, Reporte
 
@@ -325,10 +328,23 @@ def view_reset_correo(request):
                 # Generar el token y enviar el correo
                 form.save(request=request)
 
+                # Recuperar la instancia de usuario
+                usuario = Usuario.objects.get(correo=correo)
+
+                # Obtener la información necesaria para construir la URL de reset_confirm
+                uidb64 = urlsafe_base64_encode(force_bytes(usuario.pk))
+                token = generate_reset_token(usuario)
+
+                # Construir la URL de reset_confirm
+                reset_confirm_url = reverse('reset_confirm', kwargs={
+                    'uidb64': uidb64,
+                    'token': token,
+                })
+
                 # Enviar correo electrónico con el enlace para restablecer la contraseña
                 subject = 'Restablecer Contraseña'
-                message = 'Por favor, sigue este enlace para restablecer tu contraseña.'
-                from_email = 'juandiego@securitygroupcr.com'  # Reemplaza con tu dirección de correo electrónico
+                message = f'Por favor, sigue este enlace para restablecer tu contraseña: {reset_confirm_url}'
+                from_email = 'tu_correo@gmail.com'  # Reemplaza con tu dirección de correo de Gmail
                 recipient_list = [correo]
 
                 send_mail(subject, message, from_email, recipient_list, fail_silently=False)

@@ -1,5 +1,7 @@
 import random
 import os
+import hashlib
+import time
 
 from django.db import models
 
@@ -36,6 +38,11 @@ class Usuario(models.Model):
     def verificar_contrasena(self, raw_password):
         # Implementación para verificar la contraseña
         return raw_password == self.password
+    
+def generate_reset_token(usuario):
+    # Combina el correo del usuario, la contraseña y la marca de tiempo actual para generar un token único
+    token_data = f"{usuario.correo}{usuario.password}{time.time()}"
+    return hashlib.sha256(token_data.encode('utf-8')).hexdigest()
 
 def generate_nessus_filename(instance, filename):
     # No es necesario incluir la extensión aquí
