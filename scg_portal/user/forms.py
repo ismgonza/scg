@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm
+from django.utils.translation import gettext as _
 from .models import Cuenta, Usuario, Reporte 
 
 class UserForm(forms.ModelForm):
@@ -58,3 +60,24 @@ class ReporteForm(forms.ModelForm):
         super(ReporteForm, self).__init__(*args, **kwargs)
         # Personaliza el formulario según tus necesidades, si es necesario
         # Por ejemplo, podrías deshabilitar el campo 'cuenta_reporte' o proporcionar opciones específicas
+
+class CambiarClaveForm(forms.Form):
+    nueva_contraseña = forms.CharField(
+        label=_('Nueva contraseña'),
+        widget=forms.PasswordInput
+    )
+
+    confirmar_contraseña = forms.CharField(
+        label=_('Confirmar nueva contraseña'),
+        widget=forms.PasswordInput
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        nueva_contraseña = cleaned_data.get('nueva_contraseña')
+        confirmar_contraseña = cleaned_data.get('confirmar_contraseña')
+
+        if nueva_contraseña and confirmar_contraseña and nueva_contraseña != confirmar_contraseña:
+            raise forms.ValidationError(_('Las contraseñas no coinciden.'))
+
+        return cleaned_data

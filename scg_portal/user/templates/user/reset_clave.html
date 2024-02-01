@@ -1,7 +1,7 @@
 {% load static %}
 
 {% block title %} 
-    <title>Cambiar clave</title>
+    <title>Confirmar clave</title>
 {% endblock %}
 
 {% block css_files %}
@@ -17,13 +17,12 @@
     </header>
 
     <section id="reset-form">
-        <h2>Confirmar Cambio de Clave</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.new_password1 }}
-            {{ form.new_password2 }}
-            <button type="submit" class="reset-button">Confirmar Cambio</button>
-        </form>
+            <h2>Cambiar Contraseña</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="reset-button">Cambiar Contraseña</button>
+            </form>
     </section>
 
     <footer id="main-footer">

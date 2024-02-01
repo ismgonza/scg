@@ -10,7 +10,7 @@ urlpatterns = [
 
     path('reset_password/', views.view_reset_correo, name='reset'),
     path('reset_password/sent/', TemplateView.as_view(template_name='user/reset_correo_sent.html'), name='reset_sent'),
-    path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(template_name='user/reset_clave.html'), name='reset_confirm'),
+    path('reset/<uidb64>/<token>/', views.confirmar_clave_view, name='reset_confirm'),
     path('reset_password/completed/', auth_views.PasswordResetCompleteView.as_view(template_name='user/reset_clave_done.html'), name='reset_complete'),
 
     path('<str:nombre_cuenta>/index/', views.index_view, name="index"),
@@ -28,5 +28,6 @@ urlpatterns = [
     path('<str:nombre_cuenta>/index/crear_usuario/', views.crear_usuario, name="crear_usuario"),
     path('<str:nombre_cuenta>/index/editar_usuario/<int:id_usuario>/', views.editar_usuario, name='editar_usuario'),
     path('<str:nombre_cuenta>/index/eliminar_usuario/<int:id_usuario>/', views.eliminar_usuario, name='eliminar_usuario'),
+    
     path('<str:nombre_cuenta>/Perfil', views.view_perfil, name="perfil")
 ]

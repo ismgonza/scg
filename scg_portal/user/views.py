@@ -8,12 +8,13 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 from django.contrib.auth.views import PasswordResetConfirmView
-from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from .models import generate_reset_token
-from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit
+from django.contrib.auth.hashers import make_password, check_password
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm
 from .models import Usuario, Cuenta, Reporte
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
@@ -341,24 +342,24 @@ def view_reset_correo(request):
                     'token': token,
                 })
 
+                reset_confirm_full_url = request.build_absolute_uri(reset_confirm_url)
+
                 # Enviar correo electrónico con el enlace para restablecer la contraseña
                 subject = 'Restablecer Contraseña'
-                message = f'Por favor, sigue este enlace para restablecer tu contraseña: {reset_confirm_url}'
+                message = f'Por favor, sigue este enlace para restablecer tu contraseña: {reset_confirm_full_url}'
                 from_email = 'tu_correo@gmail.com'  # Reemplaza con tu dirección de correo de Gmail
                 recipient_list = [correo]
 
                 send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+                request.session['reset_correo'] = correo
                 
-                messages.success(request, 'Se ha enviado un correo con instrucciones para cambiar la contraseña.')
                 return redirect('reset_sent')
             else:
                 messages.error(request, 'El correo proporcionado no existe en nuestra base de datos.')
     else:
         form = PasswordResetForm()
     return render(request, 'user/reset_correo.html', {'form': form})
-
-def view_reset_clave(request):
-    return render(request, 'user/reset_clave.html')
 
 def client_reports_view(request, nombre_cuenta):
     # Recupera la información del usuario de la sesión
@@ -455,3 +456,30 @@ def eliminar_usuario(request, nombre_cuenta, id_usuario):
     usuario.delete()
     request.session['registro_eliminado'] = True
     return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
+
+def confirmar_clave_view(request, uidb64, token):
+    # Recupera el correo de la sesión
+    correo = request.session.get('reset_correo', None)
+
+    if not correo:
+        # Manejar el caso en el que el correo no esté en la sesión (por seguridad)
+        messages.error(request, 'Solicitud no válida para restablecer la contraseña.')
+        return redirect('reset_password')
+    
+    if request.method == 'POST':
+        form = CambiarClaveForm(request.POST)
+        if form.is_valid():
+            nueva_contraseña = form.cleaned_data['nueva_contraseña']
+            
+            usuario = Usuario.objects.get(correo=correo)
+
+            # Cambia la contraseña del usuario usando set_password
+            usuario.password = nueva_contraseña
+            usuario.save()
+
+            del request.session['reset_correo']
+        
+            return redirect('reset_complete')  # Puedes redirigir a donde quieras
+    else:
+        form = CambiarClaveForm()
+    return render(request, 'user/reset_clave.html', {'form': form})
