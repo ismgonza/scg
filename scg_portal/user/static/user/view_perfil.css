@@ -8,6 +8,13 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+#perfil-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
 /* Estilo para el título del formulario */
 h2 {
     text-align: center;
