@@ -40,6 +40,12 @@ class Usuario(models.Model):
         # Implementación para verificar la contraseña
         return raw_password == self.password
     
+    def set_password(self, raw_password):
+        """
+        Establece la contraseña del usuario cifrando la contraseña en texto plano proporcionada.
+        """
+        self.password = make_password(raw_password)
+    
 def generate_reset_token(usuario):
     # Combina el correo del usuario, la contraseña y la marca de tiempo actual para generar un token único
     token_data = f"{usuario.correo}{usuario.password}{time.time()}"

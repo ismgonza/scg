@@ -7,8 +7,7 @@ from django.template.loader import render_to_string
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
-from django.contrib.auth.views import PasswordResetConfirmView
-from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm
+from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
@@ -16,9 +15,6 @@ from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
 from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm
 from .models import Usuario, Cuenta, Reporte
-
-class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-    template_name = 'user/reset_clave.html'  # Personaliza la plantilla según tus necesidades
 
 def sign_in(request):
     if request.method == 'GET':
@@ -37,7 +33,7 @@ def sign_in(request):
             if usuarios.exists():
                 usuario = usuarios.first()
 
-                if usuario.verificar_contrasena(password):
+                if check_password(password, usuario.password):  # Verifica la contraseña cifrada:
 
                     if usuario.tipo == 'Admin':
 
@@ -296,7 +292,14 @@ def crear_usuario(request, nombre_cuenta):
     elif request.method == 'POST':
         form = UsuarioForm(request.POST)
         if form.is_valid():
-            form.save()
+            # Obtener el objeto de usuario del formulario sin guardarlo todavía
+            usuario = form.save(commit=False)
+            
+            # Cifrar la contraseña antes de guardar el usuario
+            usuario.password = make_password(form.cleaned_data['password'])
+
+            # Guardar el usuario con la contraseña cifrada
+            usuario.save()
             request.session['registro_exitoso'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)
             # Lógica adicional después de guardar el reporte
@@ -474,7 +477,7 @@ def confirmar_clave_view(request, uidb64, token):
             usuario = Usuario.objects.get(correo=correo)
 
             # Cambia la contraseña del usuario usando set_password
-            usuario.password = nueva_contraseña
+            usuario.set_password(nueva_contraseña)
             usuario.save()
 
             del request.session['reset_correo']
