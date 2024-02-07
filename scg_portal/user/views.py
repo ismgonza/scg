@@ -76,53 +76,6 @@ def sign_out(request):
     # Redirige a la página de inicio de sesión u otra página deseada
     return redirect('login')
 
-def generate_line_chart():
-    # Tu lógica para obtener los datos del gráfico aquí
-    x_values = [1, 2, 3, 4, 5]
-    y_values = [10, 20, 15, 25, 30]
-
-    # Crea el gráfico
-    plt.plot(x_values, y_values)
-    plt.xlabel('Eje X')
-    plt.ylabel('Eje Y')
-    plt.title('Gráfico Lineal')
-
-    # Guarda el gráfico en un BytesIO para convertirlo a base64
-    image_stream = BytesIO()
-    plt.savefig(image_stream, format='png')
-    plt.close()
-
-    # Convierte el gráfico a formato base64
-    image_base64 = base64.b64encode(image_stream.getvalue()).decode('utf-8')
-
-    return image_base64
-
-def grafico_circular():
-    labels = ['Manzanas', 'Plátanos', 'Uvas', 'Naranjas']
-    sizes = [30, 25, 20, 25]
-
-    # Colores para cada porción
-    colors = ['gold', 'lightcoral', 'lightskyblue', 'lightgreen']
-
-    # Destacar una porción (opcional)
-    explode = (0.1, 0, 0, 0)
-
-    # Crear el gráfico de pizza
-    plt.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=140)
-
-    # Añadir un título
-    plt.title('Distribución de Frutas')
-
-    # Guarda el gráfico en un BytesIO para convertirlo a base64
-    image_stream = BytesIO()
-    plt.savefig(image_stream, format='png')
-    plt.close()
-
-    # Convierte el gráfico a formato base64
-    image_base64 = base64.b64encode(image_stream.getvalue()).decode('utf-8')
-
-    return image_base64
-
 def client_view(request, nombre_cuenta):
     # Recupera la información del usuario de la sesión
     user_tipo = request.session.get('user_tipo')
@@ -149,12 +102,10 @@ def client_view(request, nombre_cuenta):
             except EmptyPage:
                 reportes_paginados = paginator.page(paginator.num_pages)
 
-            chart_data = generate_line_chart()
-
             # Pasar los informes paginados al contexto
             context = {'nombre_cuenta': nombre_cuenta,
-                        'reportes': reportes_paginados,
-                        'chart_data': chart_data}
+                        'reportes': reportes_paginados
+                        }
             return render(request, 'user/client.html', context)
         else:
             return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
@@ -401,9 +352,7 @@ def client_reports_view(request, nombre_cuenta):
         return redirect('login')
     
 def client_tasks_view(request, nombre_cuenta):
-    graf_circular = grafico_circular()
-    context = {'nombre_cuenta': nombre_cuenta,
-               'graf_circular': graf_circular}
+    context = {'nombre_cuenta': nombre_cuenta}
     return render(request, 'user/client_tasks.html', context)
 
 def editar_cuenta(request, nombre_cuenta, id_cuenta):
