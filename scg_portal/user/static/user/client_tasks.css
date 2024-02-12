@@ -50,3 +50,20 @@ ul {
     width: 100%; /* Hace que la imagen ocupe el 100% del ancho de su contenedor */
     height: auto; /* Mantiene la proporción original de la imagen */
 }
+
+/* Estilos para los estados */
+.completed {
+    color: green;
+}
+
+.in-progress {
+    color: blue;
+}
+
+.pending {
+    color: darkorange;
+}
+
+.not-started {
+    color: red;
+}

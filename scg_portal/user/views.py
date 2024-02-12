@@ -4,9 +4,6 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
-import matplotlib.pyplot as plt
-from io import BytesIO
-import base64
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode
@@ -14,7 +11,7 @@ from django.utils.encoding import force_bytes
 from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
 from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm
-from .models import Usuario, Cuenta, Reporte
+from .models import Usuario, Cuenta, Reporte, Tarea
 
 def sign_in(request):
     if request.method == 'GET':
@@ -89,6 +86,7 @@ def client_view(request, nombre_cuenta):
         if user_tipo == 'Cliente' and user_cuenta_nombre == nombre_cuenta:
             # Obtener todos los informes y ordenarlos por fecha de creación
             reportes = Reporte.objects.filter(cuenta_reporte=cuenta).order_by('-fecha_reporte')
+            tareas = Tarea.objects.filter(cuenta_tarea=cuenta)
 
             # Configurar la paginación
             elementos_por_pagina = 10  # Ajusta según tus necesidades
@@ -104,7 +102,8 @@ def client_view(request, nombre_cuenta):
 
             # Pasar los informes paginados al contexto
             context = {'nombre_cuenta': nombre_cuenta,
-                        'reportes': reportes_paginados
+                        'reportes': reportes_paginados,
+                        'tareas': tareas
                         }
             return render(request, 'user/client.html', context)
         else:
@@ -352,8 +351,32 @@ def client_reports_view(request, nombre_cuenta):
         return redirect('login')
     
 def client_tasks_view(request, nombre_cuenta):
-    context = {'nombre_cuenta': nombre_cuenta}
-    return render(request, 'user/client_tasks.html', context)
+
+    user_tipo = request.session.get('user_tipo')
+    user_cuenta_nombre = request.session.get('user_cuenta_nombre')
+
+    try:
+        # Buscar la cuenta en la base de datos
+        cuenta = get_object_or_404(Cuenta, nombre=user_cuenta_nombre)
+
+        # Verificar si el usuario tiene el tipo correcto y la cuenta correcta
+        if user_tipo == 'Cliente' and user_cuenta_nombre == nombre_cuenta:
+            
+            tareas = Tarea.objects.filter(cuenta_tarea=cuenta)
+            tareas_completadas = Tarea.objects.filter(cuenta_tarea=cuenta, status='Completed')
+
+            # Pasar los informes paginados al contexto
+            context = {'nombre_cuenta': nombre_cuenta,
+                        'tareas': tareas,
+                        'tareas_completadas': tareas_completadas
+                        }
+            return render(request, 'user/client_tasks.html', context)
+        else:
+            return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+    
+    except Cuenta.DoesNotExist:
+        messages.error(request, 'La cuenta no existe')
+        return redirect('login')
 
 def editar_cuenta(request, nombre_cuenta, id_cuenta):
     cuenta = get_object_or_404(Cuenta, id=id_cuenta)

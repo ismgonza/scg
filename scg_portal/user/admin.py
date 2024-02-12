@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Usuario, Cuenta, Reporte
+from .models import Usuario, Cuenta, Reporte, Tarea
 
 # Register your models here.
 
@@ -15,6 +15,10 @@ class UsuarioAdmin(admin.ModelAdmin):
 class ReporteAdmin(admin.ModelAdmin):
     list_display = ('id_reporte', 'fecha_reporte', 'target', 'cuenta_reporte')
 
+class TareaAdmin(admin.ModelAdmin):
+    list_display = ('id_tarea', 'cuenta_tarea', 'status')
+
 admin.site.register(Usuario, UsuarioAdmin)
 admin.site.register(Cuenta)
 admin.site.register(Reporte, ReporteAdmin)
+admin.site.register(Tarea, TareaAdmin)

@@ -86,3 +86,47 @@ class Reporte(models.Model):
             self.id_reporte = nuevo_id_reporte
 
         super().save(*args, **kwargs)
+
+class Tarea(models.Model):
+    id_tarea = models.IntegerField(unique=True, editable=False)
+    cuenta_tarea = models.ForeignKey(
+        Cuenta, on_delete=models.CASCADE, related_name="cuentas_tareas")
+    descripcion = models.CharField(max_length=100)
+    incidente = models.CharField(max_length=100)
+
+    STATUS_COMP = 'Completed'
+    STATUS_INP = 'In Progress'
+    STATUS_PEND = 'Pending'
+    STATUS_NST = 'Not Started'
+    OPCIONES_STATUS = [
+        (STATUS_COMP, 'Completed'),
+        (STATUS_INP, 'In Progress'),
+        (STATUS_PEND, 'Pending'),
+        (STATUS_NST, 'Not Started')
+    ]
+
+    status = models.CharField(
+        max_length=100,
+        choices=OPCIONES_STATUS
+    )
+
+    loe = models.CharField(max_length=100, null=True)
+
+    def __str__(self):
+        return self.incidente
+    
+    def save(self, *args, **kwargs):
+        # Si el objeto aún no tiene un ID asignado
+        if not self.id_tarea:
+            # Genera un número aleatorio único
+            while True:
+                nuevo_id_tarea = random.randint(100000, 999999)  # Puedes ajustar el rango según tus necesidades
+
+                # Verifica si el número aleatorio ya existe en la base de datos
+                if not Tarea.objects.filter(id_tarea=nuevo_id_tarea).exists():
+                    break
+
+            self.id_tarea = nuevo_id_tarea
+
+        super().save(*args, **kwargs)
+

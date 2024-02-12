@@ -78,3 +78,20 @@ ul {
     border-radius: 12px;
     background-color: white;
 }
+
+/* Estilos para los estados */
+.completed {
+    color: green;
+}
+
+.in-progress {
+    color: blue;
+}
+
+.pending {
+    color: darkorange;
+}
+
+.not-started {
+    color: red;
+}

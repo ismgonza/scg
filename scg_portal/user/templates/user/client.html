@@ -31,26 +31,14 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for tarea in tareas %}
                         <tr>
-                            <td>Tarea 1</td>
-                            <td>In Progress</td>
+                            <td>{{ tarea.id_tarea }}</td>
+                            <td class="{% if tarea.status == 'Completed' %}completed{% elif tarea.status == 'In Progress' %}in-progress{% elif tarea.status == 'Pending' %}pending{% elif tarea.status == 'Not Started' %}not-started{% endif %}">
+                                {{ tarea.status }}
+                            </td>
                         </tr>
-                        <tr>
-                            <td>Tarea 2</td>
-                            <td>In Progress</td>
-                        </tr>
-                        <tr>
-                            <td>Tarea 3</td>
-                            <td>In Progress</td>
-                        </tr>
-                        <tr>
-                            <td>Tarea 4</td>
-                            <td>In Progress</td>
-                        </tr>
-                        <tr>
-                            <td>Tarea 5</td>
-                            <td>In Progress</td>
-                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </section>
