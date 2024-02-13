@@ -20,7 +20,7 @@
                 <h2><a href="{% url 'tasks' nombre_cuenta %}">Tasks</a></h2>
                 <h2>{% block reporte_button %}{% endblock %}</h2>
             {% else %}
-                <h2><a href="{% url 'index' nombre_cuenta %}" style='margin-right: 750px;'>Home</a></h2>
+                <h2><a href="{% url 'index' nombre_cuenta %}">Home</a></h2>
             {% endif %}
         {% endif %}
         <nav>

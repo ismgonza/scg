@@ -10,7 +10,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
-from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm
 from .models import Usuario, Cuenta, Reporte, Tarea
 
 def sign_in(request):
@@ -131,6 +131,7 @@ def index_view(request, nombre_cuenta):
             usuarios = Usuario.objects.all()
             cuentas = Cuenta.objects.all()
             reportes = Reporte.objects.all()
+            tareas = Tarea.objects.all()
 
             # Pasa los datos al contexto de la plantilla
             context = {
@@ -138,6 +139,7 @@ def index_view(request, nombre_cuenta):
                 'usuarios': usuarios,
                 'cuentas': cuentas,
                 'reportes': reportes,
+                'tareas': tareas,
                 'registro_exitoso': registro_exitoso,
                 'registro_editado': registro_editado,
                 'registro_eliminado': registro_eliminado
@@ -257,6 +259,22 @@ def crear_usuario(request, nombre_cuenta):
         form = UsuarioForm()
 
     return render(request, 'crear_usuario', {'form': form, 'nombre_cuenta': nombre_cuenta})
+
+def crear_tarea(request, nombre_cuenta):
+    if request.method == 'GET':
+        form = TareaForm()
+        return render(request, 'user/crear_tarea.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
+    elif request.method == 'POST':
+        form = TareaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            request.session['registro_exitoso'] = True
+            return redirect('index', nombre_cuenta=nombre_cuenta)
+            # Lógica adicional después de guardar el reporte
+    else:
+        form = TareaForm()
+
+    return render(request, 'crear_tarea', {'form': form, 'nombre_cuenta': nombre_cuenta})
 
 def view_perfil(request, nombre_cuenta):
     user_cuenta_nombre = request.session.get('user_cuenta_nombre', '')
@@ -429,6 +447,24 @@ def editar_usuario(request, nombre_cuenta, id_usuario):
 def eliminar_usuario(request, nombre_cuenta, id_usuario):
     usuario = get_object_or_404(Usuario, id=id_usuario)
     usuario.delete()
+    request.session['registro_eliminado'] = True
+    return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
+
+def editar_tarea(request, nombre_cuenta, id_tarea):
+    tarea = get_object_or_404(Tarea, id=id_tarea)
+    if request.method == 'POST':
+        form = TareaForm(request.POST, instance=tarea)
+        if form.is_valid():
+            form.save()
+            request.session['registro_editado'] = True
+            return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
+    else:
+        form = Tarea(instance=tarea)
+    return render(request, 'user/editar_tarea.html', {'form': form, 'tarea': tarea, 'nombre_cuenta': nombre_cuenta})
+
+def eliminar_tarea(request, nombre_cuenta, id_tarea):
+    tarea = get_object_or_404(Tarea, id=id_tarea)
+    tarea.delete()
     request.session['registro_eliminado'] = True
     return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
 

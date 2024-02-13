@@ -38,7 +38,7 @@ h3 {
 }
 
 #main-navigation h2 {
-  margin-left: 10px; /* Empuja el botón de inicio hacia la derecha tanto como sea posible */
+  margin-right: auto; /* Empuja el botón de inicio hacia la derecha tanto como sea posible */
 }
 
 #main-navigation a {

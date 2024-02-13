@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext as _
-from .models import Cuenta, Usuario, Reporte 
+from .models import Cuenta, Usuario, Reporte, Tarea
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -80,3 +80,15 @@ class CambiarClaveForm(forms.Form):
             raise forms.ValidationError(_('Las contraseñas no coinciden.'))
 
         return cleaned_data
+    
+class TareaForm(forms.ModelForm):
+    class Meta:
+        model = Tarea
+        fields = ['cuenta_tarea', 'descripcion', 'incidente', 'status', 'loe']
+        widgets = {
+            'cuenta_tarea': forms.Select(attrs={'class': 'estilo-input'}),
+            'status': forms.Select(attrs={'class': 'estilo-input'}),
+            'descripcion': forms.TextInput(attrs={'class': 'estilo-input'}),
+            'incidente': forms.TextInput(attrs={'class': 'estilo-input'}),
+            'loe': forms.TextInput(attrs={'class': 'estilo-input'})
+        }

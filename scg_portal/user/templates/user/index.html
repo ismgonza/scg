@@ -102,6 +102,38 @@
         </tbody>
     </table>
 
+    <h2 style='margin-left: 25px;'>Tabla de tareas registradas</h2>
+    <a id="botones" href="{% url 'crear_tarea' nombre_cuenta=nombre_cuenta %}">Registrar Tarea</a>
+    <table id="tabla-tareas">
+        <thead>
+            <tr>
+                <th>ID Tarea</th>
+                <th>Cuenta</th>
+                <th>Descripcion</th>
+                <th>Incidente</th>
+                <th>Status</th>
+                <th>LOE</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarea in tareas %}
+                <tr>
+                    <td>{{ tarea.id_tarea }}</td>
+                    <td>{{ tarea.cuenta_tarea }}</td>
+                    <td>{{ tarea.descripcion }}</td>
+                    <td>{{ tarea.incidente }}</td>
+                    <td>{{ tarea.status }}</td>
+                    <td>{{ tarea.loe }}</td>
+                    <td style="max-width: 100px;">
+                        <a href="{% url 'editar_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id %}" class="btn btn-editar">Editar</a>
+                        <a href="{% url 'eliminar_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id %}" class="btn btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <br/><br/><br/><br/>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

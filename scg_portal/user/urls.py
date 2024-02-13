@@ -27,6 +27,9 @@ urlpatterns = [
     path('<str:nombre_cuenta>/index/crear_usuario/', views.crear_usuario, name="crear_usuario"),
     path('<str:nombre_cuenta>/index/editar_usuario/<int:id_usuario>/', views.editar_usuario, name='editar_usuario'),
     path('<str:nombre_cuenta>/index/eliminar_usuario/<int:id_usuario>/', views.eliminar_usuario, name='eliminar_usuario'),
+    path('<str:nombre_cuenta>/index/crear_tarea/', views.crear_tarea, name="crear_tarea"),
+    path('<str:nombre_cuenta>/index/editar_tarea/<int:id_tarea>/', views.editar_tarea, name='editar_tarea'),
+    path('<str:nombre_cuenta>/index/eliminar_tarea/<int:id_tarea>/', views.eliminar_tarea, name='eliminar_tarea'),
     
     path('<str:nombre_cuenta>/Perfil', views.view_perfil, name="perfil")
 ]
