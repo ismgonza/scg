@@ -459,7 +459,7 @@ def editar_tarea(request, nombre_cuenta, id_tarea):
             request.session['registro_editado'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
     else:
-        form = Tarea(instance=tarea)
+        form = TareaForm(instance=tarea)
     return render(request, 'user/editar_tarea.html', {'form': form, 'tarea': tarea, 'nombre_cuenta': nombre_cuenta})
 
 def eliminar_tarea(request, nombre_cuenta, id_tarea):

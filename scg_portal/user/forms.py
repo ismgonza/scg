@@ -88,7 +88,12 @@ class TareaForm(forms.ModelForm):
         widgets = {
             'cuenta_tarea': forms.Select(attrs={'class': 'estilo-input'}),
             'status': forms.Select(attrs={'class': 'estilo-input'}),
-            'descripcion': forms.TextInput(attrs={'class': 'estilo-input'}),
+            'descripcion': forms.Textarea(attrs={'class': 'estilo-input'}),
             'incidente': forms.TextInput(attrs={'class': 'estilo-input'}),
             'loe': forms.TextInput(attrs={'class': 'estilo-input'})
         }
+
+    def __init__(self, *args, **kwargs):
+        super(TareaForm, self).__init__(*args, **kwargs)
+        # Personaliza el formulario según tus necesidades, si es necesario
+        # Por ejemplo, podrías deshabilitar el campo 'cuenta_reporte' o proporcionar opciones específicas
