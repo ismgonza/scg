@@ -40,7 +40,7 @@
                     <td style="max-width: 25px;">
                         {% if cuenta.nombre != 'SCG' %}
                             <a href="{% url 'editar_cuenta' nombre_cuenta=nombre_cuenta id_cuenta=cuenta.id %}" class="btn btn-editar">Editar</a>
-                            <a href="{% url 'eliminar_cuenta' nombre_cuenta=nombre_cuenta id_cuenta=cuenta.id %}" class="btn btn-eliminar">Eliminar</a>
+                            <a href="#" class="btn btn-eliminar" onclick="abrirConfirmModal(this)" data-url="{% url 'eliminar_cuenta' nombre_cuenta=nombre_cuenta id_cuenta=cuenta.id %}">Eliminar</a>
                         {% endif %}
                     </td>
                 </tr>
@@ -67,7 +67,7 @@
                     <td>{{ usuario.cuenta }}</td>
                     <td style="max-width: 25px;">
                         <a href="{% url 'editar_usuario' nombre_cuenta=nombre_cuenta id_usuario=usuario.id %}" class="btn btn-editar">Editar</a>
-                        <a href="{% url 'eliminar_usuario' nombre_cuenta=nombre_cuenta id_usuario=usuario.id %}" class="btn btn-eliminar">Eliminar</a>
+                        <a href="#" class="btn btn-eliminar" onclick="abrirConfirmModal(this)" data-url="{% url 'eliminar_usuario' nombre_cuenta=nombre_cuenta id_usuario=usuario.id %}">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -97,7 +97,7 @@
                     <td>{{ reporte.cuenta_reporte }}</td>
                     <td style="max-width: 100px;">
                         <a href="{% url 'editar_reporte' nombre_cuenta=nombre_cuenta id_reporte=reporte.id %}" class="btn btn-editar">Editar</a>
-                        <a href="{% url 'eliminar_reporte' nombre_cuenta=nombre_cuenta id_reporte=reporte.id %}" class="btn btn-eliminar">Eliminar</a>
+                        <a href="#" class="btn btn-eliminar" onclick="abrirConfirmModal(this)" data-url="{% url 'eliminar_reporte' nombre_cuenta=nombre_cuenta id_reporte=reporte.id %}">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -129,7 +129,7 @@
                     <td>{{ tarea.loe }}</td>
                     <td style="max-width: 100px;">
                         <a href="{% url 'editar_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id %}" class="btn btn-editar">Editar</a>
-                        <a href="{% url 'eliminar_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id %}" class="btn btn-eliminar">Eliminar</a>
+                        <a href="#" class="btn btn-eliminar" onclick="abrirConfirmModal(this)" data-url="{% url 'eliminar_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id %}">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -150,7 +150,10 @@
             filtrarTabla('tabla-cuentas', filtroCuenta, 0);
 
             // Actualiza la tabla de reportes
-            filtrarTabla('tabla-reportes', filtroCuenta, 4); // 4 es la posición de la columna "Cuenta" en la tabla de reportes
+            filtrarTabla('tabla-reportes', filtroCuenta, 4);
+
+            // Actualiza la tabla de tareas
+            filtrarTabla('tabla-tareas', filtroCuenta, 1);
         }
 
         function filtrarTabla(idTabla, filtro, columna) {
@@ -207,6 +210,34 @@
             };
         </script>
     {% endif %}
+
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <p>Desea eliminar este registro?</p>
+            <button onclick="eliminarRegistro()">Eliminar</button>
+            <button onclick="cerrarConfirmModal()">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+
+        var url;
+
+        function abrirConfirmModal(element) {
+            document.getElementById('confirm-modal').style.display = 'block';
+            url = element.getAttribute('data-url');
+        }
+
+        function cerrarConfirmModal() {
+            document.getElementById('confirm-modal').style.display = 'none';
+        }    
+
+        function eliminarRegistro() {
+            //Lógica para eliminar registro
+            window.location.href = url;
+            cerrarConfirmModal()
+        }
+    </script>
 
     {% if registro_eliminado %}
         <div id="modal-container" class="modal">

@@ -30,3 +30,14 @@ h2 {
 #perfil p {
     margin: 10px 0;
 }
+
+#perfil a{
+    text-decoration: none;
+    color: black;
+    margin-left: 50px;
+}
+
+#perfil a:hover{
+    text-decoration: underline;
+    color: black;
+}
