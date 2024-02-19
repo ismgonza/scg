@@ -91,7 +91,7 @@ class Tarea(models.Model):
     id_tarea = models.IntegerField(unique=True, editable=False)
     cuenta_tarea = models.ForeignKey(
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_tareas")
-    descripcion = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=100, null=True)
     incidente = models.CharField(max_length=100)
 
     STATUS_COMP = 'Completed'

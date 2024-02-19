@@ -25,13 +25,15 @@
             </thead>
             <tbody>
                 {% for tarea in tareas %}
-                    <tr>
-                        <td>{{ tarea.incidente }}</td>
-                        <td>{{ tarea.descripcion }}</td>
-                        <td class="{% if tarea.status == 'Completed' %}completed{% elif tarea.status == 'In Progress' %}in-progress{% elif tarea.status == 'Pending' %}pending{% elif tarea.status == 'Not Started' %}not-started{% endif %}">
-                            {{ tarea.status }}
-                        </td>
-                    </tr>
+                    {% if tarea.status != 'Completed' %}
+                        <tr>
+                            <td>{{ tarea.incidente }}</td>
+                            <td>{{ tarea.descripcion }}</td>
+                            <td class="{% if tarea.status == 'In Progress' %}in-progress{% elif tarea.status == 'Pending' %}pending{% elif tarea.status == 'Not Started' %}not-started{% endif %}">
+                                {{ tarea.status }}
+                            </td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}  
             </tbody>
         </table>
