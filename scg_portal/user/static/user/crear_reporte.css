@@ -41,6 +41,7 @@ label {
     border-radius: 4px;
 }
 
+/* Estilo base para el botón de selección de archivo */
 .estilo-input[type="file"] {
     width: 100%;
     padding: 8px;
@@ -50,9 +51,12 @@ label {
     border-radius: 4px;
 }
 
-/* Opcional: Cambio de color al pasar el ratón sobre el campo de entrada de archivo */
+/* Estilo para el botón de selección de archivo cuando se pasa el ratón por encima */
 .estilo-input[type="file"]:hover {
-    border-color: #6a1a9a; /* Puedes ajustar el color del hover según tus preferencias */
+    background-color: #007bff; /* Color de fondo al pasar el ratón por encima */
+    color: #fff; /* Color del texto al pasar el ratón por encima */
+    border-color: #007bff; /* Color del borde al pasar el ratón por encima */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón por encima */
 }
 
 /* Estilo para el botón de envío */

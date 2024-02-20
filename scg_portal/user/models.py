@@ -66,8 +66,8 @@ class Reporte(models.Model):
     target = models.CharField(max_length=100)
     cuenta_reporte = models.ForeignKey(
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_reportes")
-    source = models.FileField(upload_to=generate_nessus_filename, null=True)
-    file_report = models.FileField(upload_to=generate_dradis_filename, null=True)
+    source = models.FileField(upload_to=generate_nessus_filename, null=True, blank=True)
+    file_report = models.FileField(upload_to=generate_dradis_filename, null=True, blank=True)
     
     def __str__(self):
         return self.target
@@ -91,7 +91,7 @@ class Tarea(models.Model):
     id_tarea = models.IntegerField(unique=True, editable=False)
     cuenta_tarea = models.ForeignKey(
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_tareas")
-    descripcion = models.CharField(max_length=100, null=True)
+    descripcion = models.CharField(max_length=100, null=True, blank=True)
     incidente = models.CharField(max_length=100)
 
     STATUS_COMP = 'Completed'
@@ -110,7 +110,7 @@ class Tarea(models.Model):
         choices=OPCIONES_STATUS
     )
 
-    loe = models.CharField(max_length=100, null=True)
+    loe = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.incidente

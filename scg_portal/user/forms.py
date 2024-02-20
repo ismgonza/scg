@@ -52,11 +52,15 @@ class ReporteForm(forms.ModelForm):
         widgets = {
             'tipo_reporte': forms.TextInput(attrs={'class': 'estilo-input'}),
             'target': forms.TextInput(attrs={'class': 'estilo-input'}),
-            'cuenta_reporte': forms.Select(attrs={'class': 'estilo-input'})
+            'cuenta_reporte': forms.Select(attrs={'class': 'estilo-input'}),
+            'source': forms.FileInput(attrs={'class': 'estilo-input'}),  # Aplicar estilo a source
+            'file_report': forms.FileInput(attrs={'class': 'estilo-input'})  # Aplicar estilo a file_report
         }
 
     def __init__(self, *args, **kwargs):
         super(ReporteForm, self).__init__(*args, **kwargs)
+        self.fields['source'].required = False  # Indicar que el campo no es obligatorio
+        self.fields['file_report'].required = False  # Indicar que el campo no es obligatorio
         # Personaliza el formulario según tus necesidades, si es necesario
         # Por ejemplo, podrías deshabilitar el campo 'cuenta_reporte' o proporcionar opciones específicas
 
@@ -95,5 +99,7 @@ class TareaForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TareaForm, self).__init__(*args, **kwargs)
+        self.fields['descripcion'].required = False  # Indicar que el campo no es obligatorio
+        self.fields['loe'].required = False  # Indicar que el campo no es obligatorio
         # Personaliza el formulario según tus necesidades, si es necesario
         # Por ejemplo, podrías deshabilitar el campo 'cuenta_reporte' o proporcionar opciones específicas
