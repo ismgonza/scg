@@ -14,10 +14,12 @@ urlpatterns = [
 
     path('<str:nombre_cuenta>/index/', views.index_view, name="index"),
     path('<str:nombre_cuenta>/', views.client_view, name="client"),
+
     path('<str:nombre_cuenta>/reports', views.client_reports_view, name="reports"),
     path('<str:nombre_cuenta>/tasks', views.client_tasks_view, name="tasks"),
     path('<str:nombre_cuenta>/report/<int:id_reporte>/', views.view_reporte, name='view_reporte'),
     path('<str:nombre_cuenta>/report/<int:id_reporte>/download_report/', views.download_report, name='download_report'),
+
     path('<str:nombre_cuenta>/index/crear_reporte/', views.crear_reporte, name="crear_reporte"),
     path('<str:nombre_cuenta>/index/editar_reporte/<int:id_reporte>/', views.editar_reporte, name='editar_reporte'),
     path('<str:nombre_cuenta>/index/eliminar_reporte/<int:id_reporte>/', views.eliminar_reporte, name='eliminar_reporte'),
