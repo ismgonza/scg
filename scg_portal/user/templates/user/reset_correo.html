@@ -1,23 +1,36 @@
-{% extends "base.html" %}
 {% load static %}
 
-{% block title %} 
-    Cambiar Clave
-{% endblock %}
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
 
-{% block css_files %}
-    <link rel="stylesheet" href="{% static "user/reset_correo.css" %}">
-{% endblock %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Welcome to SC Central</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static "user/styles.min.css" %}">
+</head>
 
-{% block content %}
+    <body>
+        <section class="section_login">
+            <div class="container">
+                <div class="row login_logo">
+                    <div class="col"><img src="{% static "images/IsotipoColor.png"%}"></div>
+                </div>
+                <div class="row login_form">
+                    <div class="col">
+                        <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(0, 0, 0); background-color: rgb(251, 251, 251);">Enter your registered email to reset your password</span></p>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn btn-primary" type="submit">Reset Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/script.min.js"></script>
+    </body>
 
-    <section id="reset-form">
-        <h2>Iniciar Cambio de Contraseña</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="reset-button">Enviar Correo</button>
-        </form>
-    </section>
-
-{% endblock %}
+</html>

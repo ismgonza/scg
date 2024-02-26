@@ -1,0 +1,345 @@
+@charset "UTF-8";
+/* Define Colors*/
+/* Screen Sizes */
+/* FONTS */
+/* Define Font Size & Format */
+/* Define Font Weight */
+/* Responsiveness of the text */
+p {
+  font-size: 20px;
+}
+
+/* note the smaller sizes for mobile */
+h5 {
+  font-size: 25px;
+}
+
+h4 {
+  font-size: 31.25px;
+}
+
+h3 {
+  font-size: 39.0625px;
+}
+
+h2 {
+  font-size: 48.828125px;
+}
+
+h1 {
+  font-size: 61.03515625px;
+}
+
+/* Bring everything up two steps for larger screens */
+@media (min-width: 40em) {
+  h4 {
+    font-size: 39.0625px;
+  }
+  h3 {
+    font-size: 48.828125px;
+  }
+  h2 {
+    font-size: 61.03515625px;
+  }
+  h1 {
+    font-size: 76.2939453125px;
+  }
+}
+/* http://meyerweb.com/eric/tools/css/reset/    v2.0 | 20110126   License: none (public domain) */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  scroll-behavior: smooth;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1.5;
+  font-family: Geomanist, Helvetica, Inter;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote q {
+  quotes: none;
+}
+blockquote:before, blockquote:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/*
+p, li, h1, h2, h3, h4 {
+  // Help prevent overflow of long words/names/URLs
+  word-break: break-word;
+  // Optional, not supported for all languages
+  hyphens: auto;
+}
+*/
+canvas {
+  display: block;
+  vertical-align: bottom;
+}
+
+body header nav.navbar {
+  background-color: #002d74;
+}
+body header nav.navbar .main-logo {
+  max-height: 40px;
+}
+body header nav.navbar .navbar-toggler .fa-bars {
+  color: rgb(255, 255, 255);
+  font-size: 30px;
+}
+body header nav.navbar .nav-link:focus, body header nav.navbar .nav-link:hover {
+  color: rgb(255, 255, 255);
+}
+body header nav.navbar .nav-item a {
+  color: rgb(255, 255, 255);
+}
+body header nav.navbar .nav-item a i {
+  width: 40px;
+  font-size: 25px;
+}
+body header nav.navbar .dropdown-menu {
+  background-color: #151618;
+  border-radius: 1px;
+}
+body footer {
+  margin-top: auto;
+  bottom: 0;
+  width: 100%;
+}
+body footer .row {
+  background-color: #002d74;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+body .filter {
+  border-color: rgb(58, 141, 222);
+  color: rgb(58, 141, 222);
+}
+body .canvas {
+  border: 1px #002d74 solid;
+  border-radius: 10px;
+}
+body .canvas #vuln_by_risk {
+  width: 100%;
+  height: 328px;
+}
+body .container .row {
+  padding: 10px 0;
+}
+body .container .row .col h1 {
+  padding: 10px 0;
+}
+body .section_login {
+  margin: auto 0;
+}
+body .section_login .container {
+  min-width: 300px;
+  margin: 0 auto;
+  max-width: 22.5rem !important;
+}
+@media screen and (max-width: 44.95rem) {
+  body .section_login .container {
+    max-width: 9rem !important;
+  }
+}
+body .section_login .container .login_logo img {
+  max-height: 200px;
+}
+body .section_login .container .login_form p {
+  margin: 7% 0%;
+}
+body .section_login .container .login_form form input {
+  margin-bottom: 15px;
+}
+body .section_login .container .login_form form .btn-primary {
+  background-color: #002d74;
+  margin-bottom: 50px;
+}
+body .section_login .container a {
+  text-decoration: none;
+  color: rgb(43, 43, 43);
+}
+body .heading-row h1 {
+  border-radius: 50px;
+  background-color: #002d74;
+  font-size: 1.75rem;
+  color: white;
+}
+body .row .col table {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+body .row .col table th {
+  font: bold;
+  background-color: #002d74;
+  color: #FFFFFF;
+}
+body .row .col table th, body .row .col table td {
+  font-size: 12px;
+  padding: 5px;
+  border: 1px solid #002d74;
+}
+body .row .col table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+body .row .col table tr:first-child th:first-child {
+  border-top-left-radius: 10px;
+}
+body .row .col table tr:first-child th:last-child {
+  border-top-right-radius: 10px;
+}
+body .row .col table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+body .row .col table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+body .row .col svg, body .row .col i {
+  width: 45px;
+  font-size: 30px;
+}
+body .modal_format form label {
+  text-align: left;
+  width: 100%;
+  font-weight: bold;
+}
+body .modal_format form input, body .modal_format form textarea {
+  width: 100%;
+  border-radius: 3px;
+  border: 1px solid #002d74;
+  transition-duration: 0.6s;
+  margin: 10px 0;
+}
+body .modal_format form input:hover, body .modal_format form textarea:hover {
+  border: 2px solid rgb(58, 141, 222);
+}
+body .myprofile .card {
+  padding-top: 75px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body .myprofile .card .input-group {
+  margin: 0 auto;
+  max-width: 30rem !important;
+}
+@media screen and (max-width: 44.95rem) {
+  body .myprofile .card .input-group {
+    max-width: 12rem !important;
+  }
+}
+body .myprofile .card .input-group .input-group-text, body .myprofile .card .input-group .form-control, body .myprofile .card .input-group .btn {
+  margin: 10px 0;
+}
+body .myprofile .card .input-group .input-group-text {
+  width: 100px;
+}
+body .myprofile .card .input-group .btn {
+  color: green;
+  border-color: green;
+}
+body .myprofile #modal-reenter-password input {
+  margin: 25px 0;
+}
+body .myprofile #modal-reenter-password .btn {
+  width: 47%;
+}
+body .myprofile #modal-reenter-password .submit {
+  color: green;
+  margin-right: 5px;
+  border-color: green;
+}
+body .myprofile #modal-reenter-password .cancel {
+  color: red;
+  margin-left: 5px;
+  border-color: red;
+}
+body .admin-portal .card {
+  border: none;
+}
+body .admin-portal .card h1 {
+  margin-left: 10px;
+}
+body .admin-portal .card .input-group {
+  margin: 0 auto;
+  max-width: 30rem !important;
+}
+@media screen and (max-width: 44.95rem) {
+  body .admin-portal .card .input-group {
+    max-width: 12rem !important;
+  }
+}
+body .admin-portal .card .input-group .input-group-text, body .admin-portal .card .input-group .btn, body .admin-portal .card .input-group select, body .admin-portal .card .input-group input, body .admin-portal .card .input-group p {
+  margin: 10px 0 !important;
+}
+body .admin-portal .card .input-group .input-group-text, body .admin-portal .card .input-group input {
+  width: 65%;
+}
+body .admin-portal .card .input-group input {
+  flex: none;
+  border-top-right-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+  text-align: left;
+}
+body .admin-portal .card .input-group .btn, body .admin-portal .card .input-group p {
+  width: 30% !important;
+  background-color: white;
+  color: green;
+  border-color: green;
+}
+body .admin-portal .card .input-group .cust-info {
+  border-color: #002d74 !important;
+  color: #002d74;
+}
+body .admin-portal .disabled {
+  color: red;
+}
+body .admin-portal .enabled {
+  color: green;
+}
+body .admin-portal .delete {
+  margin-left: 5px;
+  color: red;
+}
+body .admin-portal #modal-edit-user .btn {
+  width: 47%;
+  margin-top: 25px;
+}
+body .admin-portal #modal-edit-user .submit {
+  color: green;
+  margin-left: 5px;
+  border-color: green;
+}
+body .admin-portal #modal-edit-user .reset_password {
+  color: red;
+  margin-right: 5px;
+  border-color: red;
+}

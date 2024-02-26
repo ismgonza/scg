@@ -1,18 +1,19 @@
 from django import forms
 from django.utils.translation import gettext as _
+from django.contrib.auth.forms import PasswordResetForm
 from .models import Cuenta, Usuario, Reporte, Tarea
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = Usuario
         exclude = ["tipo", "cuenta"]
-        labels = {
-            "correo": "Su correo:",
-            "password": "Su contraseña:"
+        placeholders = {
+            "correo": "Email",
+            "password": "Password"
         }
         widgets = {
-            'correo': forms.EmailInput(),
-            'password': forms.PasswordInput()
+            'correo': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': placeholders['correo']}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': placeholders['password']})
         }
 
 class CuentaForm(forms.ModelForm):
@@ -103,3 +104,15 @@ class TareaForm(forms.ModelForm):
         self.fields['loe'].required = False  # Indicar que el campo no es obligatorio
         # Personaliza el formulario según tus necesidades, si es necesario
         # Por ejemplo, podrías deshabilitar el campo 'cuenta_reporte' o proporcionar opciones específicas
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        label="",
+        max_length=254,
+        widget=forms.EmailInput(attrs={"autocomplete": "email", "class": "form-control", "placeholder": "Email"}),
+    )
+
+    def save(self, **kwargs):
+        # Agrega aquí tu lógica personalizada, si es necesario
+        # Por ejemplo, enviar el correo electrónico aquí
+        super().save(**kwargs)  # Esto llama al método save() original para enviar el correo electrónico de restablecimiento de contraseña

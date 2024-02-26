@@ -4,13 +4,12 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
-from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
-from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm
 from .models import Usuario, Cuenta, Reporte, Tarea
 
 def sign_in(request):
@@ -292,7 +291,7 @@ def view_perfil(request, nombre_cuenta):
 
 def view_reset_correo(request):
     if request.method == 'POST':
-        form = PasswordResetForm(request.POST)
+        form = CustomPasswordResetForm(request.POST)
         if form.is_valid():
             correo = form.cleaned_data['email']
             # Verificar si el correo existe en la base de datos
@@ -329,7 +328,7 @@ def view_reset_correo(request):
             else:
                 messages.error(request, 'El correo proporcionado no existe en nuestra base de datos.')
     else:
-        form = PasswordResetForm()
+        form = CustomPasswordResetForm()
     return render(request, 'user/reset_correo.html', {'form': form})
 
 def client_reports_view(request, nombre_cuenta):
