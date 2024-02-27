@@ -493,3 +493,39 @@ def confirmar_clave_view(request, uidb64, token):
     else:
         form = CambiarClaveForm()
     return render(request, 'user/reset_clave.html', {'form': form})
+
+def contar_tareas_por_estado():
+    counts = {}
+    for choice in Tarea.OPCIONES_STATUS:
+        counts[choice[1]] = Tarea.objects.filter(status=choice[0]).count()
+    return counts
+
+def view_admin_tasks(request, nombre_cuenta):
+    # Recupera la información del usuario de la sesión
+    user_tipo = request.session.get('user_tipo')
+    user_cuenta_nombre = request.session.get('user_cuenta_nombre')
+
+    try:
+        # Buscar la cuenta en la base de datos
+        cuenta = get_object_or_404(Cuenta, nombre=user_cuenta_nombre)
+
+        # Verificar si el usuario tiene el tipo correcto y la cuenta correcta
+        if user_tipo == 'Admin' and user_cuenta_nombre == nombre_cuenta:
+            # Tu lógica de vista aquí
+            counts = contar_tareas_por_estado()
+            tareas = Tarea.objects.all()
+
+            # Pasa los datos al contexto de la plantilla
+            context = {
+                'nombre_cuenta': nombre_cuenta,
+                'tareas': tareas,
+                'counts': counts
+            }
+
+            return render(request, 'user/admin_tasks.html', context)
+        else:
+            return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+    
+    except Cuenta.DoesNotExist:
+        messages.error(request, 'La cuenta no existe')
+        return redirect('login')

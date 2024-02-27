@@ -8,9 +8,79 @@
 {% block css_files %}
     <link rel="stylesheet" href="{% static "user/report.css"%}">
     <link rel="stylesheet" href="{% static "user/client.css" %}">
+    <link rel="stylesheet" href="{% static "user/styles.min.css" %}">
 {% endblock %}
 
 {% block content %}
+
+    <main>
+        <div class="container charts">
+            <div class="row heading-row">
+                <div class="col heading-row">
+                    <h1 class="text-center">Security Overview</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-start">Vulnerability Count by Risk Category - Report ID&nbsp;<span id="reportId" class="reportId">0000</span></h1><div class="canvas">
+    <canvas id="vuln_by_risk"></canvas>
+    </div>
+                </div>
+                <div class="col">
+                    <h1 class="text-start">Vulnerability Count by Top 10 Hosts - Report ID&nbsp;<span id="reportId" class="reportId">0000</span></h1><div class="table-responsive" id="vuln_by_target">
+    <!--     <canvas id="vuln_by_risk"></canvas> -->
+    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-start">Vulnerability Count by Top 10 Alerts (Critical, High, Medium) - Report ID&nbsp;<span id="reportId-1" class="reportId">0000</span></h1><div class="table-responsive" id="top_alerts">
+    <!--     <canvas id="vuln_by_risk"></canvas> -->
+    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-start">Security Reports</h1>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Date</th>
+                                    <th>Report ID</th>
+                                    <th>Scan Type</th>
+                                    <th>File</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reporte in reportes %}
+                                    <tr>
+                                        <td><input type="radio" checked="" name="report" value="{{ reporte.id_reporte }}"></td>
+                                        <td>{{ reporte.fecha_reporte }}</td>
+                                        <td><a href="{% url 'view_reporte' reporte.cuenta_reporte.nombre reporte.id_reporte %}">{{ reporte.id_reporte }}</a></td>
+                                        <td>{{ reporte.tipo_reporte }}</td>
+                                        <td><a href="{% url 'download_report' id_reporte=reporte.id_reporte nombre_cuenta=reporte.cuenta_reporte.nombre %}" download>Download</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav class="d-xl-flex justify-content-xl-end">
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 

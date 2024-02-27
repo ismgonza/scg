@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    TASKS / TICKETS ADMINISTRATION
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "user/styles.min.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <main>
+        <div class="container admin-portal">
+            <div class="row heading-row">
+                <div class="col heading-row">
+                    <h1 class="text-center">Tasks / Tickets Administration</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <h1 class="text-start">Tickets by Open Status</h1>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for status, count in counts.items %}
+                                    <tr>
+                                        <td>{{ status }}</td>
+                                        <td>{{ count }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="input-group"><button class="btn" type="button" data-bs-target="#log-ticket-admin" data-bs-toggle="modal">Log</button><span class="input-group-text">a new task or effort</span></div>
+                        <div class="input-group"><button class="btn filter" type="button">Filter by</button><input type="text" class="form-select input-group-text" list="customer_accounts" placeholder="customer account"><datalist id="customer_accounts">
+    <option>INS</option>
+    <option>SCG</option>
+    <option>BetDSI</option>
+    <option>Other</option>
+    </datalist></div>
+                        <div class="input-group"><button class="btn filter" type="button">Filter by</button><input type="text" class="form-select input-group-text" list="ticket_status" placeholder="ticket status"><datalist id="ticket_status">
+    <option>New</option>
+    <option>In Progress</option>
+    <option>Pending</option>
+    <option>Pending Customer</option>
+    <option>Complete</option>
+    <option>Cancelled</option>
+    </datalist></div>
+                        <div class="input-group"><button class="btn filter" type="button">Filter by</button><input type="text" class="form-select input-group-text" list="severities" placeholder="severity"><datalist id="severities">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    </datalist></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <h1 class="text-start">Tasks</h1>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Task ID</th>
+                                        <th>Severity</th>
+                                        <th>Date Created</th>
+                                        <th>Account</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th>Total LOE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for tarea in tareas %}
+                                        <tr>
+                                            <td><a href="#">{{ tarea.id_tarea }}</a></td>
+                                            <td><span style="font-weight: normal !important; font-style: normal !important;">2</span></td>
+                                            <td><span style="font-weight: normal !important; font-style: normal !important;">20/03/2024</span></td>
+                                            <td>{{ tarea.cuenta_tarea }}</td>
+                                            <td>{{ tarea.descripcion }}</td>
+                                            <td>{{ tarea.status }}</td>
+                                            <td>{{ tarea.loe }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav class="d-xl-flex justify-content-xl-end">
+                            <ul class="pagination pagination-sm">
+                                <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade modal_format" role="dialog" tabindex="-1" id="log-ticket-admin">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Log a New Task</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="d-flex flex-column" style="padding: 10px;">
+                                <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Subject</label><input type="text" id="name" required="" name="name"></div>
+                                <div></div>
+                                <div class="input-group"><label class="form-label" for="name" data-i18n="section_contact.form_name">Customer Account</label><input class="form-control form-select" type="text" list="customer_accounts"><datalist id="customer_accounts">
+    <option>INS</option>
+    <option>SCG</option>
+    <option>BetDSI</option>
+    <option>Other</option>
+    </datalist></div>
+                                <div><label class="form-label" data-i18n="section_contact.form_email" for="email">Severity:</label><select class="form-select">
+                                        <option value="12">1 - High</option>
+                                        <option value="13">2 - Medium</option>
+                                        <option value="14" selected="">3 - Low</option>
+                                    </select></div>
+                                <div><label class="form-label" data-i18n="section_contact.form_message" for="message">Please describe the request:</label><textarea class="form-control" id="message" maxlength="300" rows="6" name="message"></textarea></div><button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

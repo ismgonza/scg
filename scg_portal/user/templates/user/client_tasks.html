@@ -7,86 +7,89 @@
 
 {% block css_files %}
     <link rel="stylesheet" href="{% static "user/client_tasks.css" %}">
+    <link rel="stylesheet" href="{% static "user/styles.min.css" %}">
 {% endblock %}
 
 {% block content %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-
-    <section id="open-tasks">
-        <h2>Open Tasks</h2>
-        <table id="tabla-tasks">
-            <thead>
-                <tr>
-                    <th>Incident</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for tarea in tareas %}
-                    {% if tarea.status != 'Completed' %}
-                        <tr>
-                            <td>{{ tarea.incidente }}</td>
-                            <td>{{ tarea.descripcion }}</td>
-                            <td class="{% if tarea.status == 'In Progress' %}in-progress{% elif tarea.status == 'Pending' %}pending{% elif tarea.status == 'Not Started' %}not-started{% endif %}">
-                                {{ tarea.status }}
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}  
-            </tbody>
-        </table>
-    </section>
-
-    <section id="completed-tasks">
-        <h2>Completed Tasks</h2>
-        <table id="tabla-tasks">
-            <thead>
-                <tr>
-                    <th>Incident</th>
-                    <th>Description</th>
-                    <th>LOE</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for tarea in tareas_completadas %}
-                    <tr>
-                        <td>{{ tarea.incidente }}</td>
-                        <td>{{ tarea.descripcion }}</td>
-                        <td>{{ tarea.loe }}</td>
-                    </tr>
-                {% endfor %} 
-            </tbody>
-        </table>
-    </section>
-
-    <section id="loe">
-        <h2>LOE Overview</h2>
-        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-    </section>
-
-    <br/><br/><br/><br/>
-
-    <script>
-        var xValues = ["X", "Y", "Z"];
-        var yValues = [55, 49, 44];
-        var barColors = [
-          "#b91d47",
-          "#00aba9",
-          "#2b5797"
-        ];
-        
-        new Chart("myChart", {
-          type: "pie",
-          data: {
-            labels: xValues,
-            datasets: [{
-              backgroundColor: barColors,
-              data: yValues
-            }]
-          }
-        });
-    </script>
+    <main>
+        <div class="container charts">
+            <div class="row heading-row">
+                <div class="col heading-row">
+                    <h1 class="text-center">Service Requests</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="text-center">Welcome to our Service Request Tickets section!<br><br>Here, you'll find a list of all your service requests for easy tracking.<br><br>Click on a task ID to view its status, updates, and level of effort.<br>Have questions or need help? Contact our support team for assistance or create a ticket.<br><br>Thank you for choosing us!</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col"><a class="btn btn-primary" role="button" href="#" data-bs-target="#log-ticket-cust" data-bs-toggle="modal" style="background: #3a8dde;">Create a Ticket</a></div>
+            </div>
+            <div class="modal fade modal_format" role="dialog" tabindex="-1" id="log-ticket-cust">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Please fill all the blanks and you will be reached out soon</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="d-flex flex-column" style="padding: 10px;">
+                                <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Subject</label><input type="text" id="name-1" required="" name="name"></div>
+                                <div></div>
+                                <div><label class="form-label" data-i18n="section_contact.form_email" for="email">Severity:</label><select class="form-select">
+                                        <option value="12">1 - High</option>
+                                        <option value="13">2 - Medium</option>
+                                        <option value="14" selected="">3 - Low</option>
+                                    </select></div>
+                                <div><label class="form-label" data-i18n="section_contact.form_message" for="message">Please describe the request:</label><textarea class="form-control" id="message-1" maxlength="300" rows="6" name="message"></textarea></div><button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Task ID</th>
+                                    <th>Severity</th>
+                                    <th>Date Created</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Total LOE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tarea in tareas %}
+                                    <tr>
+                                        <td><a href="ticket.html">{{ tarea.id_tarea }}</a></td>
+                                        <td><span style="font-weight: normal !important; font-style: normal !important;">1</span></td>
+                                        <td><span style="font-weight: normal !important; font-style: normal !important;">20/03/2024</span></td>
+                                        <td>{{ tarea.descripcion }}</td>
+                                        <td>{{ tarea.status }}</td>
+                                        <td>{{ tarea.loe }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav class="d-xl-flex justify-content-xl-end">
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </main>
     
 {% endblock %}

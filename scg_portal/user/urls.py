@@ -12,7 +12,8 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', views.confirmar_clave_view, name='reset_confirm'),
     path('reset_password/completed/', auth_views.PasswordResetCompleteView.as_view(template_name='user/reset_clave_done.html'), name='reset_complete'),
 
-    path('<str:nombre_cuenta>/index/', views.index_view, name="index"),
+    path('<str:nombre_cuenta>/costumers/', views.index_view, name="index"),
+    path('<str:nombre_cuenta>/tasks/', views.view_admin_tasks, name="admin_tasks"),
     path('<str:nombre_cuenta>/', views.client_view, name="client"),
 
     path('<str:nombre_cuenta>/reports', views.client_reports_view, name="reports"),
