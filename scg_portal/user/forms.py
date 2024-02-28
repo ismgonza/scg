@@ -6,7 +6,7 @@ from .models import Cuenta, Usuario, Reporte, Tarea
 class UserForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        exclude = ["tipo", "cuenta"]
+        exclude = ["tipo", "cuenta", "nombre", "telefono"]
         placeholders = {
             "correo": "Email",
             "password": "Password"

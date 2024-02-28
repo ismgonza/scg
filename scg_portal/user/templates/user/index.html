@@ -224,10 +224,9 @@
                                     </select></div>
                                 <div></div>
                                 <div class="input-group"><label class="form-label" for="name" data-i18n="section_contact.form_name">Customer Account</label><input class="form-control form-select" type="text" list="customer_accounts" required=""><datalist id="customer_accounts">
-    <option>INS</option>
-    <option>SCG</option>
-    <option>BetDSI</option>
-    <option>Other</option>
+    {% for cuenta in cuentas %}
+        <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+    {% endfor %}
     </datalist></div>
                                 <div><label class="form-label" for="name" data-i18n="section_contact.form_name">RAW Source (json)</label><input type="file" required=""></div>
                                 <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Parsed Source (Dradis PDF)</label><input type="file" required=""></div><button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
@@ -245,10 +244,9 @@
                         <div class="modal-body">
                             <form class="d-flex flex-column" style="padding: 10px;">
                                 <div class="input-group"><label class="form-label" for="name" data-i18n="section_contact.form_name">Customer Account</label><input class="form-control form-select" type="text" list="customer_accounts" required=""><datalist id="customer_accounts">
-    <option>INS</option>
-    <option>SCG</option>
-    <option>BetDSI</option>
-    <option>Other</option>
+    {% for cuenta in cuentas %}
+        <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+    {% endfor %}
     </datalist></div>
                                 <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Name</label><input class="form-control" type="text" required=""></div>
                                 <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Last Name</label><input class="form-control" type="email" required=""></div>
@@ -290,10 +288,9 @@
                         <div class="modal-body">
                             <form class="d-flex flex-column" style="padding: 10px;">
                                 <div class="input-group"><label class="form-label" for="name" data-i18n="section_contact.form_name">Customer Account</label><input class="form-control form-select" type="text" list="customer_accounts" required=""><datalist id="customer_accounts">
-    <option>INS</option>
-    <option>SCG</option>
-    <option>BetDSI</option>
-    <option>Other</option>
+    {% for cuenta in cuentas %}
+        <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+    {% endfor %}
     </datalist></div>
                                 <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Contract #</label><input class="form-control" type="text" required="" pattern="[0-9]+"></div>
                                 <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Start Date</label><input class="form-control" required="" type="date"></div>
@@ -312,10 +309,9 @@
                         <div class="modal-body">
                             <form class="d-flex flex-column" style="padding: 10px;">
                                 <div class="input-group"><datalist id="customer_accounts">
-    <option>INS</option>
-    <option>SCG</option>
-    <option>BetDSI</option>
-    <option>Other</option>
+    {% for cuenta in cuentas %}
+        <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+    {% endfor %}
     </datalist></div>
                                 <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Contract #&nbsp;<span>123456</span></label></div>
                                 <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Status</label><select class="form-select form-control">

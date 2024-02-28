@@ -33,6 +33,9 @@ class Usuario(models.Model):
     cuenta = models.ForeignKey(
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_usuarios")
     
+    nombre = models.CharField(max_length=100, null=True)
+    telefono = models.CharField(max_length=100, null=True)
+    
     def __str__(self):
         return self.correo
     
@@ -53,7 +56,7 @@ def generate_reset_token(usuario):
 
 def generate_nessus_filename(instance, filename):
     # No es necesario incluir la extensión aquí
-    return os.path.join("nessus", f"{instance.id_reporte}_{instance.cuenta_reporte.nombre.lower()}.html")
+    return os.path.join("nessus", f"{instance.id_reporte}_{instance.cuenta_reporte.nombre.lower()}.json")
 
 def generate_dradis_filename(instance, filename):
     # No es necesario incluir la extensión aquí
@@ -130,3 +133,39 @@ class Tarea(models.Model):
 
         super().save(*args, **kwargs)
 
+class Contrato(models.Model):
+    id_contrato = models.IntegerField(unique=True, editable=False)
+    cuenta_contrato = models.ForeignKey(
+        Cuenta, on_delete=models.CASCADE, related_name="cuentas_contratos")
+    fecha_inicio = models.DateField()
+    fecha_final = models.DateField()
+
+    STATUS_ACT = 'Active'
+    STATUS_INACT = 'Inactive'
+    OPCIONES_STATUS = [
+        (STATUS_ACT, 'Active'),
+        (STATUS_INACT, 'Inactive')
+    ]
+
+    status = models.CharField(
+        max_length=100,
+        choices=OPCIONES_STATUS
+    )
+
+    def __str__(self):
+        return self.id_contrato
+    
+    def save(self, *args, **kwargs):
+        # Si el objeto aún no tiene un ID asignado
+        if not self.id_contrato:
+            # Genera un número aleatorio único
+            while True:
+                nuevo_id_contrato = random.randint(100000, 999999)  # Puedes ajustar el rango según tus necesidades
+
+                # Verifica si el número aleatorio ya existe en la base de datos
+                if not Tarea.objects.filter(id_contrato=nuevo_id_contrato).exists():
+                    break
+
+            self.id_contrato = nuevo_id_contrato
+
+        super().save(*args, **kwargs)
