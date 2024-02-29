@@ -9,10 +9,26 @@ from django.db import models
 # Create your models here.
 
 class Cuenta(models.Model):
+    id_cuenta = models.IntegerField(unique=True, editable=False)
     nombre = models.CharField(max_length=100)
 
     def __str__(self):
         return self.nombre
+    
+    def save(self, *args, **kwargs):
+        # Si el objeto aún no tiene un ID asignado
+        if not self.id_cuenta:
+            # Genera un número aleatorio único
+            while True:
+                nuevo_id_cuenta = random.randint(100000, 999999)  # Puedes ajustar el rango según tus necesidades
+
+                # Verifica si el número aleatorio ya existe en la base de datos
+                if not Cuenta.objects.filter(id_cuenta=nuevo_id_cuenta).exists():
+                    break
+
+            self.id_cuenta = nuevo_id_cuenta
+
+        super().save(*args, **kwargs)
 
 class Usuario(models.Model):
     correo = models.EmailField()
@@ -33,8 +49,8 @@ class Usuario(models.Model):
     cuenta = models.ForeignKey(
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_usuarios")
     
-    nombre = models.CharField(max_length=100, null=True)
-    telefono = models.CharField(max_length=100, null=True)
+    nombre = models.CharField(max_length=100)
+    telefono = models.CharField(max_length=100)
     
     def __str__(self):
         return self.correo
@@ -94,6 +110,8 @@ class Tarea(models.Model):
     id_tarea = models.IntegerField(unique=True, editable=False)
     cuenta_tarea = models.ForeignKey(
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_tareas")
+    severity = models.CharField(max_length=100)
+    fecha = models.DateField(auto_now=True)
     descripcion = models.CharField(max_length=100, null=True, blank=True)
     incidente = models.CharField(max_length=100)
 
@@ -153,7 +171,7 @@ class Contrato(models.Model):
     )
 
     def __str__(self):
-        return self.id_contrato
+        return self.status
     
     def save(self, *args, **kwargs):
         # Si el objeto aún no tiene un ID asignado
@@ -163,7 +181,7 @@ class Contrato(models.Model):
                 nuevo_id_contrato = random.randint(100000, 999999)  # Puedes ajustar el rango según tus necesidades
 
                 # Verifica si el número aleatorio ya existe en la base de datos
-                if not Tarea.objects.filter(id_contrato=nuevo_id_contrato).exists():
+                if not Contrato.objects.filter(id_contrato=nuevo_id_contrato).exists():
                     break
 
             self.id_contrato = nuevo_id_contrato

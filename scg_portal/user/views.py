@@ -10,7 +10,7 @@ from django.utils.encoding import force_bytes
 from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
 from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm
-from .models import Usuario, Cuenta, Reporte, Tarea
+from .models import Usuario, Cuenta, Reporte, Tarea, Contrato
 
 def sign_in(request):
     if request.method == 'GET':
@@ -131,6 +131,7 @@ def index_view(request, nombre_cuenta):
             cuentas = Cuenta.objects.all()
             reportes = Reporte.objects.all()
             tareas = Tarea.objects.all()
+            contratos = Contrato.objects.all()
 
             # Pasa los datos al contexto de la plantilla
             context = {
@@ -139,6 +140,7 @@ def index_view(request, nombre_cuenta):
                 'cuentas': cuentas,
                 'reportes': reportes,
                 'tareas': tareas,
+                'contratos': contratos,
                 'registro_exitoso': registro_exitoso,
                 'registro_editado': registro_editado,
                 'registro_eliminado': registro_eliminado

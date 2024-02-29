@@ -19,6 +19,7 @@ class UserForm(forms.ModelForm):
 class CuentaForm(forms.ModelForm):
     class Meta:
         model = Cuenta
+        exclude = ["id_cuenta"]
         fields = ['nombre']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'estilo-input'})
@@ -89,7 +90,7 @@ class CambiarClaveForm(forms.Form):
 class TareaForm(forms.ModelForm):
     class Meta:
         model = Tarea
-        fields = ['cuenta_tarea', 'descripcion', 'incidente', 'status', 'loe']
+        fields = ['cuenta_tarea','severity', 'descripcion', 'incidente', 'status', 'loe']
         widgets = {
             'cuenta_tarea': forms.Select(attrs={'class': 'estilo-input'}),
             'status': forms.Select(attrs={'class': 'estilo-input'}),

@@ -88,8 +88,8 @@
                                     {% for tarea in tareas %}
                                         <tr>
                                             <td><a href="#">{{ tarea.id_tarea }}</a></td>
-                                            <td><span style="font-weight: normal !important; font-style: normal !important;">2</span></td>
-                                            <td><span style="font-weight: normal !important; font-style: normal !important;">20/03/2024</span></td>
+                                            <td><span style="font-weight: normal !important; font-style: normal !important;">{{ tarea.severity }}</span></td>
+                                            <td><span style="font-weight: normal !important; font-style: normal !important;">{{ tarea.fecha }}</span></td>
                                             <td>{{ tarea.cuenta_tarea }}</td>
                                             <td>{{ tarea.descripcion }}</td>
                                             <td>{{ tarea.status }}</td>
