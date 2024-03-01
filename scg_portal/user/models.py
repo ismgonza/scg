@@ -110,7 +110,17 @@ class Tarea(models.Model):
     id_tarea = models.IntegerField(unique=True, editable=False)
     cuenta_tarea = models.ForeignKey(
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_tareas")
-    severity = models.CharField(max_length=100)
+    
+    SEV_1 = '1'
+    SEV_2 = '2'
+    SEV_3 = '3'
+    OPCIONES_SEV = [
+        (SEV_1, '1'),
+        (SEV_2, '2'),
+        (SEV_3, '3')
+    ]
+
+    severity = models.CharField(max_length=100, choices=OPCIONES_SEV)
     fecha = models.DateField(auto_now=True)
     descripcion = models.CharField(max_length=100, null=True, blank=True)
     incidente = models.CharField(max_length=100)

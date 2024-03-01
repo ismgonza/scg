@@ -516,12 +516,18 @@ def view_admin_tasks(request, nombre_cuenta):
             # Tu lógica de vista aquí
             counts = contar_tareas_por_estado()
             tareas = Tarea.objects.all()
+            cuentas = Cuenta.objects.all()
+            opciones_status = Tarea.OPCIONES_STATUS
+            opciones_sev = Tarea.OPCIONES_SEV
 
             # Pasa los datos al contexto de la plantilla
             context = {
                 'nombre_cuenta': nombre_cuenta,
                 'tareas': tareas,
-                'counts': counts
+                'counts': counts,
+                'opciones_status': opciones_status,
+                'opciones_sev': opciones_sev,
+                'cuentas': cuentas
             }
 
             return render(request, 'user/admin_tasks.html', context)

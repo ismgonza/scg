@@ -46,23 +46,19 @@
                     <div class="card">
                         <div class="input-group"><button class="btn" type="button" data-bs-target="#log-ticket-admin" data-bs-toggle="modal">Log</button><span class="input-group-text">a new task or effort</span></div>
                         <div class="input-group"><button class="btn filter" type="button">Filter by</button><input type="text" class="form-select input-group-text" list="customer_accounts" placeholder="customer account"><datalist id="customer_accounts">
-    <option>INS</option>
-    <option>SCG</option>
-    <option>BetDSI</option>
-    <option>Other</option>
+    {% for cuenta in cuentas %}
+        <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+    {% endfor %}
     </datalist></div>
                         <div class="input-group"><button class="btn filter" type="button">Filter by</button><input type="text" class="form-select input-group-text" list="ticket_status" placeholder="ticket status"><datalist id="ticket_status">
-    <option>New</option>
-    <option>In Progress</option>
-    <option>Pending</option>
-    <option>Pending Customer</option>
-    <option>Complete</option>
-    <option>Cancelled</option>
+    {% for opcion in opciones_status %}
+        <option value="{{ opcion.0 }}">{{ opcion.1 }}</option>
+    {% endfor %}
     </datalist></div>
                         <div class="input-group"><button class="btn filter" type="button">Filter by</button><input type="text" class="form-select input-group-text" list="severities" placeholder="severity"><datalist id="severities">
-    <option>1</option>
-    <option>2</option>
-    <option>3</option>
+    {% for opcion in opciones_sev %}
+        <option value="{{ opcion.0 }}">{{ opcion.1 }}</option>
+    {% endfor %}
     </datalist></div>
                     </div>
                 </div>

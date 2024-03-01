@@ -27,7 +27,6 @@
                         <div class="input-group"><button class="btn" type="button" data-bs-target="#modal-create-user" data-bs-toggle="modal">Add</button><span class="input-group-text">a new user</span></div>
                         <div class="input-group"><button class="btn" type="button" data-bs-target="#modal-security-report" data-bs-toggle="modal">Upload</button><span class="input-group-text">a new security report</span></div>
                         <div class="input-group"><button class="btn filter" type="button">Filter by</button><input type="text" class="form-select input-group-text" list="customer_accounts" placeholder="customer account name"><datalist id="customer_accounts">
-    <option value="">Todas las cuentas</option>
     {% for cuenta in cuentas %}
         <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
     {% endfor %}
