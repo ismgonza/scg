@@ -9,7 +9,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
-from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm
 from .models import Usuario, Cuenta, Reporte, Tarea, Contrato
 
 def sign_in(request):
@@ -146,7 +146,7 @@ def index_view(request, nombre_cuenta):
                 'registro_eliminado': registro_eliminado
             }
 
-            return render(request, 'user/index.html', context)
+            return render(request, 'user/admin_costumers.html', context)
         else:
             return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
     
@@ -223,20 +223,16 @@ def crear_reporte(request, nombre_cuenta):
     return render(request, 'crear_reporte', {'form': form, 'nombre_cuenta': nombre_cuenta})
 
 def crear_cuenta(request, nombre_cuenta):
-    if request.method == 'GET':
-        form = CuentaForm()
-        return render(request, 'user/crear_cuenta.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = CuentaForm(request.POST)
         if form.is_valid():
             form.save()
             request.session['registro_exitoso'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)
-            # Lógica adicional después de guardar el reporte
     else:
         form = CuentaForm()
 
-    return render(request, 'crear_cuenta', {'form': form, 'nombre_cuenta': nombre_cuenta})
+    return render(request, 'user/admin_costumers.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
 
 def crear_usuario(request, nombre_cuenta):
     if request.method == 'GET':
@@ -276,6 +272,19 @@ def crear_tarea(request, nombre_cuenta):
         form = TareaForm()
 
     return render(request, 'crear_tarea', {'form': form, 'nombre_cuenta': nombre_cuenta})
+
+def crear_contrato(request, nombre_cuenta):
+    if request.method == 'POST':
+        form = ContratoForm(request.POST)
+        if form.is_valid():
+            contrato = form.save(commit=False)  # Obtener el objeto Contrato sin guardarlo en la base de datos aún
+            contrato.status = 'Active'  # Asignar el estado "Active"
+            contrato.save()  # Guardar el contrato en la base de datos
+            # Resto de tu lógica después de guardar el contrato
+            return redirect('index', nombre_cuenta=nombre_cuenta)  # Redirige a alguna página después de la creación exitosa
+    else:
+        form = ContratoForm()
+    return render(request, 'user/admin_costumers.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
 
 def view_perfil(request, nombre_cuenta):
     user_cuenta_nombre = request.session.get('user_cuenta_nombre', '')

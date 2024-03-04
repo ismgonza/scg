@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext as _
 from django.contrib.auth.forms import PasswordResetForm
-from .models import Cuenta, Usuario, Reporte, Tarea
+from .models import Cuenta, Usuario, Reporte, Tarea, Contrato
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -22,7 +22,7 @@ class CuentaForm(forms.ModelForm):
         exclude = ["id_cuenta"]
         fields = ['nombre']
         widgets = {
-            'nombre': forms.TextInput(attrs={'class': 'estilo-input'})
+            'nombre': forms.TextInput(attrs={'class': 'form-control'})
         }
 
 class UsuarioForm(forms.ModelForm):
@@ -117,3 +117,15 @@ class CustomPasswordResetForm(PasswordResetForm):
         # Agrega aquí tu lógica personalizada, si es necesario
         # Por ejemplo, enviar el correo electrónico aquí
         super().save(**kwargs)  # Esto llama al método save() original para enviar el correo electrónico de restablecimiento de contraseña
+
+class ContratoForm(forms.ModelForm):
+    class Meta:
+        model = Contrato
+        exclude = ["status"]
+        fields = ['cuenta_contrato', 'id_contrato', 'fecha_inicio', 'fecha_final']
+        widgets = {
+            'cuenta_contrato': forms.TextInput(attrs={'class': 'form-control'}),
+            'id_contrato': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha_inicio': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'fecha_final': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }

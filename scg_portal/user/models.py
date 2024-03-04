@@ -162,7 +162,7 @@ class Tarea(models.Model):
         super().save(*args, **kwargs)
 
 class Contrato(models.Model):
-    id_contrato = models.IntegerField(unique=True, editable=False)
+    id_contrato = models.CharField(max_length=100)
     cuenta_contrato = models.ForeignKey(
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_contratos")
     fecha_inicio = models.DateField()
@@ -182,18 +182,3 @@ class Contrato(models.Model):
 
     def __str__(self):
         return self.status
-    
-    def save(self, *args, **kwargs):
-        # Si el objeto aún no tiene un ID asignado
-        if not self.id_contrato:
-            # Genera un número aleatorio único
-            while True:
-                nuevo_id_contrato = random.randint(100000, 999999)  # Puedes ajustar el rango según tus necesidades
-
-                # Verifica si el número aleatorio ya existe en la base de datos
-                if not Contrato.objects.filter(id_contrato=nuevo_id_contrato).exists():
-                    break
-
-            self.id_contrato = nuevo_id_contrato
-
-        super().save(*args, **kwargs)

@@ -33,6 +33,7 @@ urlpatterns = [
     path('<str:nombre_cuenta>/index/crear_tarea/', views.crear_tarea, name="crear_tarea"),
     path('<str:nombre_cuenta>/index/editar_tarea/<int:id_tarea>/', views.editar_tarea, name='editar_tarea'),
     path('<str:nombre_cuenta>/index/eliminar_tarea/<int:id_tarea>/', views.eliminar_tarea, name='eliminar_tarea'),
+    path('<str:nombre_cuenta>/index/crear_contrato/', views.crear_contrato, name="crear_contrato"),
     
     path('<str:nombre_cuenta>/Perfil', views.view_perfil, name="perfil")
 ]
