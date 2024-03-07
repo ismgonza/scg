@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col">
                     <div class="card">
-                        <form id="crear_cuenta_form" method="post" action="{% url 'crear_cuenta' nombre_cuenta %}">
+                        <form method="post" action="{% url 'crear_cuenta' nombre_cuenta %}">
                             {% csrf_token %}
                             <div class="input-group">
                                 <button class="btn" type="submit">Create</button>
@@ -273,7 +273,7 @@
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <label class="form-label" for="customer_account">Customer Account</label>
-                                    <input name="cuenta_contrato" class="form-control form-select" type="text" list="customer_accounts" id="customer_account" required>
+                                    <input name="cuenta_contrato" class="form-control form-select" type="text" list="customer_accounts" id="customer_account">
                                     <datalist id="customer_accounts">
                                         {% for cuenta in cuentas %}
                                             <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
@@ -282,15 +282,15 @@
                                 </div>
                                 <div>
                                     <label class="form-label" for="contract_number">Contract #</label>
-                                    <input name="id_contrato" class="form-control" type="text" id="contract_number" required pattern="[0-9]+">
+                                    <input name="id_contrato" class="form-control" type="text" id="contract_number">
                                 </div>
                                 <div>
                                     <label class="form-label" for="start_date">Start Date</label>
-                                    <input name="fecha_inicio" class="form-control" type="date" id="start_date" required>
+                                    <input name="fecha_inicio" class="form-control" type="date" id="start_date">
                                 </div>
                                 <div>
                                     <label class="form-label" for="end_date">End Date</label>
-                                    <input name="fecha_final" class="form-control" type="date" id="end_date" required>
+                                    <input name="fecha_final" class="form-control" type="date" id="end_date">
                                 </div>
                                 <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
                             </form>

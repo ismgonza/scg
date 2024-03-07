@@ -124,8 +124,8 @@ class ContratoForm(forms.ModelForm):
         exclude = ["status"]
         fields = ['cuenta_contrato', 'id_contrato', 'fecha_inicio', 'fecha_final']
         widgets = {
-            'cuenta_contrato': forms.TextInput(attrs={'class': 'form-control'}),
-            'id_contrato': forms.TextInput(attrs={'class': 'form-control'}),
+            'cuenta_contrato': forms.Select(attrs={'class': 'form-control'}),
+            'id_contrato': forms.NumberInput(attrs={'class': 'form-control'}),
             'fecha_inicio': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'fecha_final': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }

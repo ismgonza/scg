@@ -284,7 +284,7 @@ def crear_contrato(request, nombre_cuenta):
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Redirige a alguna página después de la creación exitosa
     else:
         form = ContratoForm()
-    return render(request, 'user/admin_costumers.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
+    return render(request, 'user/admin_costumers.html', {'form_contrato': form, 'nombre_cuenta': nombre_cuenta})
 
 def view_perfil(request, nombre_cuenta):
     user_cuenta_nombre = request.session.get('user_cuenta_nombre', '')

@@ -162,7 +162,7 @@ class Tarea(models.Model):
         super().save(*args, **kwargs)
 
 class Contrato(models.Model):
-    id_contrato = models.CharField(max_length=100)
+    id_contrato = models.IntegerField()
     cuenta_contrato = models.ForeignKey(
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_contratos")
     fecha_inicio = models.DateField()
