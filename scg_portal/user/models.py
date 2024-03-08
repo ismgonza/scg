@@ -2,7 +2,7 @@ import random
 import os
 import hashlib
 import time
-from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth.hashers import make_password
 
 from django.db import models
 
@@ -51,6 +51,18 @@ class Usuario(models.Model):
     
     nombre = models.CharField(max_length=100)
     telefono = models.CharField(max_length=100)
+
+    STATUS_EN = 'Enabled'
+    STATUS_DIS = 'Disabled'
+    OPCIONES_STATUS = [
+        (STATUS_EN, 'Enabled'),
+        (STATUS_DIS, 'Disabled')
+    ]
+
+    status = models.CharField(
+        max_length=100,
+        choices=OPCIONES_STATUS
+    )
     
     def __str__(self):
         return self.correo

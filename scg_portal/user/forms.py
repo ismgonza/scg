@@ -28,12 +28,14 @@ class CuentaForm(forms.ModelForm):
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = ['correo', 'password', 'tipo', 'cuenta']
+        exclude = ["password", "status"]
+        fields = ['correo', 'tipo', 'cuenta', 'nombre', 'telefono']
         widgets = {
-            'correo': forms.EmailInput(attrs={'class': 'estilo-input'}),
-            'password': forms.PasswordInput(attrs={'class': 'estilo-input'}),
-            'tipo': forms.Select(attrs={'class': 'estilo-input'}),
-            'cuenta': forms.Select(attrs={'class': 'estilo-input'})
+            'correo': forms.EmailInput(attrs={'class': 'form-control'}),
+            'tipo': forms.Select(attrs={'class': 'form-control'}),
+            'cuenta': forms.Select(attrs={'class': 'form-control'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control'})
         }
 
 class UsuarioFormEdit(forms.ModelForm):

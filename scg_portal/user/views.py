@@ -1,3 +1,4 @@
+import random
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
@@ -132,6 +133,7 @@ def index_view(request, nombre_cuenta):
             reportes = Reporte.objects.all()
             tareas = Tarea.objects.all()
             contratos = Contrato.objects.all()
+            tipos = Usuario.OPCIONES_TIPO
 
             # Pasa los datos al contexto de la plantilla
             context = {
@@ -141,6 +143,7 @@ def index_view(request, nombre_cuenta):
                 'reportes': reportes,
                 'tareas': tareas,
                 'contratos': contratos,
+                'tipos': tipos,
                 'registro_exitoso': registro_exitoso,
                 'registro_editado': registro_editado,
                 'registro_eliminado': registro_eliminado
@@ -235,27 +238,30 @@ def crear_cuenta(request, nombre_cuenta):
     return render(request, 'user/admin_costumers.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
 
 def crear_usuario(request, nombre_cuenta):
-    if request.method == 'GET':
-        form = UsuarioForm()
-        return render(request, 'user/crear_usuario.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = UsuarioForm(request.POST)
         if form.is_valid():
-            # Obtener el objeto de usuario del formulario sin guardarlo todavía
-            usuario = form.save(commit=False)
+            # Generar una contraseña aleatoria usando parte del nombre y un número
+            nombre = form.cleaned_data['nombre']
+            parte_nombre = ''.join(random.choices(nombre.lower(), k=3))  # Usar los primeros 3 caracteres del nombre
+            numero = random.randint(100, 999)  # Generar un número aleatorio de tres dígitos
+            password = f"{parte_nombre}{numero}"
+            hashed_password = make_password(password)
             
-            # Cifrar la contraseña antes de guardar el usuario
-            usuario.password = make_password(form.cleaned_data['password'])
+            # Guardar el usuario en la base de datos con la contraseña generada
+            usuario = form.save(commit=False)
+            usuario.password = hashed_password
 
-            # Guardar el usuario con la contraseña cifrada
+            # Asignar el estado del usuario como "Enabled"
+            usuario.status = 'Enabled'
+
             usuario.save()
-            request.session['registro_exitoso'] = True
+
+            # Aquí puedes agregar cualquier lógica adicional, como redireccionar a otra página
             return redirect('index', nombre_cuenta=nombre_cuenta)
-            # Lógica adicional después de guardar el reporte
     else:
         form = UsuarioForm()
-
-    return render(request, 'crear_usuario', {'form': form, 'nombre_cuenta': nombre_cuenta})
+    return render(request, 'user/admin_costumers.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
 
 def crear_tarea(request, nombre_cuenta):
     if request.method == 'GET':
