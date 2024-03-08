@@ -6,7 +6,7 @@ from .models import Cuenta, Usuario, Reporte, Tarea, Contrato
 class UserForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        exclude = ["tipo", "cuenta", "nombre", "telefono"]
+        exclude = ["tipo", "cuenta", "nombre", "telefono", "status"]
         placeholders = {
             "correo": "Email",
             "password": "Password"
@@ -52,13 +52,13 @@ class UsuarioFormEdit(forms.ModelForm):
 class ReporteForm(forms.ModelForm):
     class Meta:
         model = Reporte
-        fields = ['tipo_reporte', 'target', 'cuenta_reporte', 'source', 'file_report']
+        exclude = ['target']
+        fields = ['tipo_reporte', 'cuenta_reporte', 'source', 'file_report']
         widgets = {
-            'tipo_reporte': forms.TextInput(attrs={'class': 'estilo-input'}),
-            'target': forms.TextInput(attrs={'class': 'estilo-input'}),
-            'cuenta_reporte': forms.Select(attrs={'class': 'estilo-input'}),
-            'source': forms.FileInput(attrs={'class': 'estilo-input'}),  # Aplicar estilo a source
-            'file_report': forms.FileInput(attrs={'class': 'estilo-input'})  # Aplicar estilo a file_report
+            'tipo_reporte': forms.TextInput(attrs={'class': 'form-control'}),
+            'cuenta_reporte': forms.Select(attrs={'class': 'form-control'}),
+            'source': forms.FileInput(attrs={'class': 'form-control'}),  # Aplicar estilo a source
+            'file_report': forms.FileInput(attrs={'class': 'form-control'})  # Aplicar estilo a file_report
         }
 
     def __init__(self, *args, **kwargs):

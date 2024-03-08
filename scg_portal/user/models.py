@@ -94,7 +94,7 @@ class Reporte(models.Model):
     id_reporte = models.IntegerField(unique=True, editable=False)
     fecha_reporte = models.DateField(auto_now=True)
     tipo_reporte = models.CharField(max_length=100)
-    target = models.CharField(max_length=100)
+    target = models.CharField(max_length=100, null=True)
     cuenta_reporte = models.ForeignKey(
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_reportes")
     source = models.FileField(upload_to=generate_nessus_filename, null=True, blank=True)

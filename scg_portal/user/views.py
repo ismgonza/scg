@@ -2,7 +2,7 @@ import random
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
@@ -210,20 +210,14 @@ def download_report(request, id_reporte, nombre_cuenta):
         return HttpResponse("Error al leer el informe.")
     
 def crear_reporte(request, nombre_cuenta):
-    if request.method == 'GET':
-        form = ReporteForm()
-        return render(request, 'user/crear_reporte.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = ReporteForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            request.session['registro_exitoso'] = True
-            return redirect('index', nombre_cuenta=nombre_cuenta)
-            # Lógica adicional después de guardar el reporte
+            return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'index' por el nombre de la vista a la que quieras redirigir después de guardar el reporte
     else:
         form = ReporteForm()
-
-    return render(request, 'crear_reporte', {'form': form, 'nombre_cuenta': nombre_cuenta})
+    return render(request, 'user/admin_costumers.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
 
 def crear_cuenta(request, nombre_cuenta):
     if request.method == 'POST':
@@ -261,7 +255,7 @@ def crear_usuario(request, nombre_cuenta):
             return redirect('index', nombre_cuenta=nombre_cuenta)
     else:
         form = UsuarioForm()
-    return render(request, 'user/admin_costumers.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
+    return render(request, 'user/admin_costumers.html', {'form_usuario': form, 'nombre_cuenta': nombre_cuenta})
 
 def crear_tarea(request, nombre_cuenta):
     if request.method == 'GET':
@@ -290,7 +284,7 @@ def crear_contrato(request, nombre_cuenta):
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Redirige a alguna página después de la creación exitosa
     else:
         form = ContratoForm()
-    return render(request, 'user/admin_costumers.html', {'form_contrato': form, 'nombre_cuenta': nombre_cuenta})
+    return render(request, 'user/admin_costumers.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
 
 def view_perfil(request, nombre_cuenta):
     user_cuenta_nombre = request.session.get('user_cuenta_nombre', '')
@@ -552,3 +546,16 @@ def view_admin_tasks(request, nombre_cuenta):
     except Cuenta.DoesNotExist:
         messages.error(request, 'La cuenta no existe')
         return redirect('login')
+    
+def get_account_data(request, nombre_cuenta):
+    if request.method == 'GET':
+        account_name = request.GET.get('account_name')  # Obtener el nombre de la cuenta del parámetro GET
+        account = Cuenta.objects.get(nombre=account_name)  # Obtener la cuenta según el nombre
+        # Suponiendo que tienes los campos account_id, account_name, contract y status en tu modelo Account
+        data = {
+            'id_cuenta': account.id_cuenta,
+            'nombre': account.nombre,
+        }
+        return JsonResponse(data)  # Devolver los datos como una respuesta JSON
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
