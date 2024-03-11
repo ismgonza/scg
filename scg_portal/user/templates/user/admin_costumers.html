@@ -243,12 +243,11 @@
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <label class="form-label" for="customer_account" data-i18n="section_contact.form_name">Customer Account</label>
-                                    <input class="form-control form-select" type="text" list="customer_accounts" name="cuenta" required>
-                                    <datalist id="customer_accounts">
+                                    <select class="form-control" name="nombre" required>
                                         {% for cuenta in cuentas %}
                                             <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
                                         {% endfor %}
-                                    </datalist>
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="form-label" for="name" data-i18n="section_contact.form_name">Name</label>
@@ -260,7 +259,7 @@
                                 </div>
                                 <div>
                                     <label class="form-label" for="phone" data-i18n="section_contact.form_phone">Phone</label>
-                                    <input class="form-control" type="tel" name="telefono" required>
+                                    <input class="form-control" type="text" name="telefono" required>
                                 </div>
                                 <div>
                                     <label class="form-label" for="tipo" data-i18n="section_contact.form_user_type">User Type</label>

@@ -217,7 +217,8 @@ def crear_reporte(request, nombre_cuenta):
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'index' por el nombre de la vista a la que quieras redirigir después de guardar el reporte
     else:
         form = ReporteForm()
-    return render(request, 'user/admin_costumers.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
+
+    return redirect('index', nombre_cuenta=nombre_cuenta)
 
 def crear_cuenta(request, nombre_cuenta):
     if request.method == 'POST':
@@ -229,7 +230,7 @@ def crear_cuenta(request, nombre_cuenta):
     else:
         form = CuentaForm()
 
-    return render(request, 'user/admin_costumers.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
+    return redirect('index', nombre_cuenta=nombre_cuenta)
 
 def crear_usuario(request, nombre_cuenta):
     if request.method == 'POST':
@@ -255,7 +256,7 @@ def crear_usuario(request, nombre_cuenta):
             return redirect('index', nombre_cuenta=nombre_cuenta)
     else:
         form = UsuarioForm()
-    return render(request, 'user/admin_costumers.html', {'form_usuario': form, 'nombre_cuenta': nombre_cuenta})
+    return redirect('index', nombre_cuenta=nombre_cuenta)
 
 def crear_tarea(request, nombre_cuenta):
     if request.method == 'GET':
@@ -271,7 +272,7 @@ def crear_tarea(request, nombre_cuenta):
     else:
         form = TareaForm()
 
-    return render(request, 'crear_tarea', {'form': form, 'nombre_cuenta': nombre_cuenta})
+    return redirect('index', nombre_cuenta=nombre_cuenta)
 
 def crear_contrato(request, nombre_cuenta):
     if request.method == 'POST':
@@ -284,7 +285,8 @@ def crear_contrato(request, nombre_cuenta):
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Redirige a alguna página después de la creación exitosa
     else:
         form = ContratoForm()
-    return render(request, 'user/admin_costumers.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
+
+    return redirect('index', nombre_cuenta=nombre_cuenta)
 
 def view_perfil(request, nombre_cuenta):
     user_cuenta_nombre = request.session.get('user_cuenta_nombre', '')
