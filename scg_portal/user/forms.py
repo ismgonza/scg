@@ -33,7 +33,7 @@ class UsuarioForm(forms.ModelForm):
         widgets = {
             'correo': forms.EmailInput(attrs={'class': 'form-control'}),
             'tipo': forms.Select(attrs={'class': 'form-control'}),
-            'cuenta': forms.Select(attrs={'class': 'form-control'}),
+            'cuenta': forms.Select(attrs={'class': 'form-control form-select'}),
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'})
         }
