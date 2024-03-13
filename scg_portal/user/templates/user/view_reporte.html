@@ -4,19 +4,33 @@
     REPORTE - {{ reporte.id_reporte }}
 {% endblock %}
 
-{% block reporte_button %}
-  <a href="{% url 'download_report' id_reporte=reporte.id_reporte nombre_cuenta=reporte.cuenta_reporte.nombre %}" download>
-    Descargar Informe
-  </a>
-{% endblock %}
-
-{% block volver_button %}
-  <p><a href="{% url "client" reporte.cuenta_reporte.nombre %}">VOLVER</a></p>  
-{% endblock %}
-
 {% block content %}
-  <div>
-    {{ html_content | safe }}
-  </div>
+
+  <main>
+    <div class="container charts">
+        <div class="row heading-row">
+            <div class="col heading-row">
+                <h1>Security Report:&nbsp;<span>{{ reporte.id_reporte }}</span></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col report-alerts-intro">
+                <p class="text-center">As leaders of our company, we face a critical issue highlighted in this second Vulnerability Assessment report: unresolved vulnerabilities from prior assessments still pose risks to our systems.<br><br>Vulnerability Assessment is our proactive approach to identifying and prioritizing these weaknesses, a vital step in our cybersecurity strategy. This report underscores its significance, stressing the need for prompt action.<br><br>Vulnerabilities left unaddressed can lead to potential cyberattacks with severe consequences. As stewards of our digital assets, we must act swiftly to rectify these issues.<br><br>Join us in this critical examination of Vulnerability Assessment to ensure our continued digital security. In an ever-evolving cyber landscape, our ability to respond decisively is paramount.</p>
+                <h1 class="text-start" style="font-size: 20px;"><strong>Scope</strong></h1>
+                <p>The hosts covered by this assessment<br><span id="target_hosts" style="margin: 30px;">Text</span></p>
+            </div>
+        </div>
+        <div class="row heading-row">
+            <div class="col heading-row report-alerts-by-category">
+                <div class="accordion" role="tablist" id="accordion-1"></div>
+            </div>
+        </div>
+        <div class="row heading-row">
+            <div class="col heading-row report-alerts-by-host">
+                <div class="accordion" role="tablist" id="accordion-2"></div>
+            </div>
+        </div>
+    </div>
+  </main>
 
 {% endblock %}

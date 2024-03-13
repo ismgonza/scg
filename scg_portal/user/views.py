@@ -37,6 +37,8 @@ def sign_in(request):
                         request.session['user_correo'] = usuario.correo
                         request.session['user_tipo'] = usuario.tipo
                         request.session['user_cuenta_nombre'] = usuario.cuenta.nombre
+                        request.session['user_tel'] = usuario.telefono
+                        request.session['user_nombre'] = usuario.nombre
                         cuenta_nombre = usuario.cuenta.nombre
 
                         return HttpResponseRedirect(reverse("index", kwargs={'nombre_cuenta': cuenta_nombre}))
@@ -45,6 +47,8 @@ def sign_in(request):
                         request.session['user_correo'] = usuario.correo
                         request.session['user_tipo'] = usuario.tipo
                         request.session['user_cuenta_nombre'] = usuario.cuenta.nombre
+                        request.session['user_tel'] = usuario.telefono
+                        request.session['user_nombre'] = usuario.nombre
                         cuenta_nombre = usuario.cuenta.nombre
 
                         return HttpResponseRedirect(reverse("client", kwargs={'nombre_cuenta': cuenta_nombre}))
@@ -69,6 +73,8 @@ def sign_out(request):
     del request.session['user_correo']
     del request.session['user_tipo']
     del request.session['user_cuenta_nombre']
+    del request.session['user_tel']
+    del request.session['user_nombre']
 
     # Redirige a la página de inicio de sesión u otra página deseada
     return redirect('login')
@@ -292,6 +298,8 @@ def view_perfil(request, nombre_cuenta):
     user_cuenta_nombre = request.session.get('user_cuenta_nombre', '')
     user_correo = request.session.get('user_correo', '')
     user_tipo = request.session.get('user_tipo', '')
+    user_tel = request.session.get('user_tel', '')
+    user_nombre = request.session.get('user_nombre', '')
 
     # Puedes agregar más datos según sea necesario
 
@@ -300,6 +308,8 @@ def view_perfil(request, nombre_cuenta):
         'user_cuenta_nombre': user_cuenta_nombre,
         'user_correo': user_correo,
         'user_tipo': user_tipo,
+        'user_tel': user_tel,
+        'user_nombre': user_nombre
     })
 
 def view_reset_correo(request):

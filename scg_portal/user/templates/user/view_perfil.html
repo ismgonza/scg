@@ -24,7 +24,7 @@
         </section>
     </div-->
 
-    <main>
+    <!--main>
         <div class="container myprofile">
             <div class="row heading-row">
                 <div class="col heading-row">
@@ -68,6 +68,48 @@
                                     <form style="padding: 10px;">
                                         <div><input class="form-control" type="password" id="message" maxlength="300" rows="6" name="message" placeholder="Please re-enter your new password"></div><button class="btn submit" type="submit" data-i18n="section_contact.form_button">Submit</button><a class="btn cancel" role="button" data-i18n="section_contact.form_button" data-bs-dismiss="modal">Cancel</a>
                                     </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main-->
+
+    <main>
+        <div class="container" id="myprofile">
+            <div class="row heading-row">
+                <div class="col heading-row">
+                    <h1>My Profile</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="input-group"><span class="input-group-text">Account</span><!-- Start: DJANGO - load from database --><input type="text" class="form-control_mod form-control" readonly="" value="{{ user_cuenta_nombre }}" disabled=""><!-- End: DJANGO - load from database -->
+                        </div><!-- Start: DJANGO - load and save to database -->
+                        <form>
+                            <div class="input-group"><span class="input-group-text"><span style="font-weight: normal !important; font-style: normal !important;">Name</span></span><!-- Start: DJANGO - save and load from database --><input class="form-control" type="text" value="{{ user_nombre }}"><!-- End: DJANGO - save and load from database --><button class="btn" type="submit">Update</button></div>
+                        </form><!-- End: DJANGO - load and save to database -->
+                        <!-- Start: DJANGO - load and save to database -->
+                        <form>
+                            <div class="input-group"><span class="input-group-text"><span style="font-weight: normal !important; font-style: normal !important;">Email</span></span><!-- Start: DJANGO - save and load from database --><input class="form-control" type="email" value="{{ user_correo }}"><!-- End: DJANGO - save and load from database --><button class="btn" type="submit">Update</button></div>
+                        </form><!-- End: DJANGO - load and save to database -->
+                        <!-- Start: DJANGO - load and save to database -->
+                        <form>
+                            <div class="input-group"><span class="input-group-text"><span style="font-weight: normal !important; font-style: normal !important;">Phone</span></span><!-- Start: DJANGO - save and load from database --><input class="form-control" type="tel" value="{{ user_tel }}"><!-- End: DJANGO - save and load from database --><button class="btn" type="submit">Update</button></div>
+                        </form><!-- End: DJANGO - load and save to database -->
+                        <div class="input-group"><button class="btn update_pass" type="button" data-bs-target="#modal-enter-password" data-bs-toggle="modal">Update Password</button></div>
+                    </div>
+                    <div class="modal fade" role="dialog" tabindex="-1" id="modal-enter-password">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <!-- Start: DJANGO - save to database -->
+                                    <form style="padding: 10px;">
+                                        <div><input class="form-control" type="password" id="message" maxlength="30" rows="6" name="password" placeholder="Please enter your new password" minlength="12"></div><button class="btn submit" type="submit" data-i18n="section_contact.form_button">Submit</button><a class="btn cancel" role="button" data-i18n="section_contact.form_button" data-bs-dismiss="modal">Cancel</a>
+                                    </form><!-- End: DJANGO - save to database -->
                                 </div>
                             </div>
                         </div>
