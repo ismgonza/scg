@@ -571,3 +571,7 @@ def get_account_data(request, nombre_cuenta):
         return JsonResponse(data)  # Devolver los datos como una respuesta JSON
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
+    
+def view_tarea(request, nombre_cuenta, id_tarea):
+    tarea = get_object_or_404(Tarea, id_tarea=id_tarea, cuenta_tarea__nombre=nombre_cuenta)
+    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea})

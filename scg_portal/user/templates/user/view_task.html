@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %} 
+    TAREA - {{ tarea.id_tarea }}
+{% endblock %}
+
+{% block content %}
+
+    <main>
+        <div class="container">
+            <div class="row heading-row">
+                <div class="col heading-row">
+                    <h1>Ticket:&nbsp;<span>{{ tarea.id_tarea }}</span></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Summary</p><!-- Start: DJANGO - load from database --><span class="input-group-text">This is the summary of the ticket</span><!-- End: DJANGO - load from database -->
+                        </div>
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Created By</p><!-- Start: DJANGO - load from database --><span class="input-group-text">Name</span><!-- End: DJANGO - load from database -->
+                        </div>
+                        <form>
+                            <div class="input-group">
+                                <!-- Start: DJANGO - save to database --><button class="btn filter" type="submit">Status</button><!-- End: DJANGO - save to database -->
+                                <!-- Start: DJANGO - load from database --><select class="form-select">
+                                    <option value="pending" selected="">Pending</option>
+                                    <option value="in progress">In Progress</option>
+                                </select><!-- End: DJANGO - load from database -->
+                            </div>
+                        </form>
+                        <form>
+                            <div class="input-group">
+                                <!-- Start: DJANGO - save to database --><button class="btn filter" type="submit">Assignee</button><!-- End: DJANGO - save to database -->
+                                <!-- Start: DJANGO - load from database --><select class="form-select form-select">
+                                    <option value="Juan Diego" selected="">Juan Diego</option>
+                                    <option value="Ismael">Ismael</option>
+                                </select><!-- End: DJANGO - load from database -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Total LOE</p><!-- Start: DJANGO - calculate total loe --><span class="input-group-text">50 hrs</span><!-- End: DJANGO - calculate total loe -->
+                        </div>
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Created on</p><!-- Start: DJANGO - task created date --><span class="input-group-text">22/02/2024</span><!-- End: DJANGO - task created date -->
+                        </div>
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Closed on</p><!-- Start: DJANGO - task closed date --><span class="input-group-text">-</span><!-- End: DJANGO - task closed date -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="comments_div">
+                        <p class="d-xl-flex justify-content-xl-start" style="font-weight: bold;">Description:</p>
+                        <div class="card comment-bordered">
+                            <!-- Start: DJANGO - Task description -->
+                            <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Ultrices tincidunt arcu non sodales neque sodales ut etiam. Magna fringilla urna porttitor rhoncus dolor purus non enim.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Justo eget magna fermentum iaculis eu non diam phasellus. In ante metus dictum at tempor.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Egestas purus viverra accumsan in. Leo duis ut diam quam nulla porttitor. Amet aliquam id diam maecenas ultricies mi. In cursus turpis massa tincidunt dui ut.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Sit amet facilisis magna etiam tempor orci eu. Congue nisi vitae suscipit tellus.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Amet facilisis magna etiam tempor orci eu lobortis. Vivamus arcu felis bibendum ut tristique et egestas quis.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Ac turpis egestas sed tempus. Gravida cum sociis natoque penatibus. Scelerisque eleifend donec pretium vulputate sapien nec sagittis.</span></p><!-- End: DJANGO - Task description -->
+                        </div>
+                    </div>
+                    <div class="card">
+                        <!-- Start: DJANGO - Add new comment and LOE -->
+                        <form class="comment"><textarea class="form-control" spellcheck="true" cols="57" rows="7" placeholder="Enter your comment here"></textarea>
+                            <div>
+                                <!-- Start: DJANGO - save to database --><input class="form-control" type="number" placeholder="Add LOE hrs"><!-- End: DJANGO - save to database -->
+                                <!-- Start: DJANGO - save to database --><button class="btn submit" type="submit">Submit</button><!-- End: DJANGO - save to database -->
+                            </div>
+                        </form><!-- End: DJANGO - Add new comment and LOE -->
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="comments_div">
+                        <p class="d-xl-flex justify-content-xl-start">Commented by:&nbsp;<span style="font-weight: bold;">Name</span></p>
+                        <div class="comment_info">
+                            <p>LOE:&nbsp;<span style="font-weight: bold;">1.5</span><strong><span style="font-style: normal !important;">&nbsp;hrs</span></strong></p>
+                            <p>On date:&nbsp;<span style="font-weight: bold;">10/03/2024 at 11:00</span></p>
+                        </div>
+                        <div class="card comment-bordered">
+                            <!-- Start: DJANGO - comment text -->
+                            <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Ultrices tincidunt arcu non sodales neque sodales ut etiam. Magna fringilla urna porttitor rhoncus dolor purus non enim.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Justo eget magna fermentum iaculis eu non diam phasellus. In ante metus dictum at tempor.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Egestas purus viverra accumsan in. Leo duis ut diam quam nulla porttitor. Amet aliquam id diam maecenas ultricies mi. In cursus turpis massa tincidunt dui ut.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Sit amet facilisis magna etiam tempor orci eu. Congue nisi vitae suscipit tellus.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Amet facilisis magna etiam tempor orci eu lobortis. Vivamus arcu felis bibendum ut tristique et egestas quis.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Ac turpis egestas sed tempus. Gravida cum sociis natoque penatibus. Scelerisque eleifend donec pretium vulputate sapien nec sagittis.</span></p><!-- End: DJANGO - comment text -->
+                        </div>
+                    </div>
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

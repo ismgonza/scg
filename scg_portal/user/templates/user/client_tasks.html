@@ -5,11 +5,6 @@
     Dasboard - {{ nombre_cuenta }}
 {% endblock %}
 
-{% block css_files %}
-    <link rel="stylesheet" href="{% static "user/client_tasks.css" %}">
-    <link rel="stylesheet" href="{% static "user/styles.min.css" %}">
-{% endblock %}
-
 {% block content %}
 
     <main>
@@ -65,7 +60,7 @@
                             <tbody>
                                 {% for tarea in tareas %}
                                     <tr>
-                                        <td><a href="ticket.html">{{ tarea.id_tarea }}</a></td>
+                                        <td><a href="{% url 'view_task' nombre_cuenta=tarea.cuenta_tarea.nombre id_tarea=tarea.id_tarea %}">{{ tarea.id_tarea }}</a></td>
                                         <td><span style="font-weight: normal !important; font-style: normal !important;">1</span></td>
                                         <td><span style="font-weight: normal !important; font-style: normal !important;">20/03/2024</span></td>
                                         <td>{{ tarea.descripcion }}</td>
