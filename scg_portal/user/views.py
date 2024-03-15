@@ -572,6 +572,10 @@ def get_account_data(request, nombre_cuenta):
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
-def view_tarea(request, nombre_cuenta, id_tarea):
+def view_detalle_tarea(request, nombre_cuenta, id_tarea):
     tarea = get_object_or_404(Tarea, id_tarea=id_tarea, cuenta_tarea__nombre=nombre_cuenta)
+    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea})
+
+def view_detalle_tarea_admin(request, nombre_cuenta, id_tarea):
+    tarea = get_object_or_404(Tarea, id_tarea=id_tarea)
     return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea})

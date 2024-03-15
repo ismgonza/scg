@@ -14,11 +14,13 @@ urlpatterns = [
 
     path('<str:nombre_cuenta>/costumers/', views.index_view, name="index"),
     path('<str:nombre_cuenta>/tasks/', views.view_admin_tasks, name="admin_tasks"),
+    
+    path('<str:nombre_cuenta>/tasks/<int:id_tarea>/', views.view_detalle_tarea_admin, name="view_task_admin"),
     path('<str:nombre_cuenta>/', views.client_view, name="client"),
 
     path('<str:nombre_cuenta>/reports/', views.client_reports_view, name="reports"),
     path('<str:nombre_cuenta>/tickets/', views.client_tasks_view, name="tasks"),
-    path('<str:nombre_cuenta>/tasks/<int:id_tarea>/', views.view_tarea, name="view_task"),
+    path('<str:nombre_cuenta>/ticket/<int:id_tarea>/', views.view_detalle_tarea, name="view_task"),
     path('<str:nombre_cuenta>/report/<int:id_reporte>/', views.view_reporte, name='view_reporte'),
     path('<str:nombre_cuenta>/report/<int:id_reporte>/download_report/', views.download_report, name='download_report'),
 

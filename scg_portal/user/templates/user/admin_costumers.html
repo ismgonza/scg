@@ -47,12 +47,6 @@
                         <div class="input-group">
                             <p class="input-group-text cust-info">Account Name</p><span class="input-group-text" id="accountName"></span>
                         </div>
-                        <div class="input-group">
-                            <p class="input-group-text cust-info">Contract</p><span class="input-group-text" id="contract"></span>
-                        </div>
-                        <div class="input-group">
-                            <p class="input-group-text cust-info">Status</p><span class="input-group-text" id="status"></span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -373,10 +367,8 @@
                     data: {'account_name': selectedAccount},
                     success: function(response) {
                         // Actualizar los campos con los datos recibidos del servidor
-                        $('#accountID').text(response.account_id);
-                        $('#accountName').text(response.account_name);
-                        $('#contract').text(response.contract);
-                        $('#status').text(response.status);
+                        $('#accountID').text(response.id_cuenta);
+                        $('#accountName').text(response.nombre);
                     },
                     error: function(xhr, errmsg, err) {
                         console.log(errmsg);
