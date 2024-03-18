@@ -92,19 +92,17 @@ class CambiarClaveForm(forms.Form):
 class TareaForm(forms.ModelForm):
     class Meta:
         model = Tarea
-        fields = ['cuenta_tarea','severity', 'descripcion', 'incidente', 'status', 'loe']
+        fields = ['cuenta_tarea','severity', 'descripcion', 'incidente']
         widgets = {
-            'cuenta_tarea': forms.Select(attrs={'class': 'estilo-input'}),
-            'status': forms.Select(attrs={'class': 'estilo-input'}),
-            'descripcion': forms.Textarea(attrs={'class': 'estilo-input'}),
-            'incidente': forms.TextInput(attrs={'class': 'estilo-input'}),
-            'loe': forms.TextInput(attrs={'class': 'estilo-input'})
+            'cuenta_tarea': forms.Select(attrs={'class': 'form-select'}),
+            'severity': forms.Select(attrs={'class': 'form-select'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'incidente': forms.TextInput(attrs={'class': 'form-control'})
         }
 
     def __init__(self, *args, **kwargs):
         super(TareaForm, self).__init__(*args, **kwargs)
         self.fields['descripcion'].required = False  # Indicar que el campo no es obligatorio
-        self.fields['loe'].required = False  # Indicar que el campo no es obligatorio
         # Personaliza el formulario según tus necesidades, si es necesario
         # Por ejemplo, podrías deshabilitar el campo 'cuenta_reporte' o proporcionar opciones específicas
 

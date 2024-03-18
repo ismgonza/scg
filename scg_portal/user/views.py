@@ -265,20 +265,19 @@ def crear_usuario(request, nombre_cuenta):
     return redirect('index', nombre_cuenta=nombre_cuenta)
 
 def crear_tarea(request, nombre_cuenta):
-    if request.method == 'GET':
-        form = TareaForm()
-        return render(request, 'user/crear_tarea.html', {'form': form, 'nombre_cuenta': nombre_cuenta})
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = TareaForm(request.POST)
         if form.is_valid():
-            form.save()
+            tarea = form.save(commit=False)
+            tarea.status = "Not Started"
+            tarea.save()
             request.session['registro_exitoso'] = True
-            return redirect('index', nombre_cuenta=nombre_cuenta)
+            return redirect('admin_tasks', nombre_cuenta=nombre_cuenta)
             # Lógica adicional después de guardar el reporte
     else:
         form = TareaForm()
 
-    return redirect('index', nombre_cuenta=nombre_cuenta)
+    return redirect('admin_tasks', nombre_cuenta=nombre_cuenta)
 
 def crear_contrato(request, nombre_cuenta):
     if request.method == 'POST':
