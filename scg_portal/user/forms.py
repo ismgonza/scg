@@ -92,6 +92,7 @@ class CambiarClaveForm(forms.Form):
 class TareaForm(forms.ModelForm):
     class Meta:
         model = Tarea
+        exclude = ['loe', 'status']
         fields = ['cuenta_tarea','severity', 'descripcion', 'incidente']
         widgets = {
             'cuenta_tarea': forms.Select(attrs={'class': 'form-select'}),

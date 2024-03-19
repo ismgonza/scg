@@ -124,7 +124,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
-MEDIA_ROOT = BASE_DIR / "uploads"
+MEDIA_ROOT = BASE_DIR / "uploads/nessus/"
 
 #SMTP Configuration
 
