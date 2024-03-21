@@ -125,12 +125,11 @@
                                 </div>
                                 <div class="input-group">
                                     <label class="form-label" for="cuenta_tarea">Customer Account</label>
-                                    <input name="cuenta_tarea" class="form-control form-select" type="text" list="customer_accounts" id="cuenta_tarea">
-                                    <datalist id="customer_accounts">
-                                        {% for cuenta in cuentas %}
-                                            <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+                                    <select name="cuenta_tarea" class="form-select" id="cuenta_tarea">
+                                        {% for cuenta in form.cuenta_tarea.field.queryset %}
+                                            <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
                                         {% endfor %}
-                                    </datalist>
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="form-label" for="severity">Severity:</label>

@@ -207,7 +207,7 @@
                                     <label class="form-label" for="customer_account" data-i18n="section_contact.form_name">Customer Account</label>
                                     <input class="form-control form-select" type="text" list="customer_accounts" name="cuenta_reporte" required>
                                     <datalist id="customer_accounts">
-                                        {% for cuenta in cuentas %}
+                                        {% for cuenta in cuentas_cliente %}
                                             <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
                                         {% endfor %}
                                     </datalist>
@@ -305,7 +305,7 @@
                                     <label class="form-label" for="customer_account">Customer Account</label>
                                     <input name="cuenta_contrato" class="form-control form-select" type="text" list="customer_accounts" id="customer_account">
                                     <datalist id="customer_accounts">
-                                        {% for cuenta in cuentas %}
+                                        {% for cuenta in cuentas_cliente %}
                                             <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
                                         {% endfor %}
                                     </datalist>
@@ -337,7 +337,7 @@
                         <div class="modal-body">
                             <form class="d-flex flex-column" style="padding: 10px;">
                                 <div class="input-group"><datalist id="customer_accounts">
-    {% for cuenta in cuentas %}
+    {% for cuenta in cuentas_cliente %}
         <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
     {% endfor %}
     </datalist></div>

@@ -136,6 +136,7 @@ def index_view(request, nombre_cuenta):
             # Tu lógica de vista aquí
             usuarios = Usuario.objects.all()
             cuentas = Cuenta.objects.all()
+            cuentas_cliente = Cuenta.objects.exclude(nombre='SCG')
             reportes = Reporte.objects.all()
             tareas = Tarea.objects.all()
             contratos = Contrato.objects.all()
@@ -150,6 +151,7 @@ def index_view(request, nombre_cuenta):
                 'tareas': tareas,
                 'contratos': contratos,
                 'tipos': tipos,
+                'cuentas_cliente': cuentas_cliente,
                 'registro_exitoso': registro_exitoso,
                 'registro_editado': registro_editado,
                 'registro_eliminado': registro_eliminado
@@ -536,9 +538,11 @@ def view_admin_tasks(request, nombre_cuenta):
             # Tu lógica de vista aquí
             counts = contar_tareas_por_estado()
             tareas = Tarea.objects.all()
-            cuentas = Cuenta.objects.all()
+            cuentas = Cuenta.objects.exclude(nombre='SCG')
             opciones_status = Tarea.OPCIONES_STATUS
             opciones_sev = Tarea.OPCIONES_SEV
+
+            form = TareaForm(cuentas=cuentas)
 
             # Pasa los datos al contexto de la plantilla
             context = {
@@ -547,7 +551,8 @@ def view_admin_tasks(request, nombre_cuenta):
                 'counts': counts,
                 'opciones_status': opciones_status,
                 'opciones_sev': opciones_sev,
-                'cuentas': cuentas
+                'cuentas': cuentas,
+                'form': form
             }
 
             return render(request, 'user/admin_tasks.html', context)

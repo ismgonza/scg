@@ -95,15 +95,16 @@ class TareaForm(forms.ModelForm):
         exclude = ['loe', 'status']
         fields = ['cuenta_tarea','severity', 'descripcion', 'incidente']
         widgets = {
-            'cuenta_tarea': forms.Select(attrs={'class': 'form-select'}),
             'severity': forms.Select(attrs={'class': 'form-select'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
             'incidente': forms.TextInput(attrs={'class': 'form-control'})
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, cuentas=None, **kwargs):
         super(TareaForm, self).__init__(*args, **kwargs)
         self.fields['descripcion'].required = False  # Indicar que el campo no es obligatorio
+        if cuentas is not None:
+            self.fields['cuenta_tarea'].queryset = cuentas
         # Personaliza el formulario según tus necesidades, si es necesario
         # Por ejemplo, podrías deshabilitar el campo 'cuenta_reporte' o proporcionar opciones específicas
 
