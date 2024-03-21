@@ -267,6 +267,14 @@ def crear_usuario(request, nombre_cuenta):
 
             usuario.save()
 
+            # Envía un correo electrónico con el correo y la contraseña
+            subject = 'Información de cuenta'
+            message = f'Tu cuenta ha sido creada. \nCorreo: {usuario.correo}, \nContraseña: {password}'
+            from_email = 'tu@email.com'  # Coloca tu dirección de correo electrónico aquí
+            to_email = [usuario.correo]
+            send_mail(subject, message, from_email, to_email)
+
+
             # Aquí puedes agregar cualquier lógica adicional, como redireccionar a otra página
             return redirect('index', nombre_cuenta=nombre_cuenta)
     else:
@@ -590,3 +598,7 @@ def view_detalle_tarea(request, nombre_cuenta, id_tarea):
 def view_detalle_tarea_admin(request, nombre_cuenta, id_tarea):
     tarea = get_object_or_404(Tarea, id_tarea=id_tarea)
     return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea})
+
+def view_detalle_reporte_admin(request, nombre_cuenta, id_reporte):
+    tarea = get_object_or_404(Reporte, id_reporte=id_reporte)
+    return render(request, 'user/view_reporte.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea})
