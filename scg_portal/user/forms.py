@@ -33,10 +33,14 @@ class UsuarioForm(forms.ModelForm):
         widgets = {
             'correo': forms.EmailInput(attrs={'class': 'form-control'}),
             'tipo': forms.Select(attrs={'class': 'form-control'}),
-            'cuenta': forms.Select(attrs={'class': 'form-control form-select'}),
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'})
         }
+
+    def __init__(self, *args, cuentas=None, **kwargs):
+        super(UsuarioForm, self).__init__(*args, **kwargs)
+        if cuentas is not None:
+            self.fields['cuenta'].queryset = cuentas
 
 class UsuarioFormEdit(forms.ModelForm):
     class Meta:
@@ -56,15 +60,16 @@ class ReporteForm(forms.ModelForm):
         fields = ['tipo_reporte', 'cuenta_reporte', 'source', 'file_report']
         widgets = {
             'tipo_reporte': forms.TextInput(attrs={'class': 'form-control'}),
-            'cuenta_reporte': forms.Select(attrs={'class': 'form-control'}),
             'source': forms.FileInput(attrs={'class': 'form-control'}),  # Aplicar estilo a source
             'file_report': forms.FileInput(attrs={'class': 'form-control'})  # Aplicar estilo a file_report
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, cuentas=None, **kwargs):
         super(ReporteForm, self).__init__(*args, **kwargs)
         self.fields['source'].required = False  # Indicar que el campo no es obligatorio
         self.fields['file_report'].required = False  # Indicar que el campo no es obligatorio
+        if cuentas is not None:
+            self.fields['cuenta_reporte'].queryset = cuentas
         # Personaliza el formulario según tus necesidades, si es necesario
         # Por ejemplo, podrías deshabilitar el campo 'cuenta_reporte' o proporcionar opciones específicas
 
@@ -126,8 +131,12 @@ class ContratoForm(forms.ModelForm):
         exclude = ["status"]
         fields = ['cuenta_contrato', 'id_contrato', 'fecha_inicio', 'fecha_final']
         widgets = {
-            'cuenta_contrato': forms.Select(attrs={'class': 'form-control'}),
             'id_contrato': forms.NumberInput(attrs={'class': 'form-control'}),
             'fecha_inicio': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'fecha_final': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
+
+    def __init__(self, *args, cuentas=None, **kwargs):
+        super(ContratoForm, self).__init__(*args, **kwargs)
+        if cuentas is not None:
+            self.fields['cuenta_contrato'].queryset = cuentas

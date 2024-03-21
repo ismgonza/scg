@@ -142,6 +142,10 @@ def index_view(request, nombre_cuenta):
             contratos = Contrato.objects.all()
             tipos = Usuario.OPCIONES_TIPO
 
+            form_usuario = UsuarioForm(cuentas=cuentas)
+            form_contrato = ContratoForm(cuentas=cuentas_cliente)
+            form_reporte = ReporteForm(cuentas=cuentas_cliente)
+
             # Pasa los datos al contexto de la plantilla
             context = {
                 'nombre_cuenta': nombre_cuenta,
@@ -152,6 +156,9 @@ def index_view(request, nombre_cuenta):
                 'contratos': contratos,
                 'tipos': tipos,
                 'cuentas_cliente': cuentas_cliente,
+                'form_usuario': form_usuario,
+                'form_contrato': form_contrato,
+                'form_reporte': form_reporte,
                 'registro_exitoso': registro_exitoso,
                 'registro_editado': registro_editado,
                 'registro_eliminado': registro_eliminado

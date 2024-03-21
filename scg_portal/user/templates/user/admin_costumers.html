@@ -205,12 +205,11 @@
                                 </div>
                                 <div>
                                     <label class="form-label" for="customer_account" data-i18n="section_contact.form_name">Customer Account</label>
-                                    <input class="form-control form-select" type="text" list="customer_accounts" name="cuenta_reporte" required>
-                                    <datalist id="customer_accounts">
-                                        {% for cuenta in cuentas_cliente %}
-                                            <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+                                    <select name="cuenta_reporte" class="form-select" id="cuenta_reporte">
+                                        {% for cuenta in form_reporte.cuenta_reporte.field.queryset %}
+                                            <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
                                         {% endfor %}
-                                    </datalist>
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="form-label" for="raw_source" data-i18n="section_contact.form_name">RAW Source (json)</label>
@@ -237,12 +236,11 @@
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <label class="form-label" for="customer_account" data-i18n="section_contact.form_name">Customer Account</label>
-                                    <input name="cuenta" class="form-control form-select" type="text" list="customer_accounts" id="customer_account">
-                                    <datalist id="customer_accounts">
-                                        {% for cuenta in cuentas %}
-                                            <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+                                    <select name="cuenta" class="form-select" id="cuenta">
+                                        {% for cuenta in form_usuario.cuenta.field.queryset %}
+                                            <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
                                         {% endfor %}
-                                    </datalist>
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="form-label" for="name" data-i18n="section_contact.form_name">Name</label>
@@ -303,12 +301,11 @@
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <label class="form-label" for="customer_account">Customer Account</label>
-                                    <input name="cuenta_contrato" class="form-control form-select" type="text" list="customer_accounts" id="customer_account">
-                                    <datalist id="customer_accounts">
-                                        {% for cuenta in cuentas_cliente %}
-                                            <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+                                    <select name="cuenta_contrato" class="form-select" id="cuenta">
+                                        {% for cuenta in form_contrato.cuenta_contrato.field.queryset %}
+                                            <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
                                         {% endfor %}
-                                    </datalist>
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="form-label" for="contract_number">Contract #</label>
