@@ -140,3 +140,12 @@ class ContratoForm(forms.ModelForm):
         super(ContratoForm, self).__init__(*args, **kwargs)
         if cuentas is not None:
             self.fields['cuenta_contrato'].queryset = cuentas
+
+class UpdateNameForm(forms.Form):
+    nombre = forms.CharField(max_length=100)
+
+class UpdateEmailForm(forms.Form):
+    correo = forms.EmailField()
+
+class UpdatePhoneForm(forms.Form):
+    telefono = forms.CharField(max_length=100)

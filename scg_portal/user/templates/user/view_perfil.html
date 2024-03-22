@@ -5,77 +5,7 @@
     Mi Perfil
 {% endblock %}
 
-{% block css_files %}
-    <link rel="stylesheet" href="{% static "user/view_perfil.css" %}">
-    <link rel="stylesheet" href="{% static "user/styles.min.css" %}">
-{% endblock %}
-
 {% block content %}
-
-    <!--div id="perfil-container">
-        <img class='img' src="{% static "images/profile.png"%}" alt="PERFIL" />
-        <h2>Mi Perfil</h2>
-
-        <section id="perfil">
-            <p>Correo: {{ user_correo }}</p>
-            <p>Tipo de Usuario: {{ user_tipo }}</p>
-            <p>Tipo de Cuenta: {{ user_cuenta_nombre }}</p>
-            <a href="{% url 'reset' %}">Cambiar contraseña</a>
-        </section>
-    </div-->
-
-    <!--main>
-        <div class="container myprofile">
-            <div class="row heading-row">
-                <div class="col heading-row">
-                    <h1>My Profile</h1>
-                    <div class="card">
-                        <div class="input-group">
-                            <span class="input-group-text">Account</span>
-                            <input class="form-control" type="text" readonly="" value="{{ user_cuenta_nombre }}" disabled="">
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <span style="font-weight: normal !important; font-style: normal !important;">Name</span>
-                            </span>
-                            <input class="form-control" type="text" value="John Doe">
-                            <button class="btn" type="submit">Update</button>
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <span style="font-weight: normal !important; font-style: normal !important;">Email</span>
-                            </span>
-                            <input class="form-control" type="email" value="{{ user_correo }}">
-                            <button class="btn" type="submit">Update</button>
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <span style="font-weight: normal !important; font-style: normal !important;">Phone</span>
-                            </span>
-                            <input class="form-control" type="tel" value="+506 1234-5678">
-                            <button class="btn" type="submit">Update</button>
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text">Password</span>
-                            <input class="form-control" type="password" placeholder="Enter a new password">
-                            <button class="btn" type="submit" data-bs-target="#modal-reenter-password" data-bs-toggle="modal">Update</button>
-                        </div>
-                    </div>
-                    <div class="modal fade" role="dialog" tabindex="-1" id="modal-reenter-password">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <form style="padding: 10px;">
-                                        <div><input class="form-control" type="password" id="message" maxlength="300" rows="6" name="message" placeholder="Please re-enter your new password"></div><button class="btn submit" type="submit" data-i18n="section_contact.form_button">Submit</button><a class="btn cancel" role="button" data-i18n="section_contact.form_button" data-bs-dismiss="modal">Cancel</a>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main-->
 
     <main>
         <div class="container" id="myprofile">
@@ -89,16 +19,25 @@
                     <div class="card">
                         <div class="input-group"><span class="input-group-text">Account</span><!-- Start: DJANGO - load from database --><input type="text" class="form-control_mod form-control" readonly="" value="{{ user_cuenta_nombre }}" disabled=""><!-- End: DJANGO - load from database -->
                         </div><!-- Start: DJANGO - load and save to database -->
-                        <form>
-                            <div class="input-group"><span class="input-group-text"><span style="font-weight: normal !important; font-style: normal !important;">Name</span></span><!-- Start: DJANGO - save and load from database --><input class="form-control" type="text" value="{{ user_nombre }}"><!-- End: DJANGO - save and load from database --><button class="btn" type="submit">Update</button></div>
+                        <form method="post" action="{% url 'update_name' nombre_cuenta=nombre_cuenta %}">
+                            <div class="input-group"><span class="input-group-text"><span style="font-weight: normal !important; font-style: normal !important;">Name</span></span><!-- Start: DJANGO - save and load from database -->
+                                {% csrf_token %}
+                                <input name='nombre' class="form-control" type="text" value="{{ user_nombre }}"><!-- End: DJANGO - save and load from database -->
+                                <button class="btn" type="submit">Update</button></div>
                         </form><!-- End: DJANGO - load and save to database -->
                         <!-- Start: DJANGO - load and save to database -->
-                        <form>
-                            <div class="input-group"><span class="input-group-text"><span style="font-weight: normal !important; font-style: normal !important;">Email</span></span><!-- Start: DJANGO - save and load from database --><input class="form-control" type="email" value="{{ user_correo }}"><!-- End: DJANGO - save and load from database --><button class="btn" type="submit">Update</button></div>
+                        <form method="post" action="{% url 'update_email' nombre_cuenta=nombre_cuenta %}">
+                            <div class="input-group"><span class="input-group-text"><span style="font-weight: normal !important; font-style: normal !important;">Email</span></span><!-- Start: DJANGO - save and load from database -->
+                                {% csrf_token %}
+                                <input name='correo' class="form-control" type="email" value="{{ user_correo }}"><!-- End: DJANGO - save and load from database -->
+                                <button class="btn" type="submit">Update</button></div>
                         </form><!-- End: DJANGO - load and save to database -->
                         <!-- Start: DJANGO - load and save to database -->
-                        <form>
-                            <div class="input-group"><span class="input-group-text"><span style="font-weight: normal !important; font-style: normal !important;">Phone</span></span><!-- Start: DJANGO - save and load from database --><input class="form-control" type="tel" value="{{ user_tel }}"><!-- End: DJANGO - save and load from database --><button class="btn" type="submit">Update</button></div>
+                        <form method="post" action="{% url 'update_phone' nombre_cuenta=nombre_cuenta %}">
+                            <div class="input-group"><span class="input-group-text"><span style="font-weight: normal !important; font-style: normal !important;">Phone</span></span><!-- Start: DJANGO - save and load from database -->
+                                {% csrf_token %}
+                                <input name='telefono' class="form-control" type="tel" value="{{ user_tel }}"><!-- End: DJANGO - save and load from database -->
+                                <button class="btn" type="submit">Update</button></div>
                         </form><!-- End: DJANGO - load and save to database -->
                         <div class="input-group"><button class="btn update_pass" type="button" data-bs-target="#modal-enter-password" data-bs-toggle="modal">Update Password</button></div>
                     </div>

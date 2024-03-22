@@ -10,7 +10,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
-from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm, UpdateNameForm, UpdateEmailForm, UpdatePhoneForm
 from .models import Usuario, Cuenta, Reporte, Tarea, Contrato
 
 def sign_in(request):
@@ -34,6 +34,7 @@ def sign_in(request):
 
                     if usuario.tipo == 'Admin':
 
+                        request.session['user_id'] = usuario.user_id
                         request.session['user_correo'] = usuario.correo
                         request.session['user_tipo'] = usuario.tipo
                         request.session['user_cuenta_nombre'] = usuario.cuenta.nombre
@@ -44,6 +45,7 @@ def sign_in(request):
                         return HttpResponseRedirect(reverse("index", kwargs={'nombre_cuenta': cuenta_nombre}))
                     elif usuario.tipo == 'Cliente':
                         
+                        request.session['user_id'] = usuario.user_id
                         request.session['user_correo'] = usuario.correo
                         request.session['user_tipo'] = usuario.tipo
                         request.session['user_cuenta_nombre'] = usuario.cuenta.nombre
@@ -70,6 +72,7 @@ def sign_in(request):
 
 def sign_out(request):
     # Elimina las variables de sesión relevantes
+    del request.session['user_id']
     del request.session['user_correo']
     del request.session['user_tipo']
     del request.session['user_cuenta_nombre']
@@ -287,6 +290,7 @@ def crear_tarea(request, nombre_cuenta):
         if form.is_valid():
             tarea = form.save(commit=False)
             tarea.status = "Not Started"
+            tarea.loe = 0
             tarea.save()
             request.session['registro_exitoso'] = True
             return redirect('admin_tasks', nombre_cuenta=nombre_cuenta)
@@ -597,8 +601,57 @@ def view_detalle_tarea(request, nombre_cuenta, id_tarea):
 
 def view_detalle_tarea_admin(request, nombre_cuenta, id_tarea):
     tarea = get_object_or_404(Tarea, id_tarea=id_tarea)
-    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea})
+    opciones_status = Tarea.OPCIONES_STATUS
+    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea, 'opciones_status': opciones_status})
 
 def view_detalle_reporte_admin(request, nombre_cuenta, id_reporte):
-    tarea = get_object_or_404(Reporte, id_reporte=id_reporte)
-    return render(request, 'user/view_reporte.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea})
+    reporte = get_object_or_404(Reporte, id_reporte=id_reporte)
+    return render(request, 'user/view_reporte.html', {'nombre_cuenta': nombre_cuenta, 'reporte': reporte})
+
+def update_name(request, nombre_cuenta):
+    user_id = request.session.get('user_id')
+    if request.method == 'POST':
+        form = UpdateNameForm(request.POST)
+        if form.is_valid():
+           # Obtiene el usuario basado en su user_id
+            usuario = Usuario.objects.get(pk=user_id)
+
+            # Actualiza los campos del usuario con los datos del formulario
+            usuario.nombre = form.cleaned_data['nombre']
+            usuario.save()
+            return redirect('logout')  # Redireccionar a la página de perfil después de actualizar
+    else:
+        form = UpdateNameForm()
+    return redirect('perfil', nombre_cuenta=nombre_cuenta)
+
+def update_email(request, nombre_cuenta):
+    user_id = request.session.get('user_id')
+    if request.method == 'POST':
+        form = UpdateEmailForm(request.POST)
+        if form.is_valid():
+            # Obtiene el usuario basado en su user_id
+            usuario = Usuario.objects.get(pk=user_id)
+
+            # Actualiza los campos del usuario con los datos del formulario
+            usuario.correo = form.cleaned_data['correo']
+            usuario.save()
+            return redirect('logout')
+    else:
+        form = UpdateEmailForm()
+    return redirect('perfil', nombre_cuenta=nombre_cuenta)
+
+def update_phone(request, nombre_cuenta):
+    user_id = request.session.get('user_id')
+    if request.method == 'POST':
+        form = UpdatePhoneForm(request.POST)
+        if form.is_valid():
+            # Obtiene el usuario basado en su user_id
+            usuario = Usuario.objects.get(pk=user_id)
+
+            # Actualiza los campos del usuario con los datos del formulario
+            usuario.telefono = form.cleaned_data['telefono']
+            usuario.save()
+            return redirect('logout')
+    else:
+        form = UpdatePhoneForm()
+    return redirect('perfil', nombre_cuenta=nombre_cuenta)

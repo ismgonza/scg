@@ -31,6 +31,7 @@ class Cuenta(models.Model):
         super().save(*args, **kwargs)
 
 class Usuario(models.Model):
+    user_id = models.BigAutoField(primary_key=True)
     correo = models.EmailField()
     password = models.CharField(max_length=150)
 
@@ -153,7 +154,7 @@ class Tarea(models.Model):
         choices=OPCIONES_STATUS
     )
 
-    loe = models.CharField(max_length=100, null=True, blank=True)
+    loe = models.FloatField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.incidente
