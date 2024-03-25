@@ -45,12 +45,13 @@ class UsuarioForm(forms.ModelForm):
 class UsuarioFormEdit(forms.ModelForm):
     class Meta:
         model = Usuario
-        exclude = ['password']  # Excluye el campo de contraseña del formulario
-        fields = ['correo', 'tipo', 'cuenta']
+        exclude = ['password', 'tipo', 'cuenta']  # Excluye el campo de contraseña del formulario
+        fields = ['nombre','correo', 'telefono', 'status']
         widgets = {
-            'correo': forms.EmailInput(attrs={'class': 'estilo-input'}),
-            'tipo': forms.Select(attrs={'class': 'estilo-input'}),
-            'cuenta': forms.Select(attrs={'class': 'estilo-input'})
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'correo': forms.EmailInput(attrs={'class': 'form-control'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+            'cuenta': forms.Select(attrs={'class': 'form-select'})
         }
 
 class ReporteForm(forms.ModelForm):
@@ -149,3 +150,6 @@ class UpdateEmailForm(forms.Form):
 
 class UpdatePhoneForm(forms.Form):
     telefono = forms.CharField(max_length=100)
+
+class UpdatePasswordForm(forms.Form):
+    password = forms.CharField(max_length=100)

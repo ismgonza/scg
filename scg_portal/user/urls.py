@@ -15,6 +15,7 @@ urlpatterns = [
     path('<str:nombre_cuenta>/costumers/', views.index_view, name="index"),
     path('<str:nombre_cuenta>/costumers/report/<int:id_reporte>/', views.view_detalle_reporte_admin, name="view_report_admin"),
     path('<str:nombre_cuenta>/tasks/', views.view_admin_tasks, name="admin_tasks"),
+    path('<str:nombre_cuenta>/costumers/user/<int:user_id>/', views.view_detalle_reporte_admin, name="view_user"),
     
     path('<str:nombre_cuenta>/tasks/<int:id_tarea>/', views.view_detalle_tarea_admin, name="view_task_admin"),
     path('<str:nombre_cuenta>/', views.client_view, name="client"),
@@ -26,6 +27,7 @@ urlpatterns = [
     path('<str:nombre_cuenta>/report/<int:id_reporte>/download_report/', views.download_report, name='download_report'),
 
     path('<str:nombre_cuenta>/costumers/get_account_data/', views.get_account_data, name='get_account_data'),
+    path('<str:nombre_cuenta>/costumers/get_user_data/', views.get_user_data, name='get_user_data'),
 
     path('<str:nombre_cuenta>/costumers/crear_reporte/', views.crear_reporte, name="crear_reporte"),
     path('<str:nombre_cuenta>/costumers/editar_reporte/<int:id_reporte>/', views.editar_reporte, name='editar_reporte'),
@@ -44,5 +46,6 @@ urlpatterns = [
     path('<str:nombre_cuenta>/Perfil', views.view_perfil, name="perfil"),
     path('<str:nombre_cuenta>/Perfil/update_name/', views.update_name, name='update_name'),
     path('<str:nombre_cuenta>/Perfil/update_email/', views.update_email, name='update_email'),
-    path('<str:nombre_cuenta>/Perfil/update_phone/', views.update_phone, name='update_phone')
+    path('<str:nombre_cuenta>/Perfil/update_phone/', views.update_phone, name='update_phone'),
+    path('<str:nombre_cuenta>/Perfil/update_password/', views.update_password, name='update_password')
 ]

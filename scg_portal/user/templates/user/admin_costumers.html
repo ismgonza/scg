@@ -104,7 +104,7 @@
                                 <tbody>
                                     {% for usuario in usuarios %}
                                         <tr>
-                                            <td><a href="#" data-bs-target="#modal-edit-user" data-bs-toggle="modal">{{ usuario.nombre }}</a></td>
+                                            <td><a href="#" onclick="openUserModal('{{ usuario.user_id }}')" data-bs-target="#modal-edit-user" data-bs-toggle="modal">{{ usuario.nombre }}</a></td>
                                             <td>{{ usuario.correo }}</td>
                                             <td>{{ usuario.telefono }}</td>
                                         </tr>
@@ -272,19 +272,37 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Edit User</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                            <h4 class="modal-title">Edit User</h4>
+                            <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <form class="d-flex flex-column" style="padding: 10px;">
-                                <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Name</label><input class="form-control" type="text" required="" value="John"></div>
-                                <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Last Name</label><input class="form-control" type="text" required="" value="Doe"></div>
-                                <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Email</label><input class="form-control" type="email" required="" value="johndoe@email.com"></div>
-                                <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Phone</label><input class="form-control" type="tel" required="" value="+506 1234-5678"></div>
-                                <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Status</label><select class="form-select">
-                                        <option value="active" selected="">Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select></div>
-                                <div><button class="btn reset_password" type="button" data-i18n="section_contact.form_button">Reset Password</button><button class="btn submit" type="submit" data-i18n="section_contact.form_button">Submit</button></div>
+                                {% csrf_token %}
+                                <input id='user_id' type="hidden" name="user_id" value="">
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Name</label>
+                                    <input id="name" class="form-control" type="text" name="name" required="" value="">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="email" data-i18n="section_contact.form_name">Email</label>
+                                    <input id="email" class="form-control" type="email" name="email" required="" value="">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="phone" data-i18n="section_contact.form_name">Phone</label>
+                                    <input id="phone" class="form-control" type="tel" name="phone" required="" value="">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="status" data-i18n="section_contact.form_name">Status</label>
+                                    <select id="status" class="form-select" name="status">
+                                        {% for status in status %}
+                                            <option value="{{ status.0 }}">{{ status.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <button class="btn reset_password" type="button" data-i18n="section_contact.form_button">Reset Password</button>
+                                    <button class="btn submit" type="submit" data-i18n="section_contact.form_button">Submit</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -373,6 +391,33 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        function openUserModal(userId) {
+            // Hacer una solicitud AJAX para obtener los detalles del usuario utilizando el user_id
+            $.ajax({
+                type: 'GET',
+                url: '{% url 'get_user_data' nombre_cuenta %}',
+                data: {
+                    'user_id': userId
+                },
+                success: function(response) {
+                    // Actualiza los campos del modal con los detalles del usuario obtenidos de la respuesta
+                    $('#modal-edit-user').find('#user_id').val(response.user_id);
+                    $('#modal-edit-user').find('#name').val(response.nombre);
+                    $('#modal-edit-user').find('#email').val(response.correo);
+                    $('#modal-edit-user').find('#phone').val(response.telefono);
+                    $('#modal-edit-user').find('#status').val(response.status);
+                    
+                    // Abre el modal
+                    $('#modal-edit-user').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener los detalles del usuario:', error);
+                }
+            });
+        }
     </script>
     
 {% endblock %}

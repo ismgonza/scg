@@ -10,7 +10,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
-from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm, UpdateNameForm, UpdateEmailForm, UpdatePhoneForm
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm, UpdateNameForm, UpdateEmailForm, UpdatePhoneForm, UpdatePasswordForm
 from .models import Usuario, Cuenta, Reporte, Tarea, Contrato
 
 def sign_in(request):
@@ -144,6 +144,7 @@ def index_view(request, nombre_cuenta):
             tareas = Tarea.objects.all()
             contratos = Contrato.objects.all()
             tipos = Usuario.OPCIONES_TIPO
+            status = Usuario.OPCIONES_STATUS
 
             form_usuario = UsuarioForm(cuentas=cuentas)
             form_contrato = ContratoForm(cuentas=cuentas_cliente)
@@ -158,6 +159,7 @@ def index_view(request, nombre_cuenta):
                 'tareas': tareas,
                 'contratos': contratos,
                 'tipos': tipos,
+                'status': status,
                 'cuentas_cliente': cuentas_cliente,
                 'form_usuario': form_usuario,
                 'form_contrato': form_contrato,
@@ -484,7 +486,7 @@ def editar_usuario(request, nombre_cuenta, id_usuario):
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
     else:
         form = UsuarioFormEdit(instance=usuario)
-    return render(request, 'user/editar_usuario.html', {'form': form, 'usuario': usuario, 'nombre_cuenta': nombre_cuenta})
+    return redirect('index', nombre_cuenta=nombre_cuenta)
 
 def eliminar_usuario(request, nombre_cuenta, id_usuario):
     usuario = get_object_or_404(Usuario, id=id_usuario)
@@ -655,3 +657,37 @@ def update_phone(request, nombre_cuenta):
     else:
         form = UpdatePhoneForm()
     return redirect('perfil', nombre_cuenta=nombre_cuenta)
+
+def update_password(request, nombre_cuenta):
+    user_id = request.session.get('user_id')
+    if request.method == 'POST':
+        form = UpdatePasswordForm(request.POST)
+        if form.is_valid():
+            # Obtiene el usuario basado en su user_id
+            usuario = Usuario.objects.get(pk=user_id)
+
+            # Actualiza los campos del usuario con los datos del formulario
+            nueva_contraseña = form.cleaned_data['password']
+            usuario.password = make_password(nueva_contraseña)
+            usuario.save()
+            return redirect('logout')
+    else:
+        form = UpdatePasswordForm()
+    return redirect('perfil', nombre_cuenta=nombre_cuenta)
+
+def get_user_data(request, nombre_cuenta):
+    if request.method == 'GET':
+        user_id = request.GET.get('user_id')  # Obtener el ID del usuario del parámetro GET
+        try:
+            usuario = Usuario.objects.get(pk=user_id)  # Obtener el usuario según su ID
+            data = {
+                'nombre': usuario.nombre,
+                'correo': usuario.correo,
+                'telefono': usuario.telefono,
+                'status': usuario.status,
+            }
+            return JsonResponse(data)  # Devolver los datos como una respuesta JSON
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)

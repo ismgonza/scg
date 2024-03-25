@@ -46,7 +46,8 @@
                             <div class="modal-content">
                                 <div class="modal-body">
                                     <!-- Start: DJANGO - save to database -->
-                                    <form style="padding: 10px;">
+                                    <form method="post" action="{% url 'update_password' nombre_cuenta=nombre_cuenta %}" style="padding: 10px;">
+                                        {% csrf_token %}
                                         <div><input class="form-control" type="password" id="message" maxlength="30" rows="6" name="password" placeholder="Please enter your new password" minlength="12"></div><button class="btn submit" type="submit" data-i18n="section_contact.form_button">Submit</button><a class="btn cancel" role="button" data-i18n="section_contact.form_button" data-bs-dismiss="modal">Cancel</a>
                                     </form><!-- End: DJANGO - save to database -->
                                 </div>
