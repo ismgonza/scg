@@ -67,7 +67,7 @@
                                 <tbody>
                                     {% for contrato in contratos %}
                                         <tr>
-                                            <td><a href="#" data-bs-target="#modal-edit-contract" data-bs-toggle="modal">{{ contrato.id_contrato }}</a></td>
+                                            <td><a href="#" onclick="openUserModalContract('{{ contrato.id_contrato }}')" data-bs-target="#modal-edit-contract" data-bs-toggle="modal">{{ contrato.id_contrato }}</a></td>
                                             <td>{{ contrato.status }}</td>
                                             <td>{{ contrato.fecha_inicio }}</td>
                                             <td>{{ contrato.fecha_final }}</td>
@@ -104,7 +104,7 @@
                                 <tbody>
                                     {% for usuario in usuarios %}
                                         <tr>
-                                            <td><a href="#" onclick="openUserModal('{{ usuario.user_id }}')" data-bs-target="#modal-edit-user" data-bs-toggle="modal">{{ usuario.nombre }}</a></td>
+                                            <td><a href="#" onclick="openUserModalUser('{{ usuario.user_id }}')" data-bs-target="#modal-edit-user" data-bs-toggle="modal">{{ usuario.nombre }}</a></td>
                                             <td>{{ usuario.correo }}</td>
                                             <td>{{ usuario.telefono }}</td>
                                         </tr>
@@ -351,18 +351,28 @@
                         </div>
                         <div class="modal-body">
                             <form class="d-flex flex-column" style="padding: 10px;">
-                                <div class="input-group"><datalist id="customer_accounts">
-    {% for cuenta in cuentas_cliente %}
-        <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
-    {% endfor %}
-    </datalist></div>
-                                <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Contract #&nbsp;<span>123456</span></label></div>
-                                <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Status</label><select class="form-select form-control">
-                                        <option value="active" selected="">Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select></div>
-                                <div><label class="form-label" for="name" data-i18n="section_contact.form_name">Start Date</label><input class="form-control" required="" type="date"></div>
-                                <div><label class="form-label" for="name" data-i18n="section_contact.form_name">End Date</label><input class="form-control" required="" type="date"></div><button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Contract #&nbsp;<span id ="id_contract"></span></label>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Cuenta&nbsp;<span id ="cuenta_contrato"></span></label>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Status</label>
+                                    <select id="status" class="form-select" name="status">
+                                    {% for status in status_contract %}
+                                        <option value="{{ status.0 }}">{{ status.1 }}</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Start Date</label>
+                                    <input id ="fecha_inicio" class="form-control" required="" type="date"></div>
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">End Date</label>
+                                    <input id ="fecha_final" class="form-control" required="" type="date">
+                                </div>
+                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
                             </form>
                         </div>
                     </div>
@@ -394,7 +404,7 @@
     </script>
 
     <script>
-        function openUserModal(userId) {
+        function openUserModalUser(userId) {
             // Hacer una solicitud AJAX para obtener los detalles del usuario utilizando el user_id
             $.ajax({
                 type: 'GET',
@@ -412,6 +422,33 @@
                     
                     // Abre el modal
                     $('#modal-edit-user').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener los detalles del usuario:', error);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function openUserModalContract(contractId) {
+            // Hacer una solicitud AJAX para obtener los detalles del usuario utilizando el user_id
+            $.ajax({
+                type: 'GET',
+                url: '{% url 'get_contract_data' nombre_cuenta %}',
+                data: {
+                    'contract_id': contractId
+                },
+                success: function(response) {
+                    // Actualiza los campos del modal con los detalles del usuario obtenidos de la respuesta
+                    $('#modal-edit-contract').find('#id_contract').text(response.id_contract);
+                    $('#modal-edit-contract').find('#cuenta_contrato').text(response.cuenta_contrato);
+                    $('#modal-edit-contract').find('#status').val(response.status);
+                    $('#modal-edit-contract').find('#fecha_inicio').val(response.fecha_inicio);
+                    $('#modal-edit-contract').find('#fecha_final').val(response.fecha_final);
+                    
+                    // Abre el modal
+                    $('#modal-edit-contract').modal('show');
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al obtener los detalles del usuario:', error);

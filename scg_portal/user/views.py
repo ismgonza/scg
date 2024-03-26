@@ -145,6 +145,7 @@ def index_view(request, nombre_cuenta):
             contratos = Contrato.objects.all()
             tipos = Usuario.OPCIONES_TIPO
             status = Usuario.OPCIONES_STATUS
+            status_contract = Contrato.OPCIONES_STATUS
 
             form_usuario = UsuarioForm(cuentas=cuentas)
             form_contrato = ContratoForm(cuentas=cuentas_cliente)
@@ -160,6 +161,7 @@ def index_view(request, nombre_cuenta):
                 'contratos': contratos,
                 'tipos': tipos,
                 'status': status,
+                'status_contract': status_contract,
                 'cuentas_cliente': cuentas_cliente,
                 'form_usuario': form_usuario,
                 'form_contrato': form_contrato,
@@ -685,6 +687,24 @@ def get_user_data(request, nombre_cuenta):
                 'correo': usuario.correo,
                 'telefono': usuario.telefono,
                 'status': usuario.status,
+            }
+            return JsonResponse(data)  # Devolver los datos como una respuesta JSON
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+def get_contract_data(request, nombre_cuenta):
+    if request.method == 'GET':
+        contract_id = request.GET.get('contract_id')  # Obtener el ID del usuario del parámetro GET
+        try:
+            contrato = Contrato.objects.get(id_contrato=contract_id)  # Obtener el usuario según su ID
+            data = {
+                'id_contrato': contrato.id_contrato,
+                'cuenta_contrato': contrato.cuenta_contrato.nombre,
+                'status': contrato.status,
+                'fecha_inicio': contrato.fecha_inicio,
+                'fecha_final': contrato.fecha_final
             }
             return JsonResponse(data)  # Devolver los datos como una respuesta JSON
         except Usuario.DoesNotExist:
