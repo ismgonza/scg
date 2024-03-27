@@ -65,7 +65,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for contrato in contratos %}
+                                    {% for contrato in paginator_contratos %}
                                         <tr>
                                             <td><a href="#" onclick="openUserModalContract('{{ contrato.id_contrato }}')" data-bs-target="#modal-edit-contract" data-bs-toggle="modal">{{ contrato.id_contrato }}</a></td>
                                             <td>{{ contrato.status }}</td>
@@ -78,13 +78,19 @@
                         </div>
                         <nav class="d-xl-flex justify-content-xl-end">
                             <ul class="pagination pagination-sm">
-                                <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                                {% if paginator_contratos.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page_contract=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_contract={{ paginator_contratos.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                {% endif %}
+                                
+                                {% for num in paginator_contratos.paginator.page_range %}
+                                    <li class="page-item{% if paginator_contratos.number == num %} active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                {% endfor %}
+                                
+                                {% if paginator_contratos.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_contratos.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_contratos.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                                {% endif %}
                             </ul>
                         </nav>
                     </div>
@@ -102,7 +108,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for usuario in usuarios %}
+                                    {% for usuario in paginator_users %}
                                         <tr>
                                             <td><a href="#" onclick="openUserModalUser('{{ usuario.user_id }}')" data-bs-target="#modal-edit-user" data-bs-toggle="modal">{{ usuario.nombre }}</a></td>
                                             <td>{{ usuario.correo }}</td>
@@ -114,13 +120,19 @@
                         </div>
                         <nav class="d-xl-flex justify-content-xl-end">
                             <ul class="pagination pagination-sm">
-                                <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                                {% if paginator_users.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_users.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                {% endif %}
+                                
+                                {% for num in paginator_users.paginator.page_range %}
+                                    <li class="page-item{% if paginator_users.number == num %} active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                {% endfor %}
+                                
+                                {% if paginator_users.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_users.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_users.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                                {% endif %}
                             </ul>
                         </nav>
                     </div>
@@ -160,7 +172,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for reporte in reportes %}
+                                {% for reporte in paginator_reports %}
                                     <tr>
                                         <td><input type="radio" checked="" name="report" value="{{ reporte.id_reporte }}"></td>
                                         <td>{{ reporte.fecha_reporte }}</td>
@@ -174,13 +186,19 @@
                     </div>
                     <nav class="d-xl-flex justify-content-xl-end">
                         <ul class="pagination pagination-sm">
-                            <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                            {% if paginator_reports.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{ paginator_reports.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                            {% endif %}
+                            
+                            {% for num in paginator_reports.paginator.page_range %}
+                                <li class="page-item{% if paginator_reports.number == num %} active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endfor %}
+                            
+                            {% if paginator_reports.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ paginator_reports.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{ paginator_reports.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                            {% endif %}
                         </ul>
                     </nav>
                 </div>
@@ -441,7 +459,7 @@
                 },
                 success: function(response) {
                     // Actualiza los campos del modal con los detalles del usuario obtenidos de la respuesta
-                    $('#modal-edit-contract').find('#id_contract').text(response.id_contract);
+                    $('#modal-edit-contract').find('#id_contract').text(response.id_contrato);
                     $('#modal-edit-contract').find('#cuenta_contrato').text(response.cuenta_contrato);
                     $('#modal-edit-contract').find('#status').val(response.status);
                     $('#modal-edit-contract').find('#fecha_inicio').val(response.fecha_inicio);

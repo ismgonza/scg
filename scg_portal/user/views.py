@@ -151,6 +151,28 @@ def index_view(request, nombre_cuenta):
             form_contrato = ContratoForm(cuentas=cuentas_cliente)
             form_reporte = ReporteForm(cuentas=cuentas_cliente)
 
+            # Configurar la paginación
+            elementos_por_pagina = 5  # Ajusta según tus necesidades
+            paginator_contrato = Paginator(contratos, elementos_por_pagina)
+            paginator_user = Paginator(usuarios, elementos_por_pagina)
+            paginator_report = Paginator(reportes, elementos_por_pagina)
+            page_number = request.GET.get('page')
+
+            try:
+                paginator_contratos = paginator_contrato.page(page_number)
+                paginator_users = paginator_user.page(page_number)
+                paginator_reports = paginator_report.page(page_number)
+            except PageNotAnInteger:
+                # Si el número de página no es un entero, mostrar la primera página
+                paginator_contratos = paginator_contrato.page(1)
+                paginator_users = paginator_user.page(1)
+                paginator_reports = paginator_report.page(1)
+            except EmptyPage:
+                # Si el número de página está fuera de rango, mostrar la última página de resultados
+                paginator_contratos = paginator_contrato.page(paginator_contrato.num_pages)
+                paginator_users = paginator_user.page(paginator_user.num_pages)
+                paginator_reports = paginator_report.page(paginator_user.num_pages)
+
             # Pasa los datos al contexto de la plantilla
             context = {
                 'nombre_cuenta': nombre_cuenta,
@@ -161,6 +183,9 @@ def index_view(request, nombre_cuenta):
                 'contratos': contratos,
                 'tipos': tipos,
                 'status': status,
+                'paginator_contratos': paginator_contratos,
+                'paginator_users': paginator_users,
+                'paginator_reports': paginator_reports,
                 'status_contract': status_contract,
                 'cuentas_cliente': cuentas_cliente,
                 'form_usuario': form_usuario,
@@ -260,9 +285,9 @@ def crear_usuario(request, nombre_cuenta):
         if form.is_valid():
             # Generar una contraseña aleatoria usando parte del nombre y un número
             nombre = form.cleaned_data['nombre']
-            parte_nombre = ''.join(random.choices(nombre.lower(), k=3))  # Usar los primeros 3 caracteres del nombre
-            numero = random.randint(100, 999)  # Generar un número aleatorio de tres dígitos
-            password = f"{parte_nombre}{numero}"
+            parte_nombre = ''.join(random.choices(nombre.lower(), k=5))  # Usar los primeros 5 caracteres del nombre
+            numeros = ''.join(random.choices('0123456789', k=6))  # Generar un número aleatorio de 6 dígitos
+            password = f"{parte_nombre}{numeros}*"
             hashed_password = make_password(password)
             
             # Guardar el usuario en la base de datos con la contraseña generada
@@ -276,7 +301,7 @@ def crear_usuario(request, nombre_cuenta):
 
             # Envía un correo electrónico con el correo y la contraseña
             subject = 'Información de cuenta'
-            message = f'Tu cuenta ha sido creada. \nCorreo: {usuario.correo}, \nContraseña: {password}'
+            message = f'Tu cuenta ha sido creada. \nCorreo: {usuario.correo}, \nContraseña: {password} \nPor su seguridad, cambie la contraseña.'
             from_email = 'tu@email.com'  # Coloca tu dirección de correo electrónico aquí
             to_email = [usuario.correo]
             send_mail(subject, message, from_email, to_email)
