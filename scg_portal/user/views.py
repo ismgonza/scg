@@ -479,12 +479,6 @@ def editar_cuenta(request, nombre_cuenta, id_cuenta):
         form = CuentaForm(instance=cuenta)
     return render(request, 'user/editar_cuenta.html', {'form': form, 'cuenta': cuenta, 'nombre_cuenta': nombre_cuenta})
 
-def eliminar_cuenta(request, nombre_cuenta, id_cuenta):
-    cuenta = get_object_or_404(Cuenta, id=id_cuenta)
-    cuenta.delete()
-    request.session['registro_eliminado'] = True
-    return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
-
 def editar_reporte(request, nombre_cuenta, id_reporte):
     reporte = get_object_or_404(Reporte, id=id_reporte)
     if request.method == 'POST':
@@ -497,29 +491,26 @@ def editar_reporte(request, nombre_cuenta, id_reporte):
         form = ReporteForm(instance=reporte)
     return render(request, 'user/editar_reporte.html', {'form': form, 'reporte': reporte, 'nombre_cuenta': nombre_cuenta})
 
-def eliminar_reporte(request, nombre_cuenta, id_reporte):
-    reporte = get_object_or_404(Reporte, id=id_reporte)
-    reporte.delete()
-    request.session['registro_eliminado'] = True
-    return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
-
 def editar_usuario(request, nombre_cuenta, id_usuario):
-    usuario = get_object_or_404(Usuario, id=id_usuario)
     if request.method == 'POST':
-        form = UsuarioFormEdit(request.POST, instance=usuario)
-        if form.is_valid():
-            form.save()
-            request.session['registro_editado'] = True
-            return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
-    else:
-        form = UsuarioFormEdit(instance=usuario)
-    return redirect('index', nombre_cuenta=nombre_cuenta)
+        user_id = request.POST.get('user_id')
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        status = request.POST.get('status')
 
-def eliminar_usuario(request, nombre_cuenta, id_usuario):
-    usuario = get_object_or_404(Usuario, id=id_usuario)
-    usuario.delete()
-    request.session['registro_eliminado'] = True
-    return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
+        try:
+            user = Usuario.objects.get(pk=user_id)
+            user.name = name
+            user.email = email
+            user.phone = phone
+            user.status = status
+            user.save()
+            return JsonResponse({'success': 'User updated successfully'})  # Responder con éxito si el usuario se actualiza correctamente
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)  # Responder con un error si el usuario no se encuentra
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)  # Responder con un error si el método de solicitud no es POST
 
 def editar_tarea(request, nombre_cuenta, id_tarea):
     tarea = get_object_or_404(Tarea, id=id_tarea)
@@ -532,12 +523,6 @@ def editar_tarea(request, nombre_cuenta, id_tarea):
     else:
         form = TareaForm(instance=tarea)
     return render(request, 'user/editar_tarea.html', {'form': form, 'tarea': tarea, 'nombre_cuenta': nombre_cuenta})
-
-def eliminar_tarea(request, nombre_cuenta, id_tarea):
-    tarea = get_object_or_404(Tarea, id=id_tarea)
-    tarea.delete()
-    request.session['registro_eliminado'] = True
-    return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
 
 def confirmar_clave_view(request, uidb64, token):
     # Recupera el correo de la sesión

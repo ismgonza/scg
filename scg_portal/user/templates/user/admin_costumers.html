@@ -313,7 +313,7 @@
                                     <label class="form-label" for="status" data-i18n="section_contact.form_name">Status</label>
                                     <select id="status" class="form-select" name="status">
                                         {% for status in status %}
-                                            <option value="{{ status.0 }}">{{ status.1 }}</option>
+                                        <option value="{{ status.0 }}" {% if user.status == status.0 %} selected {% endif %}>{{ status.1 }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -419,9 +419,7 @@
                 });
             });
         });
-    </script>
 
-    <script>
         function openUserModalUser(userId) {
             // Hacer una solicitud AJAX para obtener los detalles del usuario utilizando el user_id
             $.ajax({
@@ -431,6 +429,7 @@
                     'user_id': userId
                 },
                 success: function(response) {
+                    console.log(response);
                     // Actualiza los campos del modal con los detalles del usuario obtenidos de la respuesta
                     $('#modal-edit-user').find('#user_id').val(response.user_id);
                     $('#modal-edit-user').find('#name').val(response.nombre);
@@ -446,9 +445,7 @@
                 }
             });
         }
-    </script>
 
-    <script>
         function openUserModalContract(contractId) {
             // Hacer una solicitud AJAX para obtener los detalles del usuario utilizando el user_id
             $.ajax({
@@ -474,5 +471,7 @@
             });
         }
     </script>
+
+    
     
 {% endblock %}

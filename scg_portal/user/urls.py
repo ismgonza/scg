@@ -32,16 +32,16 @@ urlpatterns = [
 
     path('<str:nombre_cuenta>/costumers/crear_reporte/', views.crear_reporte, name="crear_reporte"),
     path('<str:nombre_cuenta>/costumers/editar_reporte/<int:id_reporte>/', views.editar_reporte, name='editar_reporte'),
-    path('<str:nombre_cuenta>/costumers/eliminar_reporte/<int:id_reporte>/', views.eliminar_reporte, name='eliminar_reporte'),
+    
     path('<str:nombre_cuenta>/costumers/crear_cuenta/', views.crear_cuenta, name="crear_cuenta"),
     path('<str:nombre_cuenta>/costumers/editar_cuenta/<int:id_cuenta>/', views.editar_cuenta, name='editar_cuenta'),
-    path('<str:nombre_cuenta>/costumers/eliminar_cuenta/<int:id_cuenta>/', views.eliminar_cuenta, name='eliminar_cuenta'),
+    
     path('<str:nombre_cuenta>/costumers/crear_usuario/', views.crear_usuario, name="crear_usuario"),
     path('<str:nombre_cuenta>/costumers/editar_usuario/<int:id_usuario>/', views.editar_usuario, name='editar_usuario'),
-    path('<str:nombre_cuenta>/costumers/eliminar_usuario/<int:id_usuario>/', views.eliminar_usuario, name='eliminar_usuario'),
+    
     path('<str:nombre_cuenta>/costumers/crear_tarea/', views.crear_tarea, name="crear_tarea"),
     path('<str:nombre_cuenta>/costumers/editar_tarea/<int:id_tarea>/', views.editar_tarea, name='editar_tarea'),
-    path('<str:nombre_cuenta>/costumers/eliminar_tarea/<int:id_tarea>/', views.eliminar_tarea, name='eliminar_tarea'),
+
     path('<str:nombre_cuenta>/costumers/crear_contrato/', views.crear_contrato, name="crear_contrato"),
     
     path('<str:nombre_cuenta>/Perfil', views.view_perfil, name="perfil"),
