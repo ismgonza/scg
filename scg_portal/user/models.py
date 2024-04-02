@@ -195,3 +195,11 @@ class Contrato(models.Model):
 
     def __str__(self):
         return self.status
+    
+class Comment(models.Model):
+    id_comment = models.BigAutoField(primary_key=True)
+    tarea_comment = models.ForeignKey(
+        Tarea, on_delete=models.CASCADE, related_name="tareas_comments")
+    comment = models.TextField(max_length=100)
+    fecha = models.DateTimeField(auto_now=True)
+    loe = models.FloatField(max_length=100, null=True, blank=True)

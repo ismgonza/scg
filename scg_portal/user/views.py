@@ -153,9 +153,10 @@ def index_view(request, nombre_cuenta):
 
             # Configurar la paginación
             elementos_por_pagina = 5  # Ajusta según tus necesidades
+            elementos_por_pagina_reports = 8  # Ajusta según tus necesidades
             paginator_contrato = Paginator(contratos, elementos_por_pagina)
             paginator_user = Paginator(usuarios, elementos_por_pagina)
-            paginator_report = Paginator(reportes, elementos_por_pagina)
+            paginator_report = Paginator(reportes, elementos_por_pagina_reports)
             page_number = request.GET.get('page')
 
             try:
@@ -577,6 +578,20 @@ def view_admin_tasks(request, nombre_cuenta):
 
             form = TareaForm(cuentas=cuentas)
 
+            # Configurar la paginación
+            elementos_por_pagina = 5  # Ajusta según tus necesidades
+            paginator_tarea = Paginator(tareas, elementos_por_pagina)
+            page_number = request.GET.get('page')
+
+            try:
+                paginator_tareas = paginator_tarea.page(page_number)
+            except PageNotAnInteger:
+                # Si el número de página no es un entero, mostrar la primera página
+                paginator_tareas = paginator_tarea.page(1)
+            except EmptyPage:
+                # Si el número de página está fuera de rango, mostrar la última página de resultados
+                paginator_tareas = paginator_tarea.page(paginator_tarea.num_pages)
+
             # Pasa los datos al contexto de la plantilla
             context = {
                 'nombre_cuenta': nombre_cuenta,
@@ -585,7 +600,8 @@ def view_admin_tasks(request, nombre_cuenta):
                 'opciones_status': opciones_status,
                 'opciones_sev': opciones_sev,
                 'cuentas': cuentas,
-                'form': form
+                'form': form,
+                'paginator_tareas': paginator_tareas
             }
 
             return render(request, 'user/admin_tasks.html', context)

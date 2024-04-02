@@ -81,7 +81,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for tarea in tareas %}
+                                    {% for tarea in paginator_tareas %}
                                         <tr>
                                             <td><a href="{% url 'view_task_admin' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}">{{ tarea.id_tarea }}</a></td>
                                             <td><span style="font-weight: normal !important; font-style: normal !important;">{{ tarea.severity }}</span></td>
@@ -97,13 +97,19 @@
                         </div>
                         <nav class="d-xl-flex justify-content-xl-end">
                             <ul class="pagination pagination-sm">
-                                <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                                {% if paginator_tareas.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_tareas.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                {% endif %}
+                                
+                                {% for num in paginator_tareas.paginator.page_range %}
+                                    <li class="page-item{% if paginator_tareas.number == num %} active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                {% endfor %}
+                                
+                                {% if paginator_tareas.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_tareas.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_tareas.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                                {% endif %}
                             </ul>
                         </nav>
                     </div>
