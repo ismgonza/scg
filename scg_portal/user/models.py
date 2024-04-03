@@ -200,6 +200,7 @@ class Comment(models.Model):
     id_comment = models.BigAutoField(primary_key=True)
     tarea_comment = models.ForeignKey(
         Tarea, on_delete=models.CASCADE, related_name="tareas_comments")
+    nombre = models.CharField(max_length=100, null=True)
     comment = models.TextField(max_length=100)
     fecha = models.DateTimeField(auto_now=True)
     loe = models.FloatField(max_length=100, null=True, blank=True)

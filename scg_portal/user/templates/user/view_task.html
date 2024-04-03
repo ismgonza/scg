@@ -80,25 +80,33 @@
                 </div>
                 <div class="col">
                     <div class="comments_div">
-                        <p class="d-xl-flex justify-content-xl-start">Commented by:&nbsp;<span style="font-weight: bold;">Name</span></p>
+                        {% for comentario in comentarios %}
+                        <p class="d-xl-flex justify-content-xl-start">Commented by:&nbsp;<span style="font-weight: bold;">{{ comentario.nombre }}</span></p>
                         <div class="comment_info">
-                            <p>LOE:&nbsp;<span style="font-weight: bold;">1.5</span><strong><span style="font-style: normal !important;">&nbsp;hrs</span></strong></p>
-                            <p>On date:&nbsp;<span style="font-weight: bold;">10/03/2024 at 11:00</span></p>
+                            <p>LOE:&nbsp;<span style="font-weight: bold;">{{ comentario.loe }}</span><strong><span style="font-style: normal !important;">&nbsp;hrs</span></strong></p>
+                            <p>On date:&nbsp;<span style="font-weight: bold;">{{ comentario.fecha }}</span></p>
                         </div>
                         <div class="card comment-bordered">
                             <!-- Start: DJANGO - comment text -->
-                            <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Ultrices tincidunt arcu non sodales neque sodales ut etiam. Magna fringilla urna porttitor rhoncus dolor purus non enim.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Justo eget magna fermentum iaculis eu non diam phasellus. In ante metus dictum at tempor.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Egestas purus viverra accumsan in. Leo duis ut diam quam nulla porttitor. Amet aliquam id diam maecenas ultricies mi. In cursus turpis massa tincidunt dui ut.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Sit amet facilisis magna etiam tempor orci eu. Congue nisi vitae suscipit tellus.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Amet facilisis magna etiam tempor orci eu lobortis. Vivamus arcu felis bibendum ut tristique et egestas quis.</span><br><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">Ac turpis egestas sed tempus. Gravida cum sociis natoque penatibus. Scelerisque eleifend donec pretium vulputate sapien nec sagittis.</span></p><!-- End: DJANGO - comment text -->
+                            <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">{{ comentario.comment }}</span></p><!-- End: DJANGO - comment text -->
                         </div>
+                        {% endfor %}
                     </div>
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                    <nav class="d-xl-flex justify-content-xl-end">
+                        <ul class="pagination pagination-sm">
+                            {% if comentarios.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{ comentarios.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                            {% endif %}
+                            
+                            {% for num in comentarios.paginator.page_range %}
+                                <li class="page-item{% if comentarios.number == num %} active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endfor %}
+                            
+                            {% if comentarios.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ comentarios.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{ comentarios.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                            {% endif %}
                         </ul>
                     </nav>
                 </div>

@@ -627,12 +627,44 @@ def get_account_data(request, nombre_cuenta):
     
 def view_detalle_tarea(request, nombre_cuenta, id_tarea):
     tarea = get_object_or_404(Tarea, id_tarea=id_tarea, cuenta_tarea__nombre=nombre_cuenta)
-    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea})
+    comentarios = tarea.tareas_comments.all()
+
+    # Configurar la paginación
+    elementos_por_pagina = 3  # Ajusta según tus necesidades
+    paginator_comment = Paginator(comentarios, elementos_por_pagina)
+    page_number = request.GET.get('page')
+
+    try:
+        paginator_comments = paginator_comment.page(page_number)
+    except PageNotAnInteger:
+        # Si el número de página no es un entero, mostrar la primera página
+        paginator_comments = paginator_comment.page(1)
+    except EmptyPage:
+        # Si el número de página está fuera de rango, mostrar la última página de resultados
+        paginator_comments = paginator_comment.page(paginator_comments.num_pages)
+
+    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea, 'comentarios': paginator_comments})
 
 def view_detalle_tarea_admin(request, nombre_cuenta, id_tarea):
     tarea = get_object_or_404(Tarea, id_tarea=id_tarea)
+    comentarios = tarea.tareas_comments.all()
     opciones_status = Tarea.OPCIONES_STATUS
-    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea, 'opciones_status': opciones_status})
+
+    # Configurar la paginación
+    elementos_por_pagina = 3  # Ajusta según tus necesidades
+    paginator_comment = Paginator(comentarios, elementos_por_pagina)
+    page_number = request.GET.get('page')
+
+    try:
+        paginator_comments = paginator_comment.page(page_number)
+    except PageNotAnInteger:
+        # Si el número de página no es un entero, mostrar la primera página
+        paginator_comments = paginator_comment.page(1)
+    except EmptyPage:
+        # Si el número de página está fuera de rango, mostrar la última página de resultados
+        paginator_comments = paginator_comment.page(paginator_comments.num_pages)
+
+    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea, 'opciones_status': opciones_status, 'comentarios': paginator_comments})
 
 def view_detalle_reporte_admin(request, nombre_cuenta, id_reporte):
     reporte = get_object_or_404(Reporte, id_reporte=id_reporte)
