@@ -114,6 +114,23 @@ class TareaForm(forms.ModelForm):
         # Personaliza el formulario según tus necesidades, si es necesario
         # Por ejemplo, podrías deshabilitar el campo 'cuenta_reporte' o proporcionar opciones específicas
 
+class TareaFormClient(forms.ModelForm):
+    class Meta:
+        model = Tarea
+        exclude = ['loe', 'status', 'cuenta_tarea']
+        fields = ['severity', 'descripcion', 'incidente']
+        widgets = {
+            'severity': forms.Select(attrs={'class': 'form-select'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'incidente': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(TareaFormClient, self).__init__(*args, **kwargs)
+        self.fields['descripcion'].required = False  # Indicar que el campo no es obligatorio
+        # Personaliza el formulario según tus necesidades, si es necesario
+        # Por ejemplo, podrías deshabilitar el campo 'cuenta_reporte' o proporcionar opciones específicas
+
 class CustomPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
         label="",

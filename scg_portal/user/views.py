@@ -10,7 +10,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
-from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm, UpdateNameForm, UpdateEmailForm, UpdatePhoneForm, UpdatePasswordForm
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm, UpdateNameForm, UpdateEmailForm, UpdatePhoneForm, UpdatePasswordForm, TareaFormClient
 from .models import Usuario, Cuenta, Reporte, Tarea, Contrato
 
 def sign_in(request):
@@ -314,7 +314,7 @@ def crear_usuario(request, nombre_cuenta):
         form = UsuarioForm()
     return redirect('index', nombre_cuenta=nombre_cuenta)
 
-def crear_tarea(request, nombre_cuenta):
+def crear_tarea_admin(request, nombre_cuenta):
     if request.method == 'POST':
         form = TareaForm(request.POST)
         if form.is_valid():
@@ -329,6 +329,27 @@ def crear_tarea(request, nombre_cuenta):
         form = TareaForm()
 
     return redirect('admin_tasks', nombre_cuenta=nombre_cuenta)
+
+def crear_tarea_client(request, nombre_cuenta):
+
+    user_cuenta_nombre = request.session.get('user_cuenta_nombre')
+
+    if request.method == 'POST':
+        form = TareaFormClient(request.POST)
+        if form.is_valid():
+            tarea = form.save(commit=False)
+            cuenta = get_object_or_404(Cuenta, nombre=user_cuenta_nombre)
+            tarea.cuenta_tarea = cuenta
+            tarea.status = "Not Started"
+            tarea.loe = 0
+            tarea.save()
+            request.session['registro_exitoso'] = True
+            return redirect('tasks', nombre_cuenta=nombre_cuenta)
+            # Lógica adicional después de guardar el reporte
+    else:
+        form = TareaForm()
+
+    return redirect('tasks', nombre_cuenta=nombre_cuenta)
 
 def crear_contrato(request, nombre_cuenta):
     if request.method == 'POST':
@@ -453,12 +474,24 @@ def client_tasks_view(request, nombre_cuenta):
         if user_tipo == 'Cliente' and user_cuenta_nombre == nombre_cuenta:
             
             tareas = Tarea.objects.filter(cuenta_tarea=cuenta)
-            tareas_completadas = Tarea.objects.filter(cuenta_tarea=cuenta, status='Completed')
+
+            # Configurar la paginación
+            elementos_por_pagina = 5  # Ajusta según tus necesidades
+            paginator_task = Paginator(tareas, elementos_por_pagina)
+            page_number = request.GET.get('page')
+
+            try:
+                paginator_tasks = paginator_task.page(page_number)
+            except PageNotAnInteger:
+                # Si el número de página no es un entero, mostrar la primera página
+                paginator_tasks = paginator_task.page(1)
+            except EmptyPage:
+                # Si el número de página está fuera de rango, mostrar la última página de resultados
+                paginator_tasks = paginator_task.page(paginator_task.num_pages)
 
             # Pasar los informes paginados al contexto
             context = {'nombre_cuenta': nombre_cuenta,
-                        'tareas': tareas,
-                        'tareas_completadas': tareas_completadas
+                        'paginator_tasks': paginator_tasks
                         }
             return render(request, 'user/client_tasks.html', context)
         else:
@@ -641,7 +674,7 @@ def view_detalle_tarea(request, nombre_cuenta, id_tarea):
         paginator_comments = paginator_comment.page(1)
     except EmptyPage:
         # Si el número de página está fuera de rango, mostrar la última página de resultados
-        paginator_comments = paginator_comment.page(paginator_comments.num_pages)
+        paginator_comments = paginator_comment.page(paginator_comment.num_pages)
 
     return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea, 'comentarios': paginator_comments})
 
@@ -662,7 +695,7 @@ def view_detalle_tarea_admin(request, nombre_cuenta, id_tarea):
         paginator_comments = paginator_comment.page(1)
     except EmptyPage:
         # Si el número de página está fuera de rango, mostrar la última página de resultados
-        paginator_comments = paginator_comment.page(paginator_comments.num_pages)
+        paginator_comments = paginator_comment.page(paginator_comment.num_pages)
 
     return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea, 'opciones_status': opciones_status, 'comentarios': paginator_comments})
 

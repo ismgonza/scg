@@ -19,7 +19,7 @@ class ReporteAdmin(admin.ModelAdmin):
     list_display = ('id_reporte', 'fecha_reporte', 'target', 'cuenta_reporte')
 
 class TareaAdmin(admin.ModelAdmin):
-    list_display = ('id_tarea', 'cuenta_tarea', 'status')
+    list_display = ('id_tarea', 'cuenta_tarea', 'fecha', 'status')
 
 class ContratoAdmin(admin.ModelAdmin):
     list_display = ('id_contrato', 'cuenta_contrato', 'status')

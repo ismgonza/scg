@@ -39,7 +39,8 @@ urlpatterns = [
     path('<str:nombre_cuenta>/costumers/crear_usuario/', views.crear_usuario, name="crear_usuario"),
     path('<str:nombre_cuenta>/costumers/editar_usuario/<int:id_usuario>/', views.editar_usuario, name='editar_usuario'),
     
-    path('<str:nombre_cuenta>/costumers/crear_tarea/', views.crear_tarea, name="crear_tarea"),
+    path('<str:nombre_cuenta>/tasks/crear_tarea/', views.crear_tarea_admin, name="crear_tarea_admin"),
+    path('<str:nombre_cuenta>/tickets/crear_tarea/', views.crear_tarea_client, name="crear_tarea_client"),
     path('<str:nombre_cuenta>/costumers/editar_tarea/<int:id_tarea>/', views.editar_tarea, name='editar_tarea'),
 
     path('<str:nombre_cuenta>/costumers/crear_contrato/', views.crear_contrato, name="crear_contrato"),
