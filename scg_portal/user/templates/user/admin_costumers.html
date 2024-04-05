@@ -79,8 +79,8 @@
                         <nav class="d-xl-flex justify-content-xl-end">
                             <ul class="pagination pagination-sm">
                                 {% if paginator_contratos.has_previous %}
-                                    <li class="page-item"><a class="page-link" href="?page_contract=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
-                                    <li class="page-item"><a class="page-link" href="?page_contract={{ paginator_contratos.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_contratos.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
                                 {% endif %}
                                 
                                 {% for num in paginator_contratos.paginator.page_range %}
