@@ -137,14 +137,11 @@
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <div>
-                                    <label class="form-label" for="severity">Severity:</label>
-                                    <select name="severity" class="form-select" id="severity">
-                                    {% for opcion in opciones_sev %}
-                                        <option value="{{ opcion.0 }}">{{ opcion.1 }}</option>
-                                    {% endfor %}
-                                    </select>
-                                </div>
+                                <div><label class="form-label" data-i18n="section_contact.form_email" for="email">Severity:</label><select class="form-select" name="severity">
+                                    <option value="1">1 - High</option>
+                                    <option value="2">2 - Medium</option>
+                                    <option value="3" selected="">3 - Low</option>
+                                </select></div>
                                 <div>
                                     <label class="form-label" for="descripcion">Please describe the request:</label>
                                     <textarea name="descripcion" class="form-control" id="descripcion" maxlength="300" rows="6"></textarea>

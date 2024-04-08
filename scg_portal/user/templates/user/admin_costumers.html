@@ -294,24 +294,24 @@
                             <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="d-flex flex-column" style="padding: 10px;">
+                            <form method="POST" action="{% url 'editar_usuario' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
                                 {% csrf_token %}
-                                <input id='user_id' type="hidden" name="user_id" value="">
+                                <input id='edit_user_id' type="hidden" name="user_id" value="">
                                 <div>
                                     <label class="form-label" for="name" data-i18n="section_contact.form_name">Name</label>
-                                    <input id="name" class="form-control" type="text" name="name" required="" value="">
+                                    <input id="edit_name" class="form-control" type="text" name="name" value="">
                                 </div>
                                 <div>
                                     <label class="form-label" for="email" data-i18n="section_contact.form_name">Email</label>
-                                    <input id="email" class="form-control" type="email" name="email" required="" value="">
+                                    <input id="edit_email" class="form-control" type="email" name="email" value="">
                                 </div>
                                 <div>
                                     <label class="form-label" for="phone" data-i18n="section_contact.form_name">Phone</label>
-                                    <input id="phone" class="form-control" type="tel" name="phone" required="" value="">
+                                    <input id="edit_phone" class="form-control" type="tel" name="phone" value="">
                                 </div>
                                 <div>
                                     <label class="form-label" for="status" data-i18n="section_contact.form_name">Status</label>
-                                    <select id="status" class="form-select" name="status">
+                                    <select id="edit_status" class="form-select" name="status" value="">
                                         {% for status in status %}
                                         <option value="{{ status.0 }}" {% if user.status == status.0 %} selected {% endif %}>{{ status.1 }}</option>
                                         {% endfor %}
@@ -431,11 +431,11 @@
                 success: function(response) {
                     console.log(response);
                     // Actualiza los campos del modal con los detalles del usuario obtenidos de la respuesta
-                    $('#modal-edit-user').find('#user_id').val(response.user_id);
-                    $('#modal-edit-user').find('#name').val(response.nombre);
-                    $('#modal-edit-user').find('#email').val(response.correo);
-                    $('#modal-edit-user').find('#phone').val(response.telefono);
-                    $('#modal-edit-user').find('#status').val(response.status);
+                    $('#modal-edit-user').find('#edit_user_id').val(response.user_id);
+                    $('#modal-edit-user').find('#edit_name').val(response.nombre);
+                    $('#modal-edit-user').find('#edit_email').val(response.correo);
+                    $('#modal-edit-user').find('#edit_phone').val(response.telefono);
+                    $('#modal-edit-user').find('#edit_status').val(response.status);
                     
                     // Abre el modal
                     $('#modal-edit-user').modal('show');

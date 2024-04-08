@@ -525,26 +525,19 @@ def editar_reporte(request, nombre_cuenta, id_reporte):
         form = ReporteForm(instance=reporte)
     return render(request, 'user/editar_reporte.html', {'form': form, 'reporte': reporte, 'nombre_cuenta': nombre_cuenta})
 
-def editar_usuario(request, nombre_cuenta, id_usuario):
+def editar_usuario(request, nombre_cuenta):
+    user_id = request.POST.get('user_id')
+    usuario = get_object_or_404(Usuario, pk=user_id)
     if request.method == 'POST':
-        user_id = request.POST.get('user_id')
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        status = request.POST.get('status')
-
-        try:
-            user = Usuario.objects.get(pk=user_id)
-            user.name = name
-            user.email = email
-            user.phone = phone
-            user.status = status
-            user.save()
-            return JsonResponse({'success': 'User updated successfully'})  # Responder con éxito si el usuario se actualiza correctamente
-        except Usuario.DoesNotExist:
-            return JsonResponse({'error': 'User not found'}, status=404)  # Responder con un error si el usuario no se encuentra
+        form = UsuarioFormEdit(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            request.session['registro_editado'] = True
+            return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
     else:
-        return JsonResponse({'error': 'Method not allowed'}, status=405)  # Responder con un error si el método de solicitud no es POST
+        form = UsuarioFormEdit(instance=usuario)
+    
+    return redirect('index', nombre_cuenta=nombre_cuenta) 
 
 def editar_tarea(request, nombre_cuenta, id_tarea):
     tarea = get_object_or_404(Tarea, id=id_tarea)
@@ -774,6 +767,7 @@ def get_user_data(request, nombre_cuenta):
         try:
             usuario = Usuario.objects.get(pk=user_id)  # Obtener el usuario según su ID
             data = {
+                'user_id': usuario.user_id,
                 'nombre': usuario.nombre,
                 'correo': usuario.correo,
                 'telefono': usuario.telefono,
