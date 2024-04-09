@@ -51,7 +51,7 @@ class UsuarioFormEdit(forms.ModelForm):
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'correo': forms.EmailInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
-            'cuenta': forms.Select(attrs={'class': 'form-select'})
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }
 
 class ReporteForm(forms.ModelForm):
