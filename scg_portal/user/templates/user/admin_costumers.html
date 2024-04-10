@@ -298,19 +298,19 @@
                                 {% csrf_token %}
                                 <input id='edit_user_id' type="hidden" name="user_id" value="">
                                 <div>
-                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Name</label>
+                                    <label class="form-label" for="edit_name" data-i18n="section_contact.form_name">Name</label>
                                     <input id="edit_name" class="form-control" type="text" name="name" value="">
                                 </div>
                                 <div>
-                                    <label class="form-label" for="email" data-i18n="section_contact.form_name">Email</label>
+                                    <label class="form-label" for="edit_email" data-i18n="section_contact.form_name">Email</label>
                                     <input id="edit_email" class="form-control" type="email" name="email" value="">
                                 </div>
                                 <div>
-                                    <label class="form-label" for="phone" data-i18n="section_contact.form_name">Phone</label>
+                                    <label class="form-label" for="edit_phone" data-i18n="section_contact.form_name">Phone</label>
                                     <input id="edit_phone" class="form-control" type="tel" name="phone" value="">
                                 </div>
                                 <div>
-                                    <label class="form-label" for="status" data-i18n="section_contact.form_name">Status</label>
+                                    <label class="form-label" for="edit_status" data-i18n="section_contact.form_name">Status</label>
                                     <select id="edit_status" class="form-select" name="status" value="">
                                         {% for status in status %}
                                         <option value="{{ status.0 }}" {% if user.status == status.0 %} selected {% endif %}>{{ status.1 }}</option>
