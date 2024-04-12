@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext as _
 from django.contrib.auth.forms import PasswordResetForm
-from .models import Cuenta, Usuario, Reporte, Tarea, Contrato
+from .models import Cuenta, Usuario, Reporte, Tarea, Contrato, Comment
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -45,7 +45,7 @@ class UsuarioForm(forms.ModelForm):
 class UsuarioFormEdit(forms.ModelForm):
     class Meta:
         model = Usuario
-        exclude = ['password', 'tipo', 'cuenta']  # Excluye el campo de contraseña del formulario
+        # exclude = ['password', 'tipo', 'cuenta']  # Excluye el campo de contraseña del formulario
         fields = ['nombre','correo', 'telefono', 'status']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
@@ -158,6 +158,21 @@ class ContratoForm(forms.ModelForm):
         super(ContratoForm, self).__init__(*args, **kwargs)
         if cuentas is not None:
             self.fields['cuenta_contrato'].queryset = cuentas
+
+class CommentForm(forms.ModelForm):
+    loe = forms.IntegerField(label='LOE hrs', required=False, min_value=0)
+
+    class Meta:
+        model = Comment
+        fields = ['comment', 'loe']
+        widgets = {
+            'comment': forms.Textarea(attrs={'class': 'form-control', 'spellcheck': 'true', 'cols': '57', 'rows': '7', 'placeholder': 'Enter your comment here'}),
+        }
+
+class EditContractForm(forms.ModelForm):
+    class Meta:
+        model = Contrato
+        fields = ['status', 'fecha_inicio', 'fecha_final']
 
 class UpdateNameForm(forms.Form):
     nombre = forms.CharField(max_length=100)

@@ -10,8 +10,8 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
-from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm, UpdateNameForm, UpdateEmailForm, UpdatePhoneForm, UpdatePasswordForm, TareaFormClient
-from .models import Usuario, Cuenta, Reporte, Tarea, Contrato
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm, UpdateNameForm, UpdateEmailForm, UpdatePhoneForm, UpdatePasswordForm, TareaFormClient, CommentForm, EditContractForm
+from .models import Usuario, Cuenta, Reporte, Tarea, Contrato, Comment
 
 def sign_in(request):
     if request.method == 'GET':
@@ -157,22 +157,24 @@ def index_view(request, nombre_cuenta):
             paginator_contrato = Paginator(contratos, elementos_por_pagina)
             paginator_user = Paginator(usuarios, elementos_por_pagina)
             paginator_report = Paginator(reportes, elementos_por_pagina_reports)
-            page_number = request.GET.get('page')
+            page_number_contrato = request.GET.get('page_contrato')
+            page_number_user = request.GET.get('page_user')
+            page_number_report = request.GET.get('page_report')
 
             try:
-                paginator_contratos = paginator_contrato.page(page_number)
-                paginator_users = paginator_user.page(page_number)
-                paginator_reports = paginator_report.page(page_number)
+                paginator_contratos = paginator_contrato.get_page(page_number_contrato)
+                paginator_users = paginator_user.get_page(page_number_user)
+                paginator_reports = paginator_report.get_page(page_number_report)
             except PageNotAnInteger:
                 # Si el número de página no es un entero, mostrar la primera página
-                paginator_contratos = paginator_contrato.page(1)
-                paginator_users = paginator_user.page(1)
-                paginator_reports = paginator_report.page(1)
+                paginator_contratos = paginator_contrato.get_page(1)
+                paginator_users = paginator_user.get_page(1)
+                paginator_reports = paginator_report.get_page(1)
             except EmptyPage:
                 # Si el número de página está fuera de rango, mostrar la última página de resultados
-                paginator_contratos = paginator_contrato.page(paginator_contrato.num_pages)
-                paginator_users = paginator_user.page(paginator_user.num_pages)
-                paginator_reports = paginator_report.page(paginator_user.num_pages)
+                paginator_contratos = paginator_contrato.get_page(paginator_contrato.num_pages)
+                paginator_users = paginator_user.get_page(paginator_user.num_pages)
+                paginator_reports = paginator_report.get_page(paginator_user.num_pages)
 
             # Pasa los datos al contexto de la plantilla
             context = {
@@ -365,6 +367,33 @@ def crear_contrato(request, nombre_cuenta):
 
     return redirect('index', nombre_cuenta=nombre_cuenta)
 
+def crear_comment(request, nombre_cuenta, id_tarea):
+    user_nombre = request.session.get('user_nombre')
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            # Obtener la tarea relacionada usando el id_tarea
+            tarea = Tarea.objects.get(id_tarea=id_tarea)
+
+            # Guardar el comentario en la base de datos
+            comentario = form.save(commit=False)  # No guardar aún en la base de datos
+            comentario.tarea_comment = tarea  # Asignar la tarea relacionada al comentario
+            comentario.nombre = user_nombre
+            comentario.save()  # Guardar el comentario en la base de datos
+
+            # Obtener los datos del comentario del formulario
+            loe_comentario = form.cleaned_data.get('loe', 0)  # Obtener el LOE del formulario
+
+            # Sumar el LOE del comentario al LOE total de la tarea
+            tarea.loe += loe_comentario
+            tarea.save()
+
+            # Redirigir al usuario a la página de éxito
+            return redirect('view_task_admin' , nombre_cuenta=nombre_cuenta, id_tarea=id_tarea)
+    else:
+        form = CommentForm()
+    return redirect('view_task_admin' , nombre_cuenta=nombre_cuenta, id_tarea=id_tarea)
+
 def view_perfil(request, nombre_cuenta):
     user_cuenta_nombre = request.session.get('user_cuenta_nombre', '')
     user_correo = request.session.get('user_correo', '')
@@ -532,7 +561,7 @@ def editar_usuario(request, nombre_cuenta):
         form = UsuarioFormEdit(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
-            request.session['registro_editado'] = True
+                # request.session['registro_editado'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
     else:
         form = UsuarioFormEdit(instance=usuario)
@@ -550,6 +579,17 @@ def editar_tarea(request, nombre_cuenta, id_tarea):
     else:
         form = TareaForm(instance=tarea)
     return render(request, 'user/editar_tarea.html', {'form': form, 'tarea': tarea, 'nombre_cuenta': nombre_cuenta})
+
+def editar_contrato(request, nombre_cuenta, id_contrato):
+    contrato = get_object_or_404(Contrato, id=id_contrato)
+    if request.method == 'POST':
+        form = EditContractForm(request.POST, instance=contrato)
+        if form.is_valid():
+            form.save()
+            return redirect('index', nombre_cuenta=nombre_cuenta)  # Redirigir a la página de éxito después de la edición
+    else:
+        form = EditContractForm(instance=contrato)
+    return redirect('index', nombre_cuenta=nombre_cuenta) 
 
 def confirmar_clave_view(request, uidb64, token):
     # Recupera el correo de la sesión

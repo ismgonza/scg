@@ -70,10 +70,12 @@
                     </div>
                     <div class="card">
                         <!-- Start: DJANGO - Add new comment and LOE -->
-                        <form class="comment"><textarea class="form-control" spellcheck="true" cols="57" rows="7" placeholder="Enter your comment here"></textarea>
+                        <form class="comment" action="{% url 'crear_comment' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}" method="post">
+                            {% csrf_token %}
+                            <textarea class="form-control" spellcheck="true" cols="57" rows="7" name="comment" placeholder="Enter your comment here"></textarea>
                             <div>
-                                <!-- Start: DJANGO - save to database --><input class="form-control" type="number" placeholder="Add LOE hrs"><!-- End: DJANGO - save to database -->
-                                <!-- Start: DJANGO - save to database --><button class="btn submit" type="submit">Submit</button><!-- End: DJANGO - save to database -->
+                                <input class="form-control" type="number" name="loe" placeholder="Add LOE hrs">
+                                <button class="btn submit" type="submit">Submit</button>
                             </div>
                         </form><!-- End: DJANGO - Add new comment and LOE -->
                     </div>

@@ -79,17 +79,17 @@
                         <nav class="d-xl-flex justify-content-xl-end">
                             <ul class="pagination pagination-sm">
                                 {% if paginator_contratos.has_previous %}
-                                    <li class="page-item"><a class="page-link" href="?page=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
-                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_contratos.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_contrato=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_contrato={{ paginator_contratos.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
                                 {% endif %}
                                 
                                 {% for num in paginator_contratos.paginator.page_range %}
-                                    <li class="page-item{% if paginator_contratos.number == num %} active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                    <li class="page-item{% if paginator_contratos.number == num %} active{% endif %}"><a class="page-link" href="?page_contrato={{ num }}">{{ num }}</a></li>
                                 {% endfor %}
                                 
                                 {% if paginator_contratos.has_next %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_contratos.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_contratos.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_contrato={{ paginator_contratos.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_contrato={{ paginator_contratos.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
                                 {% endif %}
                             </ul>
                         </nav>
@@ -121,17 +121,17 @@
                         <nav class="d-xl-flex justify-content-xl-end">
                             <ul class="pagination pagination-sm">
                                 {% if paginator_users.has_previous %}
-                                    <li class="page-item"><a class="page-link" href="?page=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
-                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_users.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_user=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_user={{ paginator_users.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
                                 {% endif %}
                                 
                                 {% for num in paginator_users.paginator.page_range %}
-                                    <li class="page-item{% if paginator_users.number == num %} active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                    <li class="page-item{% if paginator_users.number == num %} active{% endif %}"><a class="page-link" href="?page_user={{ num }}">{{ num }}</a></li>
                                 {% endfor %}
                                 
                                 {% if paginator_users.has_next %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_users.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_users.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_user={{ paginator_users.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_user={{ paginator_users.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
                                 {% endif %}
                             </ul>
                         </nav>
@@ -187,17 +187,17 @@
                     <nav class="d-xl-flex justify-content-xl-end">
                         <ul class="pagination pagination-sm">
                             {% if paginator_reports.has_previous %}
-                                <li class="page-item"><a class="page-link" href="?page=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
-                                <li class="page-item"><a class="page-link" href="?page={{ paginator_reports.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page_report=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page_report={{ paginator_reports.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
                             {% endif %}
                             
                             {% for num in paginator_reports.paginator.page_range %}
-                                <li class="page-item{% if paginator_reports.number == num %} active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                <li class="page-item{% if paginator_reports.number == num %} active{% endif %}"><a class="page-link" href="?page_report={{ num }}">{{ num }}</a></li>
                             {% endfor %}
                             
                             {% if paginator_reports.has_next %}
-                                <li class="page-item"><a class="page-link" href="?page={{ paginator_reports.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                                <li class="page-item"><a class="page-link" href="?page={{ paginator_reports.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page_report={{ paginator_reports.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page_report={{ paginator_reports.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
                             {% endif %}
                         </ul>
                     </nav>
@@ -299,15 +299,15 @@
                                 <input id='edit_user_id' type="hidden" name="user_id" value="">
                                 <div>
                                     <label class="form-label" for="edit_name" data-i18n="section_contact.form_name">Name</label>
-                                    <input id="edit_name" class="form-control" type="text" name="name" value="">
+                                    <input id="edit_name" class="form-control" type="text" name="nombre" value="">
                                 </div>
                                 <div>
                                     <label class="form-label" for="edit_email" data-i18n="section_contact.form_name">Email</label>
-                                    <input id="edit_email" class="form-control" type="email" name="email" value="">
+                                    <input id="edit_email" class="form-control" type="email" name="correo" value="">
                                 </div>
                                 <div>
                                     <label class="form-label" for="edit_phone" data-i18n="section_contact.form_name">Phone</label>
-                                    <input id="edit_phone" class="form-control" type="tel" name="phone" value="">
+                                    <input id="edit_phone" class="form-control" type="tel" name="telefono" value="">
                                 </div>
                                 <div>
                                     <label class="form-label" for="edit_status" data-i18n="section_contact.form_name">Status</label>
@@ -368,7 +368,7 @@
                             <h4 class="modal-title">Edit Contract</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="d-flex flex-column" style="padding: 10px;">
+                            <form method="POST" action="{% url 'editar_contrato' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
                                 <div>
                                     <label class="form-label" for="name" data-i18n="section_contact.form_name">Contract #&nbsp;<span id ="id_contract"></span></label>
                                 </div>

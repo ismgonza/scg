@@ -44,6 +44,9 @@ urlpatterns = [
     path('<str:nombre_cuenta>/costumers/editar_tarea/<int:id_tarea>/', views.editar_tarea, name='editar_tarea'),
 
     path('<str:nombre_cuenta>/costumers/crear_contrato/', views.crear_contrato, name="crear_contrato"),
+    path('<str:nombre_cuenta>/costumers/editar_tarea/', views.editar_contrato, name='editar_contrato'),
+
+    path('<str:nombre_cuenta>/tasks/<int:id_tarea>/crear_comment/', views.crear_comment, name='crear_comment'),
     
     path('<str:nombre_cuenta>/Perfil', views.view_perfil, name="perfil"),
     path('<str:nombre_cuenta>/Perfil/update_name/', views.update_name, name='update_name'),
