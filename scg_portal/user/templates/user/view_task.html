@@ -22,10 +22,11 @@
                         <div class="input-group">
                             <p class="input-group-text cust-info">Created By</p><!-- Start: DJANGO - load from database --><span class="input-group-text">{{ tarea.cuenta_tarea }}</span><!-- End: DJANGO - load from database -->
                         </div>
-                        <form>
+                        <form method="POST" action="{% url 'update_status_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}">
+                            {% csrf_token %}
                             <div class="input-group">
                                 <!-- Start: DJANGO - save to database --><button class="btn filter" type="submit">Status</button><!-- End: DJANGO - save to database -->
-                                <!-- Start: DJANGO - load from database --><select class="form-select">
+                                <!-- Start: DJANGO - load from database --><select class="form-select" name="status">
                                     <option value="{{ tarea.status }}" selected>{{ tarea.status }}</option>
                                     {% for option in opciones_status %}
                                         {% if option != tarea.status %}
@@ -52,10 +53,10 @@
                             <p class="input-group-text cust-info">Total LOE</p><!-- Start: DJANGO - calculate total loe --><span class="input-group-text">{{ tarea.loe }} hrs</span><!-- End: DJANGO - calculate total loe -->
                         </div>
                         <div class="input-group">
-                            <p class="input-group-text cust-info">Created on</p><!-- Start: DJANGO - task created date --><span class="input-group-text">22/02/2024</span><!-- End: DJANGO - task created date -->
+                            <p class="input-group-text cust-info">Created on</p><!-- Start: DJANGO - task created date --><span class="input-group-text">{{ tarea.fecha }}</span><!-- End: DJANGO - task created date -->
                         </div>
                         <div class="input-group">
-                            <p class="input-group-text cust-info">Closed on</p><!-- Start: DJANGO - task closed date --><span class="input-group-text">-</span><!-- End: DJANGO - task closed date -->
+                            <p class="input-group-text cust-info">Closed on</p><!-- Start: DJANGO - task closed date --><span class="input-group-text">{{ tarea.fecha_final }}</span><!-- End: DJANGO - task closed date -->
                         </div>
                     </div>
                 </div>

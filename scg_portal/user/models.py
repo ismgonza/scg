@@ -135,6 +135,7 @@ class Tarea(models.Model):
 
     severity = models.CharField(max_length=100, choices=OPCIONES_SEV)
     fecha = models.DateField(auto_now=True)
+    fecha_final = models.DateField(null=True, blank=True)
     descripcion = models.CharField(max_length=100, null=True, blank=True)
     incidente = models.CharField(max_length=100)
 

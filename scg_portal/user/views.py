@@ -10,7 +10,8 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
-from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm, UpdateNameForm, UpdateEmailForm, UpdatePhoneForm, UpdatePasswordForm, TareaFormClient, CommentForm, EditContractForm
+from django.utils import timezone
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm, UpdateNameForm, UpdateEmailForm, UpdatePhoneForm, UpdatePasswordForm, TareaFormClient, CommentForm, EditContractForm, UpdateStatusTareaForm
 from .models import Usuario, Cuenta, Reporte, Tarea, Contrato, Comment
 
 def sign_in(request):
@@ -98,7 +99,7 @@ def client_view(request, nombre_cuenta):
             tareas = Tarea.objects.filter(cuenta_tarea=cuenta)
 
             # Configurar la paginación
-            elementos_por_pagina = 10  # Ajusta según tus necesidades
+            elementos_por_pagina = 8  # Ajusta según tus necesidades
             paginator = Paginator(reportes, elementos_por_pagina)
             page = request.GET.get('page')
 
@@ -111,7 +112,7 @@ def client_view(request, nombre_cuenta):
 
             # Pasar los informes paginados al contexto
             context = {'nombre_cuenta': nombre_cuenta,
-                        'reportes': reportes_paginados,
+                        'paginator_reports': reportes_paginados,
                         'tareas': tareas
                         }
             return render(request, 'user/client.html', context)
@@ -383,7 +384,11 @@ def crear_comment(request, nombre_cuenta, id_tarea):
 
             # Obtener los datos del comentario del formulario
             loe_comentario = form.cleaned_data.get('loe', 0)  # Obtener el LOE del formulario
+            if loe_comentario is None:  # Verificar si LOE es None
+                loe_comentario = 0  # Asignar 0 si LOE es None
 
+            comentario.loe = loe_comentario  # Asignar LOE al comentario
+            comentario.save() 
             # Sumar el LOE del comentario al LOE total de la tarea
             tarea.loe += loe_comentario
             tarea.save()
@@ -784,6 +789,23 @@ def update_phone(request, nombre_cuenta):
     else:
         form = UpdatePhoneForm()
     return redirect('perfil', nombre_cuenta=nombre_cuenta)
+
+def update_status_tarea(request, nombre_cuenta, id_tarea):
+    tarea = Tarea.objects.get(id_tarea=id_tarea)
+    
+    if request.method == 'POST':
+        form = UpdateStatusTareaForm(request.POST, instance=tarea)
+        if form.is_valid():
+            tarea = form.save(commit=False)
+            if tarea.status == 'Completed':
+                # Si el estado es "Completed", establece la fecha_final en la fecha actual
+                tarea.fecha_final = timezone.now()
+            tarea.save()
+            return redirect('view_task_admin', nombre_cuenta=nombre_cuenta, id_tarea=id_tarea) 
+    else:
+        form = UpdateStatusTareaForm(instance=tarea)
+    
+    return redirect('view_task_admin', nombre_cuenta=nombre_cuenta, id_tarea=id_tarea) 
 
 def update_password(request, nombre_cuenta):
     user_id = request.session.get('user_id')

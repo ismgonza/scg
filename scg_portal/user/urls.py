@@ -15,6 +15,7 @@ urlpatterns = [
     path('<str:nombre_cuenta>/costumers/', views.index_view, name="index"),
     path('<str:nombre_cuenta>/costumers/report/<int:id_reporte>/', views.view_detalle_reporte_admin, name="view_report_admin"),
     path('<str:nombre_cuenta>/tasks/', views.view_admin_tasks, name="admin_tasks"),
+    path('<str:nombre_cuenta>/tasks/<int:id_tarea>/update_status/', views.update_status_tarea, name='update_status_tarea'),
     path('<str:nombre_cuenta>/costumers/user/<int:user_id>/', views.view_detalle_reporte_admin, name="view_user"),
     
     path('<str:nombre_cuenta>/tasks/<int:id_tarea>/', views.view_detalle_tarea_admin, name="view_task_admin"),

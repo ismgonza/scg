@@ -174,6 +174,15 @@ class EditContractForm(forms.ModelForm):
         model = Contrato
         fields = ['status', 'fecha_inicio', 'fecha_final']
 
+class UpdateStatusTareaForm(forms.ModelForm):
+    class Meta:
+        model = Tarea
+        fields = ['status']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['status'].widget.attrs.update({'class': 'form-select', 'onchange': 'this.form.submit()'})
+
 class UpdateNameForm(forms.Form):
     nombre = forms.CharField(max_length=100)
 
