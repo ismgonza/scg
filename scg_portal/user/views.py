@@ -580,9 +580,10 @@ def editar_tarea(request, nombre_cuenta, id_tarea):
         form = TareaForm(instance=tarea)
     return render(request, 'user/editar_tarea.html', {'form': form, 'tarea': tarea, 'nombre_cuenta': nombre_cuenta})
 
-def editar_contrato(request, nombre_cuenta, id_contrato):
-    contrato = get_object_or_404(Contrato, id=id_contrato)
+def editar_contrato(request, nombre_cuenta):
     if request.method == 'POST':
+        id_contrato = request.POST.get('id_contrato')  # Obtener id_contrato del formulario
+        contrato = Contrato.objects.get(id_contrato=id_contrato)
         form = EditContractForm(request.POST, instance=contrato)
         if form.is_valid():
             form.save()

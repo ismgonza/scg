@@ -369,6 +369,8 @@
                         </div>
                         <div class="modal-body">
                             <form method="POST" action="{% url 'editar_contrato' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
+                                {% csrf_token %}
+                                <input type="hidden" id="id_contrato" name="id_contrato" value="">
                                 <div>
                                     <label class="form-label" for="name" data-i18n="section_contact.form_name">Contract #&nbsp;<span id ="id_contract"></span></label>
                                 </div>
@@ -385,10 +387,10 @@
                                 </div>
                                 <div>
                                     <label class="form-label" for="name" data-i18n="section_contact.form_name">Start Date</label>
-                                    <input id ="fecha_inicio" class="form-control" required="" type="date"></div>
+                                    <input id="fecha_inicio" name="fecha_inicio" class="form-control" required="" type="date"></div>
                                 <div>
                                     <label class="form-label" for="name" data-i18n="section_contact.form_name">End Date</label>
-                                    <input id ="fecha_final" class="form-control" required="" type="date">
+                                    <input id ="fecha_final" name="fecha_final" class="form-control" required="" type="date">
                                 </div>
                                 <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
                             </form>
@@ -456,6 +458,7 @@
                 },
                 success: function(response) {
                     // Actualiza los campos del modal con los detalles del usuario obtenidos de la respuesta
+                    $('#modal-edit-contract').find('#id_contrato').val(response.id_contrato);
                     $('#modal-edit-contract').find('#id_contract').text(response.id_contrato);
                     $('#modal-edit-contract').find('#cuenta_contrato').text(response.cuenta_contrato);
                     $('#modal-edit-contract').find('#status').val(response.status);
