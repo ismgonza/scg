@@ -138,6 +138,7 @@ class Tarea(models.Model):
     fecha_final = models.DateField(null=True, blank=True)
     descripcion = models.CharField(max_length=100, null=True, blank=True)
     incidente = models.CharField(max_length=100)
+    asignee = models.CharField(max_length=100, null=True, blank=True)
 
     STATUS_COMP = 'Completed'
     STATUS_INP = 'In Progress'

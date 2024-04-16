@@ -36,13 +36,16 @@
                                 </select><!-- End: DJANGO - load from database -->
                             </div>
                         </form>
-                        <form>
+                        <form method="POST" action="{% url 'update_asignee_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}">
+                            {% csrf_token %}
                             <div class="input-group">
-                                <!-- Start: DJANGO - save to database --><button class="btn filter" type="submit">Assignee</button><!-- End: DJANGO - save to database -->
-                                <!-- Start: DJANGO - load from database --><select class="form-select form-select">
-                                    <option value="Juan Diego" selected="">Juan Diego</option>
+                                <button class="btn filter" type="submit">Assignee</button>
+                                <select class="form-select" name="asignee">
+                                    <option value="{{ tarea.asignee }}" selected>{{ tarea.asignee }}</option>
                                     <option value="Ismael">Ismael</option>
-                                </select><!-- End: DJANGO - load from database -->
+                                    <option value="Juan Diego">Juan Diego</option>
+                                    <option value="Carlos">Carlos</option>
+                                </select>
                             </div>
                         </form>
                     </div>

@@ -2,7 +2,7 @@ import random
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, JsonResponse
+from django.http import HttpResponseNotAllowed, HttpResponseRedirect, HttpResponseForbidden, HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
@@ -806,6 +806,16 @@ def update_status_tarea(request, nombre_cuenta, id_tarea):
         form = UpdateStatusTareaForm(instance=tarea)
     
     return redirect('view_task_admin', nombre_cuenta=nombre_cuenta, id_tarea=id_tarea) 
+
+def update_asignee(request, nombre_cuenta, id_tarea):
+    if request.method == 'POST':
+        asignee = request.POST.get('asignee')
+        tarea = Tarea.objects.get(id_tarea=id_tarea)
+        tarea.asignee = asignee
+        tarea.save()
+        return redirect('view_task_admin', nombre_cuenta=nombre_cuenta, id_tarea=id_tarea)
+    else:
+        return HttpResponseNotAllowed(['POST'])
 
 def update_password(request, nombre_cuenta):
     user_id = request.session.get('user_id')
