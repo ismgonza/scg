@@ -31,37 +31,40 @@ def sign_in(request):
             if usuarios.exists():
                 usuario = usuarios.first()
 
-                if check_password(password, usuario.password):  # Verifica la contraseña cifrada:
+                if usuario.status == 'Enabled':  # Verifica el estado del usuario
+                    if check_password(password, usuario.password):  # Verifica la contraseña cifrada:
 
-                    if usuario.tipo == 'Admin':
+                        if usuario.tipo == 'Admin':
 
-                        request.session['user_id'] = usuario.user_id
-                        request.session['user_correo'] = usuario.correo
-                        request.session['user_tipo'] = usuario.tipo
-                        request.session['user_cuenta_nombre'] = usuario.cuenta.nombre
-                        request.session['user_tel'] = usuario.telefono
-                        request.session['user_nombre'] = usuario.nombre
-                        cuenta_nombre = usuario.cuenta.nombre
+                            request.session['user_id'] = usuario.user_id
+                            request.session['user_correo'] = usuario.correo
+                            request.session['user_tipo'] = usuario.tipo
+                            request.session['user_cuenta_nombre'] = usuario.cuenta.nombre
+                            request.session['user_tel'] = usuario.telefono
+                            request.session['user_nombre'] = usuario.nombre
+                            cuenta_nombre = usuario.cuenta.nombre
 
-                        return HttpResponseRedirect(reverse("index", kwargs={'nombre_cuenta': cuenta_nombre}))
-                    elif usuario.tipo == 'Cliente':
-                        
-                        request.session['user_id'] = usuario.user_id
-                        request.session['user_correo'] = usuario.correo
-                        request.session['user_tipo'] = usuario.tipo
-                        request.session['user_cuenta_nombre'] = usuario.cuenta.nombre
-                        request.session['user_tel'] = usuario.telefono
-                        request.session['user_nombre'] = usuario.nombre
-                        cuenta_nombre = usuario.cuenta.nombre
-
-                        return HttpResponseRedirect(reverse("client", kwargs={'nombre_cuenta': cuenta_nombre}))
+                            return HttpResponseRedirect(reverse("index", kwargs={'nombre_cuenta': cuenta_nombre}))
+                        elif usuario.tipo == 'Cliente':
                             
+                            request.session['user_id'] = usuario.user_id
+                            request.session['user_correo'] = usuario.correo
+                            request.session['user_tipo'] = usuario.tipo
+                            request.session['user_cuenta_nombre'] = usuario.cuenta.nombre
+                            request.session['user_tel'] = usuario.telefono
+                            request.session['user_nombre'] = usuario.nombre
+                            cuenta_nombre = usuario.cuenta.nombre
+
+                            return HttpResponseRedirect(reverse("client", kwargs={'nombre_cuenta': cuenta_nombre}))
+                                
+                        else:
+                            messages.error(request, 'Tipo de usuario no reconocido')
+                            # Puedes ajustar la redirección en este caso según tus necesidades
+                            return redirect('login')
                     else:
-                        messages.error(request, 'Tipo de usuario no reconocido')
-                        # Puedes ajustar la redirección en este caso según tus necesidades
-                        return redirect('login')
+                        messages.error(request, 'Credenciales incorrectas')
                 else:
-                    messages.error(request, 'Credenciales incorrectas')
+                    messages.error(request, 'El usuario no está habilitado para iniciar sesión.')
             else:
                 messages.error(request, 'Usuario no encontrado')
 
