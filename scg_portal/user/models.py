@@ -93,7 +93,7 @@ def generate_dradis_filename(instance, filename):
     
 class Reporte(models.Model):
     id_reporte = models.IntegerField(unique=True, editable=False)
-    fecha_reporte = models.DateField(auto_now=True)
+    fecha_reporte = models.DateField(auto_now_add=True)
     tipo_reporte = models.CharField(max_length=100)
     target = models.CharField(max_length=100, null=True)
     cuenta_reporte = models.ForeignKey(
@@ -134,7 +134,7 @@ class Tarea(models.Model):
     ]
 
     severity = models.CharField(max_length=100, choices=OPCIONES_SEV)
-    fecha = models.DateField(auto_now=True)
+    fecha = models.DateField(auto_now_add=True)
     fecha_final = models.DateField(null=True, blank=True)
     descripcion = models.CharField(max_length=100, null=True, blank=True)
     incidente = models.CharField(max_length=100)
@@ -204,5 +204,5 @@ class Comment(models.Model):
         Tarea, on_delete=models.CASCADE, related_name="tareas_comments")
     nombre = models.CharField(max_length=100, null=True)
     comment = models.TextField(max_length=100)
-    fecha = models.DateTimeField(auto_now=True)
+    fecha = models.DateTimeField(auto_now_add=True)
     loe = models.FloatField(max_length=100, null=True, blank=True)
