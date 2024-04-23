@@ -77,7 +77,7 @@ class ReporteForm(forms.ModelForm):
 class CambiarClaveForm(forms.Form):
     nueva_contraseña = forms.CharField(
         label=_('Nueva contraseña'),
-        widget=forms.PasswordInput
+        widget=forms.PasswordInput(attrs={'minlength': '12'})
     )
 
     confirmar_contraseña = forms.CharField(
