@@ -3,6 +3,7 @@ import os
 import hashlib
 import time
 from django.contrib.auth.hashers import make_password
+from django.conf import settings
 
 from django.db import models
 
@@ -84,8 +85,12 @@ def generate_reset_token(usuario):
     return hashlib.sha256(token_data.encode('utf-8')).hexdigest()
 
 def generate_nessus_filename(instance, filename):
-    # No es necesario incluir la extensión aquí
-    return os.path.join("nessus", f"{instance.id_reporte}_{instance.cuenta_reporte.nombre.lower()}.json")
+    # Genera el nombre de archivo para uploads
+    upload_file = os.path.join("nessus", f"{instance.id_reporte}_{instance.cuenta_reporte.nombre.lower()}.json")
+    # Guarda una copia del archivo en static/reports
+    static_reports_path = os.path.join(settings.BASE_DIR, "static", "reports")
+    static_file = os.path.join(static_reports_path, f"{instance.id_reporte}.json")
+    return upload_file  # Solo devuelve la ruta de archivo para uploads
 
 def generate_dradis_filename(instance, filename):
     # No es necesario incluir la extensión aquí
@@ -118,6 +123,14 @@ class Reporte(models.Model):
             self.id_reporte = nuevo_id_reporte
 
         super().save(*args, **kwargs)
+
+        # Copiar el archivo JSON a static/reports
+        static_reports_path = os.path.join(settings.BASE_DIR, "static", "reports")
+        os.makedirs(static_reports_path, exist_ok=True)  # Crea la carpeta si no existe
+        static_file = os.path.join(static_reports_path, f"{self.id_reporte}.json")
+        with open(static_file, "wb") as destination_file:
+            with self.source.open("rb") as source_file:
+                destination_file.write(source_file.read())
 
 class Tarea(models.Model):
     id_tarea = models.IntegerField(unique=True, editable=False)
