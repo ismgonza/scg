@@ -292,7 +292,8 @@ def crear_usuario(request, nombre_cuenta):
         if form.is_valid():
             # Generar una contraseña aleatoria usando parte del nombre y un número
             nombre = form.cleaned_data['nombre']
-            parte_nombre = ''.join(random.choices(nombre.lower(), k=5))  # Usar los primeros 5 caracteres del nombre
+            nombre_sin_espacios = nombre.replace(' ', '')  # Eliminar espacios del nombre
+            parte_nombre = ''.join(random.choices(nombre_sin_espacios.lower(), k=5))  # Usar los primeros 5 caracteres del nombre sin espacios
             numeros = ''.join(random.choices('0123456789', k=6))  # Generar un número aleatorio de 6 dígitos
             password = f"{parte_nombre}{numeros}*"
             hashed_password = make_password(password)
