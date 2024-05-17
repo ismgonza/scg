@@ -144,9 +144,9 @@ def index_view(request, nombre_cuenta):
             usuarios = Usuario.objects.all()
             cuentas = Cuenta.objects.all()
             cuentas_cliente = Cuenta.objects.exclude(nombre='SCG')
-            reportes = Reporte.objects.all()
-            tareas = Tarea.objects.all()
-            contratos = Contrato.objects.all()
+            reportes = Reporte.objects.all().order_by('fecha_reporte')
+            tareas = Tarea.objects.all().order_by('fecha')
+            contratos = Contrato.objects.all().order_by('fecha_inicio')
             tipos = Usuario.OPCIONES_TIPO
             status = Usuario.OPCIONES_STATUS
             status_contract = Contrato.OPCIONES_STATUS
