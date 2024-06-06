@@ -290,6 +290,13 @@ def crear_usuario(request, nombre_cuenta):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
         if form.is_valid():
+            correo = form.cleaned_data['correo']
+
+            # Verificar si el correo ya existe en la base de datos
+            if Usuario.objects.filter(correo=correo).exists():
+                # Redirigir o mostrar un mensaje de error si el correo ya existe
+                return redirect('index', nombre_cuenta=nombre_cuenta)
+
             # Generar una contraseña aleatoria usando parte del nombre y un número
             nombre = form.cleaned_data['nombre']
             nombre_sin_espacios = nombre.replace(' ', '')  # Eliminar espacios del nombre

@@ -107,7 +107,7 @@ class Reporte(models.Model):
     file_report = models.FileField(upload_to=generate_dradis_filename, null=True, blank=True)
     
     def __str__(self):
-        return self.target
+        return self.tipo_reporte
     
     def save(self, *args, **kwargs):
         # Si el objeto aún no tiene un ID asignado
