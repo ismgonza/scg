@@ -39,8 +39,8 @@
                         <form method="POST" action="{% url 'update_asignee_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}">
                             {% csrf_token %}
                             <div class="input-group">
-                                <button class="btn filter" type="submit">Assignee</button>
-                                <select class="form-select" name="asignee">
+                                <button class="btn filter" type="submit" {% if user_tipo != 'Admin' %}disabled{% endif %}>Assignee</button>
+                                <select class="form-select" name="asignee" {% if user_tipo != 'Admin' %}disabled{% endif %}>
                                     <option value="{{ tarea.asignee }}" selected>{{ tarea.asignee }}</option>
                                     <option value="Ismael">Ismael</option>
                                     <option value="Juan Diego">Juan Diego</option>
@@ -78,8 +78,8 @@
                             {% csrf_token %}
                             <textarea class="form-control" spellcheck="true" cols="57" rows="7" name="comment" placeholder="Enter your comment here"></textarea>
                             <div>
-                                <input class="form-control" type="number" name="loe" placeholder="Add LOE hrs">
-                                <button class="btn submit" type="submit">Submit</button>
+                                <input class="form-control" type="number" name="loe" placeholder="Add LOE hrs" {% if user_tipo != 'Admin' %}disabled{% endif %}>
+                                <button class="btn submit" type="submit" >Submit</button>
                             </div>
                         </form><!-- End: DJANGO - Add new comment and LOE -->
                     </div>

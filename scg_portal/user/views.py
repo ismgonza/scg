@@ -709,6 +709,7 @@ def get_account_data(request, nombre_cuenta):
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
 def view_detalle_tarea(request, nombre_cuenta, id_tarea):
+    user_tipo = request.session.get('user_tipo')
     tarea = get_object_or_404(Tarea, id_tarea=id_tarea, cuenta_tarea__nombre=nombre_cuenta)
     comentarios = tarea.tareas_comments.all()
 
@@ -726,9 +727,10 @@ def view_detalle_tarea(request, nombre_cuenta, id_tarea):
         # Si el número de página está fuera de rango, mostrar la última página de resultados
         paginator_comments = paginator_comment.page(paginator_comment.num_pages)
 
-    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea, 'comentarios': paginator_comments})
+    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea, 'comentarios': paginator_comments, 'user_tipo': user_tipo})
 
 def view_detalle_tarea_admin(request, nombre_cuenta, id_tarea):
+    user_tipo = request.session.get('user_tipo')
     tarea = get_object_or_404(Tarea, id_tarea=id_tarea)
     comentarios = tarea.tareas_comments.all()
     opciones_status = Tarea.OPCIONES_STATUS
@@ -747,7 +749,7 @@ def view_detalle_tarea_admin(request, nombre_cuenta, id_tarea):
         # Si el número de página está fuera de rango, mostrar la última página de resultados
         paginator_comments = paginator_comment.page(paginator_comment.num_pages)
 
-    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea, 'opciones_status': opciones_status, 'comentarios': paginator_comments})
+    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea, 'opciones_status': opciones_status, 'comentarios': paginator_comments, 'user_tipo': user_tipo})
 
 def view_detalle_reporte_admin(request, nombre_cuenta, id_reporte):
     reporte = get_object_or_404(Reporte, id_reporte=id_reporte)

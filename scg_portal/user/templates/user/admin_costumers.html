@@ -235,7 +235,7 @@
                                 </div>
                                 <div>
                                     <label class="form-label" for="parsed_source" data-i18n="section_contact.form_name">Parsed Source (Dradis PDF)</label>
-                                    <input type="file" name="file_report" required>
+                                    <input type="file" name="file_report">
                                 </div>
                                 <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
                             </form>
@@ -473,6 +473,11 @@
                 }
             });
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('end_date').setAttribute('min', today);
+        });
     </script>
 
     
