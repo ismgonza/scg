@@ -313,6 +313,7 @@ def crear_usuario(request, nombre_cuenta):
             usuario.status = 'Enabled'
 
             usuario.save()
+            request.session['registro_exitoso'] = True
 
             # Envía un correo electrónico con el correo y la contraseña
             subject = 'Información de cuenta'
@@ -336,7 +337,6 @@ def crear_tarea_admin(request, nombre_cuenta):
             tarea.status = "Not Started"
             tarea.loe = 0
             tarea.save()
-            request.session['registro_exitoso'] = True
             return redirect('admin_tasks', nombre_cuenta=nombre_cuenta)
             # Lógica adicional después de guardar el reporte
     else:
@@ -357,7 +357,6 @@ def crear_tarea_client(request, nombre_cuenta):
             tarea.status = "Not Started"
             tarea.loe = 0
             tarea.save()
-            request.session['registro_exitoso'] = True
             return redirect('tasks', nombre_cuenta=nombre_cuenta)
             # Lógica adicional después de guardar el reporte
     else:
@@ -372,6 +371,7 @@ def crear_contrato(request, nombre_cuenta):
             contrato = form.save(commit=False)  # Obtener el objeto Contrato sin guardarlo en la base de datos aún
             contrato.status = 'Active'  # Asignar el estado "Active"
             contrato.save()  # Guardar el contrato en la base de datos
+            request.session['registro_exitoso'] = True
             # Resto de tu lógica después de guardar el contrato
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Redirige a alguna página después de la creación exitosa
     else:
@@ -577,7 +577,7 @@ def editar_usuario(request, nombre_cuenta):
         form = UsuarioFormEdit(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
-                # request.session['registro_editado'] = True
+            request.session['registro_editado'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Cambia 'nombre_de_tu_vista' con el nombre de tu vista principal
     else:
         form = UsuarioFormEdit(instance=usuario)
@@ -603,6 +603,7 @@ def editar_contrato(request, nombre_cuenta):
         form = EditContractForm(request.POST, instance=contrato)
         if form.is_valid():
             form.save()
+            request.session['registro_editado'] = True
             return redirect('index', nombre_cuenta=nombre_cuenta)  # Redirigir a la página de éxito después de la edición
     else:
         form = EditContractForm(instance=contrato)
