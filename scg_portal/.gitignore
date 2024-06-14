@@ -1,6 +1,12 @@
+# Files
 .python-version
 requirements.txt
 .env
 *.pyc
 .DS_Store
+db.sqlite3
+datadump.json
+
+# Directories
 __pycache__/
+.vscode/
