@@ -1,3 +1,5 @@
 .python-version
 requirements.txt
 .env
+*.pyc
+.DS_Store
