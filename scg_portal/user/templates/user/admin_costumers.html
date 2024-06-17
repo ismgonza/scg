@@ -1,0 +1,523 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    Dasboard - Admin
+{% endblock %}
+
+{% block css_files %}
+    {% comment %} <link rel="stylesheet" href="{% static "user/index.css" %}"> {% endcomment %}
+    <link rel="stylesheet" href="{% static "user/styles.min.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <main>
+        <div class="container admin-portal">
+            <div class="row heading-row">
+                <div class="col heading-row">
+                    <h1 class="text-center">Customer Administration</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <form method="post" action="{% url 'crear_cuenta' nombre_cuenta %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <button class="btn" type="submit">Create</button>
+                                <input name="nombre" class="form-control" type="text" placeholder="a new customer account">
+                            </div>
+                        </form>
+                        <div class="input-group"><button class="btn" type="button" data-bs-target="#modal-register-contract" data-bs-toggle="modal">Register</button><span class="input-group-text">a contract #</span></div>
+                        <div class="input-group"><button class="btn" type="button" data-bs-target="#modal-create-user" data-bs-toggle="modal">Add</button><span class="input-group-text">a new user</span></div>
+                        <div class="input-group"><button class="btn" type="button" data-bs-target="#modal-security-report" data-bs-toggle="modal">Upload</button><span class="input-group-text">a new security report</span></div>
+                        <div class="input-group"><button id="filterBtn" class="btn filter" type="button">Filter by</button><input id="customerAccountInput" type="text" class="form-select input-group-text" list="customer_accounts" placeholder="customer account name"><datalist id="customer_accounts">
+    {% for cuenta in cuentas %}
+        <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+    {% endfor %}
+    </datalist></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card" id="accountInfoCard">
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Account ID</p><span class="input-group-text" id="accountID"></span>
+                        </div>
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Account Name</p><span class="input-group-text" id="accountName"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <h1 class="text-start">Contracts</h1>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Contract ID</th>
+                                        <th>Status</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for contrato in paginator_contratos %}
+                                        <tr>
+                                            <td><a href="#" onclick="openUserModalContract('{{ contrato.id_contrato }}')" data-bs-target="#modal-edit-contract" data-bs-toggle="modal">{{ contrato.id_contrato }}</a></td>
+                                            <td>{{ contrato.status }}</td>
+                                            <td>{{ contrato.fecha_inicio }}</td>
+                                            <td>{{ contrato.fecha_final }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav class="d-xl-flex justify-content-xl-end">
+                            <ul class="pagination pagination-sm">
+                                {% if paginator_contratos.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page_contrato=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_contrato={{ paginator_contratos.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                {% endif %}
+                                
+                                {% for num in paginator_contratos.paginator.page_range %}
+                                    <li class="page-item{% if paginator_contratos.number == num %} active{% endif %}"><a class="page-link" href="?page_contrato={{ num }}">{{ num }}</a></li>
+                                {% endfor %}
+                                
+                                {% if paginator_contratos.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page_contrato={{ paginator_contratos.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_contrato={{ paginator_contratos.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <h1 class="text-start">Users</h1>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for usuario in paginator_users %}
+                                        <tr>
+                                            <td><a href="#" onclick="openUserModalUser('{{ usuario.user_id }}')" data-bs-target="#modal-edit-user" data-bs-toggle="modal">{{ usuario.nombre }}</a></td>
+                                            <td>{{ usuario.correo }}</td>
+                                            <td>{{ usuario.telefono }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav class="d-xl-flex justify-content-xl-end">
+                            <ul class="pagination pagination-sm">
+                                {% if paginator_users.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page_user=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_user={{ paginator_users.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                {% endif %}
+                                
+                                {% for num in paginator_users.paginator.page_range %}
+                                    <li class="page-item{% if paginator_users.number == num %} active{% endif %}"><a class="page-link" href="?page_user={{ num }}">{{ num }}</a></li>
+                                {% endfor %}
+                                
+                                {% if paginator_users.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page_user={{ paginator_users.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page_user={{ paginator_users.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-start">Vulnerability Count by Risk Category - Report ID&nbsp;<span id="reportId" class="reportId">0000</span></h1><div class="canvas">
+    <canvas id="vuln_by_risk"></canvas>
+    </div>
+                </div>
+                <div class="col">
+                    <h1 class="text-start">Vulnerability Count by Top 10 Hosts - Report ID&nbsp;<span id="reportId" class="reportId">0000</span></h1><div class="table-responsive" id="vuln_by_target">
+    <!--     <canvas id="vuln_by_risk"></canvas> -->
+    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-start">Vulnerability Count by Top 10 Alerts (Critical, High, Medium) - Report ID&nbsp;<span id="reportId-1" class="reportId">0000</span></h1><div class="table-responsive" id="top_alerts">
+    <!--     <canvas id="vuln_by_risk"></canvas> -->
+    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-start">Security Reports</h1>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Date</th>
+                                    <th>Report ID</th>
+                                    <th>Scan Type</th>
+                                    <th>File</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reporte in paginator_reports %}
+                                    <tr>
+                                        <td><input type="radio" checked="" name="report" value="{{ reporte.id_reporte }}"></td>
+                                        <td>{{ reporte.fecha_reporte }}</td>
+                                        <td><a href="{% url 'view_report_admin' nombre_cuenta=nombre_cuenta id_reporte=reporte.id_reporte %}">{{ reporte.id_reporte }}</a></td>
+                                        <td>{{ reporte.tipo_reporte }}</td>
+                                        <td><a href="#">Download</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav class="d-xl-flex justify-content-xl-end">
+                        <ul class="pagination pagination-sm">
+                            {% if paginator_reports.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page_report=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page_report={{ paginator_reports.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                            {% endif %}
+                            
+                            {% for num in paginator_reports.paginator.page_range %}
+                                <li class="page-item{% if paginator_reports.number == num %} active{% endif %}"><a class="page-link" href="?page_report={{ num }}">{{ num }}</a></li>
+                            {% endfor %}
+                            
+                            {% if paginator_reports.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page_report={{ paginator_reports.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page_report={{ paginator_reports.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="modal fade modal_format" role="dialog" tabindex="-1" id="modal-security-report">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Upload a Security Report</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{% url 'crear_reporte' nombre_cuenta=nombre_cuenta %}" enctype="multipart/form-data" class="d-flex flex-column" style="padding: 10px;">
+                            {% csrf_token %}
+                                <div>
+                                    <label class="form-label" for="scan_type" data-i18n="section_contact.form_name">Scan Type</label>
+                                    <select class="form-select" name="tipo_reporte" required>
+                                        <option value="Vulnerability Scan (Network)">Vulnerability Scan (Network)</option>
+                                        <option value="Vulnerability Scan (WebApp)">Vulnerability Scan (WebApp)</option>
+                                        <option value="pentest" selected>PenTest</option>
+                                        <option value="PerfTest" selected>PerfTest</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="customer_account" data-i18n="section_contact.form_name">Customer Account</label>
+                                    <select name="cuenta_reporte" class="form-select" id="cuenta_reporte">
+                                        {% for cuenta in form_reporte.cuenta_reporte.field.queryset %}
+                                            <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="raw_source" data-i18n="section_contact.form_name">RAW Source (json)</label>
+                                    <input type="file" name="source" required>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="parsed_source" data-i18n="section_contact.form_name">Parsed Source (Dradis PDF)</label>
+                                    <input type="file" name="file_report">
+                                </div>
+                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade modal_format" role="dialog" tabindex="-1" id="modal-create-user">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add a new user</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{% url 'crear_usuario' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <label class="form-label" for="customer_account" data-i18n="section_contact.form_name">Customer Account</label>
+                                    <select name="cuenta" class="form-select" id="cuenta">
+                                        {% for cuenta in form_usuario.cuenta.field.queryset %}
+                                            <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Name</label>
+                                    <input class="form-control" type="text" name="nombre" required>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="email" data-i18n="section_contact.form_email">Email</label>
+                                    <input class="form-control" type="email" name="correo" required>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="phone" data-i18n="section_contact.form_phone">Phone</label>
+                                    <input class="form-control" type="text" name="telefono" required>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="tipo" data-i18n="section_contact.form_user_type">User Type</label>
+                                    <select class="form-control" name="tipo" required>
+                                        {% for tipo in tipos %}
+                                            <option value="{{ tipo.0 }}">{{ tipo.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde; border-style: none; max-width: 50%; margin-right: 25%; margin-left: 25%; margin-top: 15px; margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade modal_format" role="dialog" tabindex="-1" id="modal-edit-user">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit User</h4>
+                            <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{% url 'editar_usuario' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
+                                {% csrf_token %}
+                                <input id='edit_user_id' type="hidden" name="user_id" value="">
+                                <div>
+                                    <label class="form-label" for="edit_name" data-i18n="section_contact.form_name">Name</label>
+                                    <input id="edit_name" class="form-control" type="text" name="nombre" value="">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="edit_email" data-i18n="section_contact.form_name">Email</label>
+                                    <input id="edit_email" class="form-control" type="email" name="correo" value="">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="edit_phone" data-i18n="section_contact.form_name">Phone</label>
+                                    <input id="edit_phone" class="form-control" type="tel" name="telefono" value="">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="edit_status" data-i18n="section_contact.form_name">Status</label>
+                                    <select id="edit_status" class="form-select" name="status" value="">
+                                        {% for status in status %}
+                                        <option value="{{ status.0 }}" {% if user.status == status.0 %} selected {% endif %}>{{ status.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <button class="btn reset_password" type="button" data-i18n="section_contact.form_button">Reset Password</button>
+                                    <button class="btn submit" type="submit" data-i18n="section_contact.form_button">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade modal_format" role="dialog" tabindex="-1" id="modal-register-contract">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Register a contract #</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{% url 'crear_contrato' nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <label class="form-label" for="customer_account">Customer Account</label>
+                                    <select name="cuenta_contrato" class="form-select" id="cuenta">
+                                        {% for cuenta in form_contrato.cuenta_contrato.field.queryset %}
+                                            <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="contract_number">Contract #</label>
+                                    <input name="id_contrato" class="form-control" type="text" id="contract_number">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="start_date">Start Date</label>
+                                    <input name="fecha_inicio" class="form-control" type="date" id="start_date">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="end_date">End Date</label>
+                                    <input name="fecha_final" class="form-control" type="date" id="end_date">
+                                </div>
+                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade modal_format" role="dialog" tabindex="-1" id="modal-edit-contract">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Contract</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{% url 'editar_contrato' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
+                                {% csrf_token %}
+                                <input type="hidden" id="id_contrato" name="id_contrato" value="">
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Contract #&nbsp;<span id ="id_contract"></span></label>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Cuenta&nbsp;<span id ="cuenta_contrato"></span></label>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Status</label>
+                                    <select id="status" class="form-select" name="status">
+                                    {% for status in status_contract %}
+                                        <option value="{{ status.0 }}">{{ status.1 }}</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Start Date</label>
+                                    <input id="fecha_inicio" name="fecha_inicio" class="form-control" required="" type="date"></div>
+                                <div>
+                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">End Date</label>
+                                    <input id ="fecha_final" name="fecha_final" class="form-control" required="" type="date">
+                                </div>
+                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="successModalLabel">Notificación</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- El mensaje se actualizará dinámicamente -->
+                        <p id="modalMessage"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#filterBtn').click(function() {
+                var selectedAccount = $('#customerAccountInput').val();
+                $.ajax({
+                    url: '{% url 'get_account_data' nombre_cuenta %}', // URL de la vista que devuelve los datos de la cuenta
+                    method: 'GET',
+                    data: {'account_name': selectedAccount},
+                    success: function(response) {
+                        // Actualizar los campos con los datos recibidos del servidor
+                        $('#accountID').text(response.id_cuenta);
+                        $('#accountName').text(response.nombre);
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log(errmsg);
+                    }
+                });
+            });
+        });
+
+        function openUserModalUser(userId) {
+            // Hacer una solicitud AJAX para obtener los detalles del usuario utilizando el user_id
+            $.ajax({
+                type: 'GET',
+                url: '{% url 'get_user_data' nombre_cuenta %}',
+                data: {
+                    'user_id': userId
+                },
+                success: function(response) {
+                    console.log(response);
+                    // Actualiza los campos del modal con los detalles del usuario obtenidos de la respuesta
+                    $('#modal-edit-user').find('#edit_user_id').val(response.user_id);
+                    $('#modal-edit-user').find('#edit_name').val(response.nombre);
+                    $('#modal-edit-user').find('#edit_email').val(response.correo);
+                    $('#modal-edit-user').find('#edit_phone').val(response.telefono);
+                    $('#modal-edit-user').find('#edit_status').val(response.status);
+                    
+                    // Abre el modal
+                    $('#modal-edit-user').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener los detalles del usuario:', error);
+                }
+            });
+        }
+
+        function openUserModalContract(contractId) {
+            // Hacer una solicitud AJAX para obtener los detalles del usuario utilizando el user_id
+            $.ajax({
+                type: 'GET',
+                url: '{% url 'get_contract_data' nombre_cuenta %}',
+                data: {
+                    'contract_id': contractId
+                },
+                success: function(response) {
+                    // Actualiza los campos del modal con los detalles del usuario obtenidos de la respuesta
+                    $('#modal-edit-contract').find('#id_contrato').val(response.id_contrato);
+                    $('#modal-edit-contract').find('#id_contract').text(response.id_contrato);
+                    $('#modal-edit-contract').find('#cuenta_contrato').text(response.cuenta_contrato);
+                    $('#modal-edit-contract').find('#status').val(response.status);
+                    $('#modal-edit-contract').find('#fecha_inicio').val(response.fecha_inicio);
+                    $('#modal-edit-contract').find('#fecha_final').val(response.fecha_final);
+                    
+                    // Abre el modal
+                    $('#modal-edit-contract').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener los detalles del usuario:', error);
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('end_date').setAttribute('min', today);
+        });
+
+        $(document).ready(function() {
+            // Variables de Django pasadas al template
+            const registroExitoso = {{ registro_exitoso|yesno:"true,false" }};
+            const registroEditado = {{ registro_editado|yesno:"true,false" }};
+
+            if (registroExitoso) {
+                $('#modalMessage').text('El registro se ha creado exitosamente.');
+                $('#successModal').modal('show');
+            } else if (registroEditado) {
+                $('#modalMessage').text('El registro se ha editado exitosamente.');
+                $('#successModal').modal('show');
+            }
+        });
+
+        function closeModal() {
+            $('#successModal').modal('hide');
+        }
+    </script>
+    
+{% endblock %}

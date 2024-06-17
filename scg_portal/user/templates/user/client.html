@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    Dasboard - {{ nombre_cuenta }}
+{% endblock %}
+
+{% block content %}
+
+    <main>
+        <div class="container charts">
+            <div class="row heading-row">
+                <div class="col heading-row">
+                    <h1 class="text-center">Security Overview</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-start">Vulnerability Count by Risk Category - Report ID&nbsp;<span id="reportId" class="reportId">0000</span></h1><div class="canvas">
+    <canvas id="vuln_by_risk"></canvas>
+    </div>
+                </div>
+                <div class="col">
+                    <h1 class="text-start">Vulnerability Count by Top 10 Hosts - Report ID&nbsp;<span id="reportId" class="reportId">0000</span></h1><div class="table-responsive" id="vuln_by_target">
+    <!--     <canvas id="vuln_by_risk"></canvas> -->
+    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-start">Vulnerability Count by Top 10 Alerts (Critical, High, Medium) - Report ID&nbsp;<span id="reportId-1" class="reportId">0000</span></h1><div class="table-responsive" id="top_alerts">
+    <!--     <canvas id="vuln_by_risk"></canvas> -->
+    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-start">Security Reports</h1>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Date</th>
+                                    <th>Report ID</th>
+                                    <th>Scan Type</th>
+                                    <th>File</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reporte in paginator_reports %}
+                                    <tr>
+                                        <td><input type="radio" name="report" value="{{ reporte.id_reporte }}"></td>
+                                        <td>{{ reporte.fecha_reporte }}</td>
+                                        <td><a href="{% url 'view_reporte' reporte.cuenta_reporte.nombre reporte.id_reporte %}">{{ reporte.id_reporte }}</a></td>
+                                        <td>{{ reporte.tipo_reporte }}</td>
+                                        <td><a href="{% url 'download_report' id_reporte=reporte.id_reporte nombre_cuenta=reporte.cuenta_reporte.nombre %}" download>Download</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav class="d-xl-flex justify-content-xl-end">
+                        <ul class="pagination pagination-sm">
+                            {% if paginator_reports.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page_report=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page_report={{ paginator_reports.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                            {% endif %}
+                            
+                            {% for num in paginator_reports.paginator.page_range %}
+                                <li class="page-item{% if paginator_reports.number == num %} active{% endif %}"><a class="page-link" href="?page_report={{ num }}">{{ num }}</a></li>
+                            {% endfor %}
+                            
+                            {% if paginator_reports.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page_report={{ paginator_reports.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page_report={{ paginator_reports.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+{% endblock %}

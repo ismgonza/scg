@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} 
+    TASKS / TICKETS ADMINISTRATION
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "user/styles.min.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <main>
+        <div class="container admin-portal">
+            <div class="row heading-row">
+                <div class="col heading-row">
+                    <h1 class="text-center">Tasks / Tickets Administration</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <h1 class="text-start">Tickets by Open Status</h1>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for status, count in counts.items %}
+                                    <tr>
+                                        <td>{{ status }}</td>
+                                        <td>{{ count }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="input-group"><button class="btn" type="button" data-bs-target="#log-ticket-admin" data-bs-toggle="modal">Log</button><span class="input-group-text">a new task or effort</span></div>
+                        <div class="input-group"><button id="filterAccountBtn" class="btn filter" type="button">Filter by</button><input id="customerAccountInput" type="text" class="form-select input-group-text" list="customer_accounts" placeholder="customer account"><datalist id="customer_accounts">
+    {% for cuenta in cuentas %}
+        <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+    {% endfor %}
+    </datalist></div>
+                        <div class="input-group"><button id="filterStatusBtn" class="btn filter" type="button">Filter by</button><input id="ticketStatusInput" type="text" class="form-select input-group-text" list="ticket_status" placeholder="ticket status"><datalist id="ticket_status">
+    {% for opcion in opciones_status %}
+        <option value="{{ opcion.0 }}">{{ opcion.1 }}</option>
+    {% endfor %}
+    </datalist></div>
+                        <div class="input-group"><button id="filterSeverityBtn" class="btn filter" type="button">Filter by</button><input id="severitiesInput" type="text" class="form-select input-group-text" list="severities" placeholder="severity"><datalist id="severities">
+    {% for opcion in opciones_sev %}
+        <option value="{{ opcion.0 }}">{{ opcion.1 }}</option>
+    {% endfor %}
+    </datalist></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <h1 class="text-start">Tasks</h1>
+                        <div class="table-responsive">
+                            <table id="tasksTable" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Task ID</th>
+                                        <th>Severity</th>
+                                        <th>Date Created</th>
+                                        <th>Account</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th>Total LOE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for tarea in paginator_tareas %}
+                                        <tr>
+                                            <td><a href="{% url 'view_task_admin' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}">{{ tarea.id_tarea }}</a></td>
+                                            <td><span style="font-weight: normal !important; font-style: normal !important;">{{ tarea.severity }}</span></td>
+                                            <td><span style="font-weight: normal !important; font-style: normal !important;">{{ tarea.fecha }}</span></td>
+                                            <td>{{ tarea.cuenta_tarea }}</td>
+                                            <td>{{ tarea.descripcion }}</td>
+                                            <td>{{ tarea.status }}</td>
+                                            <td>{{ tarea.loe }} hours</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav class="d-xl-flex justify-content-xl-end">
+                            <ul class="pagination pagination-sm">
+                                {% if paginator_tareas.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_tareas.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                {% endif %}
+                                
+                                {% for num in paginator_tareas.paginator.page_range %}
+                                    <li class="page-item{% if paginator_tareas.number == num %} active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                {% endfor %}
+                                
+                                {% if paginator_tareas.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_tareas.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginator_tareas.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade modal_format" role="dialog" tabindex="-1" id="log-ticket-admin">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Log a New Task</h4>
+                            <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="{% url 'crear_tarea_admin' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
+                                {% csrf_token %}
+                                <div>
+                                    <label class="form-label" for="incidente">Subject</label>
+                                    <input name="incidente" type="text" id="incidente" required="">
+                                </div>
+                                <div class="input-group">
+                                    <label class="form-label" for="cuenta_tarea">Customer Account</label>
+                                    <select name="cuenta_tarea" class="form-select" id="cuenta_tarea">
+                                        {% for cuenta in form.cuenta_tarea.field.queryset %}
+                                            <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div><label class="form-label" data-i18n="section_contact.form_email" for="email">Severity:</label><select class="form-select" name="severity">
+                                    <option value="1">1 - High</option>
+                                    <option value="2">2 - Medium</option>
+                                    <option value="3" selected="">3 - Low</option>
+                                </select></div>
+                                <div>
+                                    <label class="form-label" for="descripcion">Please describe the request:</label>
+                                    <textarea name="descripcion" class="form-control" id="descripcion" maxlength="300" rows="6"></textarea>
+                                </div>
+                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $('#filterAccountBtn').click(function() {
+                var selectedAccount = $('#customerAccountInput').val(); // Obtener la cuenta de cliente seleccionada
+    
+                // Iterar sobre cada fila de la tabla
+                $('#tasksTable tbody tr').each(function() {
+                    var rowAccount = $(this).find('td:eq(3)').text(); // Obtener la cuenta de cliente de la fila actual
+    
+                    // Comprobar si la cuenta de cliente de la fila coincide con la cuenta seleccionada o si no se selecciona ninguna cuenta
+                    if (rowAccount === selectedAccount || selectedAccount === '') {
+                        $(this).show(); // Mostrar la fila si coincide
+                    } else {
+                        $(this).hide(); // Ocultar la fila si no coincide
+                    }
+                });
+            });
+    
+            // Filtrado por estado de ticket
+            $('#filterStatusBtn').click(function() {
+                var selectedStatus = $('#ticketStatusInput').val(); // Obtener el estado de ticket seleccionado
+    
+                // Iterar sobre cada fila de la tabla
+                $('#tasksTable tbody tr').each(function() {
+                    var rowStatus = $(this).find('td:eq(5)').text(); // Obtener el estado de ticket de la fila actual
+    
+                    // Comprobar si el estado de ticket de la fila coincide con el estado seleccionado o si no se selecciona ningún estado
+                    if (rowStatus === selectedStatus || selectedStatus === '') {
+                        $(this).show(); // Mostrar la fila si coincide
+                    } else {
+                        $(this).hide(); // Ocultar la fila si no coincide
+                    }
+                });
+            });
+
+            $('#filterSeverityBtn').click(function() {
+                var selectedSeverity = $('#severitiesInput').val(); // Obtiene la severidad seleccionada
+    
+                // Itera sobre cada fila de la tabla
+                $('#tasksTable tbody tr').each(function() {
+                    var rowSeverity = $(this).find('td:eq(1)').text(); // Obtiene la severidad de la fila actual
+    
+                    // Comprueba si la severidad de la fila coincide con la severidad seleccionada o si no se selecciona ninguna severidad
+                    if (rowSeverity === selectedSeverity || selectedSeverity === '') {
+                        $(this).show(); // Muestra la fila si coincide
+                    } else {
+                        $(this).hide(); // Oculta la fila si no coincide
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#new-task-form').submit(function(event) {
+                event.preventDefault(); // Evita el comportamiento predeterminado del formulario
+
+                // Obtener el token CSRF
+                var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+                
+                // Obtener los valores de los campos de entrada
+                var subject = $('#incidente').val();
+                var customerAccount = $('#cuenta_tarea').val();
+                var severity = $('#severity').val();
+                var description = $('#descripcion').val();
+                
+                // Enviar los datos al servidor mediante una solicitud AJAX
+                $.ajax({
+                    url: '{% url 'crear_tarea_admin' nombre_cuenta %}',
+                    method: 'POST',
+                    data: {
+                        csrfmiddlewaretoken: csrftoken, 
+                        incidente: subject,
+                        cuenta_tarea: customerAccount,
+                        severity: severity,
+                        descripcion: description
+                    },
+                    success: function(response) {
+                        // Manejar la respuesta del servidor (por ejemplo, mostrar un mensaje de éxito)
+                        console.log('Tarea creada con éxito:', response);
+                    },
+                    error: function(xhr, errmsg, err) {
+                        // Manejar errores de la solicitud AJAX
+                        console.error('Error al crear la tarea:', errmsg);
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %} 
+    TAREA - {{ tarea.id_tarea }}
+{% endblock %}
+
+{% block content %}
+
+    <main>
+        <div class="container">
+            <div class="row heading-row">
+                <div class="col heading-row">
+                    <h1>Ticket:&nbsp;<span>{{ tarea.id_tarea }}</span></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Summary</p><!-- Start: DJANGO - load from database --><span class="input-group-text">{{ tarea.incidente }}</span><!-- End: DJANGO - load from database -->
+                        </div>
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Created By</p><!-- Start: DJANGO - load from database --><span class="input-group-text">{{ tarea.cuenta_tarea }}</span><!-- End: DJANGO - load from database -->
+                        </div>
+                        <form method="POST" action="{% url 'update_status_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <!-- Start: DJANGO - save to database --><button class="btn filter" type="submit">Status</button><!-- End: DJANGO - save to database -->
+                                <!-- Start: DJANGO - load from database --><select class="form-select" name="status">
+                                    <option value="{{ tarea.status }}" selected>{{ tarea.status }}</option>
+                                    {% for option in opciones_status %}
+                                        {% if option != tarea.status %}
+                                            <option value="{{ option.0 }}">{{ option.1 }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select><!-- End: DJANGO - load from database -->
+                            </div>
+                        </form>
+                        <form method="POST" action="{% url 'update_asignee_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <button class="btn filter" type="submit" {% if user_tipo != 'Admin' %}disabled{% endif %}>Assignee</button>
+                                <select class="form-select" name="asignee" {% if user_tipo != 'Admin' %}disabled{% endif %}>
+                                    <option value="{{ tarea.asignee }}" selected>{{ tarea.asignee }}</option>
+                                    <option value="Ismael">Ismael</option>
+                                    <option value="Juan Diego">Juan Diego</option>
+                                    <option value="Carlos">Carlos</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Total LOE</p><!-- Start: DJANGO - calculate total loe --><span class="input-group-text">{{ tarea.loe }} hrs</span><!-- End: DJANGO - calculate total loe -->
+                        </div>
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Created on</p><!-- Start: DJANGO - task created date --><span class="input-group-text">{{ tarea.fecha }}</span><!-- End: DJANGO - task created date -->
+                        </div>
+                        <div class="input-group">
+                            <p class="input-group-text cust-info">Closed on</p><!-- Start: DJANGO - task closed date --><span class="input-group-text">{{ tarea.fecha_final }}</span><!-- End: DJANGO - task closed date -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="comments_div">
+                        <p class="d-xl-flex justify-content-xl-start" style="font-weight: bold;">Description:</p>
+                        <div class="card comment-bordered">
+                            <!-- Start: DJANGO - Task description -->
+                            <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">{{ tarea.descripcion }}</span>             </div>
+                    </div>
+                    <div class="card">
+                        <!-- Start: DJANGO - Add new comment and LOE -->
+                        <form class="comment" action="{% url 'crear_comment' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}" method="post">
+                            {% csrf_token %}
+                            <textarea class="form-control" spellcheck="true" cols="57" rows="7" name="comment" placeholder="Enter your comment here"></textarea>
+                            <div>
+                                <input class="form-control" type="number" name="loe" placeholder="Add LOE hrs" {% if user_tipo != 'Admin' %}disabled{% endif %}>
+                                <button class="btn submit" type="submit" >Submit</button>
+                            </div>
+                        </form><!-- End: DJANGO - Add new comment and LOE -->
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="comments_div">
+                        {% for comentario in comentarios %}
+                        <p class="d-xl-flex justify-content-xl-start">Commented by:&nbsp;<span style="font-weight: bold;">{{ comentario.nombre }}</span></p>
+                        <div class="comment_info">
+                            <p>LOE:&nbsp;<span style="font-weight: bold;">{{ comentario.loe }}</span><strong><span style="font-style: normal !important;">&nbsp;hrs</span></strong></p>
+                            <p>On date:&nbsp;<span style="font-weight: bold;">{{ comentario.fecha }}</span></p>
+                        </div>
+                        <div class="card comment-bordered">
+                            <!-- Start: DJANGO - comment text -->
+                            <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">{{ comentario.comment }}</span></p><!-- End: DJANGO - comment text -->
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <nav class="d-xl-flex justify-content-xl-end">
+                        <ul class="pagination pagination-sm">
+                            {% if comentarios.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{ comentarios.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                            {% endif %}
+                            
+                            {% for num in comentarios.paginator.page_range %}
+                                <li class="page-item{% if comentarios.number == num %} active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endfor %}
+                            
+                            {% if comentarios.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ comentarios.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{ comentarios.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
