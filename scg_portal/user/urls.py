@@ -40,6 +40,7 @@ urlpatterns = [
     
     path('<str:nombre_cuenta>/costumers/crear_usuario/', views.crear_usuario, name="crear_usuario"),
     path('<str:nombre_cuenta>/costumers/editar_usuario/', views.editar_usuario, name='editar_usuario'),
+    path('<str:nombre_cuenta>/costumers/editar_usuario/reset_password', views.reset_password_admin, name='reset_password_admin'),
     
     path('<str:nombre_cuenta>/tasks/crear_tarea/', views.crear_tarea_admin, name="crear_tarea_admin"),
     path('<str:nombre_cuenta>/tickets/crear_tarea/', views.crear_tarea_client, name="crear_tarea_client"),

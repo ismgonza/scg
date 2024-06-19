@@ -99,20 +99,22 @@
                     <div class="card">
                         <h1 class="text-start">Users</h1>
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table id="userTable" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Phone</th>
+                                        <th>Account</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="userTableBody">
                                     {% for usuario in paginator_users %}
                                         <tr>
                                             <td><a href="#" onclick="openUserModalUser('{{ usuario.user_id }}')" data-bs-target="#modal-edit-user" data-bs-toggle="modal">{{ usuario.nombre }}</a></td>
                                             <td>{{ usuario.correo }}</td>
                                             <td>{{ usuario.telefono }}</td>
+                                            <td>{{ usuario.cuenta }}</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
@@ -161,23 +163,25 @@
                 <div class="col">
                     <h1 class="text-start">Security Reports</h1>
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table id="reportTable" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th></th>
                                     <th>Date</th>
                                     <th>Report ID</th>
                                     <th>Scan Type</th>
+                                    <th>Account</th>
                                     <th>File</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="reportTableBody">
                                 {% for reporte in paginator_reports %}
                                     <tr>
                                         <td><input type="radio" checked="" name="report" value="{{ reporte.id_reporte }}"></td>
                                         <td>{{ reporte.fecha_reporte }}</td>
                                         <td><a href="{% url 'view_report_admin' nombre_cuenta=nombre_cuenta id_reporte=reporte.id_reporte %}">{{ reporte.id_reporte }}</a></td>
                                         <td>{{ reporte.tipo_reporte }}</td>
+                                        <td>{{ reporte.cuenta_reporte }}</td>
                                         <td><a href="#">Download</a></td>
                                     </tr>
                                 {% endfor %}
@@ -318,7 +322,7 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <button class="btn reset_password" type="button" data-i18n="section_contact.form_button">Reset Password</button>
+                                    <button id="reset-password-btn" class="btn reset_password" type="button" data-i18n="section_contact.form_button">Reset Password</button>
                                     <button class="btn submit" type="submit" data-i18n="section_contact.form_button">Submit</button>
                                 </div>
                             </form>
@@ -428,6 +432,14 @@
         $(document).ready(function() {
             $('#filterBtn').click(function() {
                 var selectedAccount = $('#customerAccountInput').val();
+
+                if (!selectedAccount) {
+
+                    $('#accountID').text(''); // Limpia el contenido del elemento span para Account ID
+                    $('#accountName').text(''); // Limpia el contenido del elemento span para Account Name
+                    return;
+                }
+
                 $.ajax({
                     url: '{% url 'get_account_data' nombre_cuenta %}', // URL de la vista que devuelve los datos de la cuenta
                     method: 'GET',
@@ -497,8 +509,17 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            var startDateInput = document.getElementById('start_date');
+            var endDateInput = document.getElementById('end_date');
+
+            startDateInput.addEventListener('change', function() {
+                var selectedStartDate = new Date(startDateInput.value).toISOString().split('T')[0];
+                endDateInput.setAttribute('min', selectedStartDate);
+            });
+
+            // Set initial min value for end_date based on today's date
             var today = new Date().toISOString().split('T')[0];
-            document.getElementById('end_date').setAttribute('min', today);
+            endDateInput.setAttribute('min', today);
         });
 
         $(document).ready(function() {
@@ -515,9 +536,62 @@
             }
         });
 
+        document.getElementById('reset-password-btn').addEventListener('click', function() {
+            var userEmail = document.getElementById('edit_email').value;
+            fetch("{% url 'reset_password_admin' nombre_cuenta %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ 'email': userEmail })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Password reset email sent successfully.');
+                } else {
+                    alert('Failed to send password reset email.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+
+        $('#filterBtn').click(function() {
+            var selectedAccount = $('#customerAccountInput').val(); // Obtener la cuenta de cliente seleccionada
+    
+            // Filtrar la tabla de usuarios
+            $('#userTableBody tr').each(function() {
+                var rowAccount = $(this).find('td:eq(3)').text(); // Obtener la cuenta de cliente de la fila actual
+    
+                // Comprobar si la cuenta de cliente de la fila coincide con la cuenta seleccionada o si no se selecciona ninguna cuenta
+                if (rowAccount === selectedAccount || selectedAccount === '') {
+                    $(this).show(); // Mostrar la fila si coincide
+                } else {
+                    $(this).hide(); // Ocultar la fila si no coincide
+                }
+            });
+    
+            // Filtrar la tabla de reportes
+            $('#reportTableBody tr').each(function() {
+                var rowAccount = $(this).find('td:eq(4)').text(); // Obtener la cuenta de cliente de la fila actual
+    
+                // Comprobar si la cuenta de cliente de la fila coincide con la cuenta seleccionada o si no se selecciona ninguna cuenta
+                if (rowAccount === selectedAccount || selectedAccount === '') {
+                    $(this).show(); // Mostrar la fila si coincide
+                } else {
+                    $(this).hide(); // Ocultar la fila si no coincide
+                }
+            });
+        });
+
         function closeModal() {
             $('#successModal').modal('hide');
         }
+
     </script>
     
 {% endblock %}
