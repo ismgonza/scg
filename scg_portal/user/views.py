@@ -1,3 +1,4 @@
+import json
 import random
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -470,6 +471,44 @@ def view_reset_correo(request):
         form = CustomPasswordResetForm()
     return render(request, 'user/reset_correo.html', {'form': form})
 
+def reset_password_admin(request, nombre_cuenta):
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            correo = data.get('email')
+        
+            # Verificar si el correo existe en la base de datos
+            if correo and Usuario.objects.filter(correo=correo).exists():
+                # Recuperar la instancia de usuario
+                usuario = Usuario.objects.get(correo=correo)
+
+                # Obtener la información necesaria para construir la URL de reset_confirm
+                uidb64 = urlsafe_base64_encode(force_bytes(usuario.pk))
+                token = generate_reset_token(usuario)
+
+                # Construir la URL de reset_confirm
+                reset_confirm_url = reverse('reset_confirm', kwargs={
+                    'uidb64': uidb64,
+                    'token': token,
+                })
+
+                reset_confirm_full_url = request.build_absolute_uri(reset_confirm_url)
+
+                # Enviar correo electrónico con el enlace para restablecer la contraseña
+                subject = 'Restablecer Contraseña'
+                message = f'Por favor, sigue este enlace para restablecer tu contraseña: {reset_confirm_full_url}'
+                from_email = 'tu_correo@gmail.com'  # Reemplaza con tu dirección de correo de Gmail
+                recipient_list = [correo]
+
+                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+                request.session['reset_correo'] = correo
+                    
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, 'error': 'El correo proporcionado no existe en nuestra base de datos.'})
+
+        return JsonResponse({'success': False, 'error': 'Método no permitido.'})
+
 def client_reports_view(request, nombre_cuenta):
     # Recupera la información del usuario de la sesión
     user_tipo = request.session.get('user_tipo')
@@ -699,13 +738,20 @@ def view_admin_tasks(request, nombre_cuenta):
 def get_account_data(request, nombre_cuenta):
     if request.method == 'GET':
         account_name = request.GET.get('account_name')  # Obtener el nombre de la cuenta del parámetro GET
-        account = Cuenta.objects.get(nombre=account_name)  # Obtener la cuenta según el nombre
-        # Suponiendo que tienes los campos account_id, account_name, contract y status en tu modelo Account
-        data = {
-            'id_cuenta': account.id_cuenta,
-            'nombre': account.nombre,
-        }
-        return JsonResponse(data)  # Devolver los datos como una respuesta JSON
+        
+        # Verificar si el nombre de la cuenta está presente y no está vacío
+        if not account_name:
+            return JsonResponse({'error': 'No account name provided'}, status=400)
+        
+        try:
+            account = Cuenta.objects.get(nombre=account_name)  # Obtener la cuenta según el nombre
+            data = {
+                'id_cuenta': account.id_cuenta,
+                'nombre': account.nombre,
+            }
+            return JsonResponse(data)  # Devolver los datos como una respuesta JSON
+        except Cuenta.DoesNotExist:
+            return JsonResponse({'error': 'Account does not exist'}, status=404)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
@@ -767,7 +813,7 @@ def update_name(request, nombre_cuenta):
             # Actualiza los campos del usuario con los datos del formulario
             usuario.nombre = form.cleaned_data['nombre']
             usuario.save()
-            return redirect('logout')  # Redireccionar a la página de perfil después de actualizar
+            request.session['user_nombre'] = usuario.nombre
     else:
         form = UpdateNameForm()
     return redirect('perfil', nombre_cuenta=nombre_cuenta)
@@ -783,7 +829,7 @@ def update_email(request, nombre_cuenta):
             # Actualiza los campos del usuario con los datos del formulario
             usuario.correo = form.cleaned_data['correo']
             usuario.save()
-            return redirect('logout')
+            request.session['user_correo'] = usuario.correo
     else:
         form = UpdateEmailForm()
     return redirect('perfil', nombre_cuenta=nombre_cuenta)
@@ -799,7 +845,7 @@ def update_phone(request, nombre_cuenta):
             # Actualiza los campos del usuario con los datos del formulario
             usuario.telefono = form.cleaned_data['telefono']
             usuario.save()
-            return redirect('logout')
+            request.session['user_tel'] = usuario.telefono
     else:
         form = UpdatePhoneForm()
     return redirect('perfil', nombre_cuenta=nombre_cuenta)
