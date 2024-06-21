@@ -3,7 +3,8 @@
 requirements.txt
 .env
 *.pyc
-*.DS_Store*
+.DS_Store
+*/.DS_Store
 db.sqlite3
 datadump.json
 
