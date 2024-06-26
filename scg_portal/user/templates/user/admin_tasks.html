@@ -87,7 +87,7 @@
                                             <td><span style="font-weight: normal !important; font-style: normal !important;">{{ tarea.severity }}</span></td>
                                             <td><span style="font-weight: normal !important; font-style: normal !important;">{{ tarea.fecha }}</span></td>
                                             <td>{{ tarea.cuenta_tarea }}</td>
-                                            <td>{{ tarea.descripcion }}</td>
+                                            <td class="task_description">{{ tarea.descripcion|linebreaks }}</td>
                                             <td>{{ tarea.status }}</td>
                                             <td>{{ tarea.loe }} hours</td>
                                         </tr>

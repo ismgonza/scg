@@ -250,6 +250,9 @@ body .table-responsive table {
   border-spacing: 0;
   overflow: hidden;
 }
+body .table-responsive table tbody .task_description {
+  text-align: left;
+}
 body .table-responsive table th {
   font: bold;
   background-color: #002d74;
