@@ -149,7 +149,7 @@ class Tarea(models.Model):
     severity = models.CharField(max_length=100, choices=OPCIONES_SEV)
     fecha = models.DateField(auto_now_add=True)
     fecha_final = models.DateField(null=True, blank=True)
-    descripcion = models.CharField(max_length=100, null=True, blank=True)
+    descripcion = models.TextField(max_length=10000, null=True, blank=True)
     incidente = models.CharField(max_length=100)
     asignee = models.CharField(max_length=100, null=True, blank=True)
 
@@ -216,6 +216,6 @@ class Comment(models.Model):
     tarea_comment = models.ForeignKey(
         Tarea, on_delete=models.CASCADE, related_name="tareas_comments")
     nombre = models.CharField(max_length=100, null=True)
-    comment = models.TextField(max_length=100)
+    comment = models.TextField(max_length=10000)
     fecha = models.DateTimeField(auto_now_add=True)
     loe = models.FloatField(max_length=100, null=True, blank=True)
