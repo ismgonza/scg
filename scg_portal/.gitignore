@@ -7,6 +7,7 @@ requirements.txt
 */.DS_Store
 db.sqlite3
 datadump.json
+scg_main_db.drawio
 
 # Directories
 __pycache__/
