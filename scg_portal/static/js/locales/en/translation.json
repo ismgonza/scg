@@ -1,0 +1,75 @@
+{
+    "nav": {
+        "tasks": "Tasks",
+        "customer": "Customers",
+        "profile": "My Profile",
+        "logout": "Logout"
+    },
+    "admin_dash": {
+        "main_title":"Customer Administration Dashboard",
+        "action": {
+            "create_account_button": "Create",
+            "create_account_text": "a new customer account",
+            "register_contract_button": "Register",
+            "register_contract_text": "a contract #",
+            "add_user_button": "Add",
+            "add_user_text": "a new user",
+            "upload_report_button": "Upload",
+            "upload_report_text": "a new report",
+            "filter_account_button": "Filter by",
+            "filter_account_text": "customer account name",
+            "account_id": "Account ID",
+            "account_name": "Account Name"
+        },
+        "tables": {
+            "contracts": {
+                "name":"Contracts",
+                "id":"Contract #",
+                "status":"Status",
+                "startdate":"Start Date",
+                "enddate":"End Date",
+                "account":"Account"
+            },
+            "users": {
+                "name":"Users",
+                "user":"Name",
+                "email":"Email",
+                "phone":"Phone",
+                "account":"Account"
+            }
+        }
+    },
+    "reports": {
+        "report_id":"Report ID",
+        "risk_cat_report": {
+            "name":"Vulnerability Count by Risk Category - "
+        },
+        "top_hosts_report": {
+            "name":"Vulnerability Count by Top 10 Hosts - "
+        },
+        "os_chart_report": {
+            "name":"Operating Systems - "
+        },
+        "os_count_report": {
+            "name":"Vulnerability Count by Operating Systems - "
+        },
+        "top_alerts_report": {
+            "name":"Vulnerability Count by Top 10 Alerts (Critical, High, Medium) - "
+        },
+        "security_details_report": {
+            "name":"Details by Vulnerabilities - ",
+            "vuln_name":"Vulnerability Name",
+            "risk_category":"Risk Category",
+            "count":"Count"
+        },
+        "security_report": {
+            "name":"Security Reports",
+            "date":"Date",
+            "report_id":"Report ID",
+            "scan_type":"Scan Type",
+            "account":"Account",
+            "action":"Action",
+            "download":"Download"
+        }
+    }
+}

@@ -1,0 +1,75 @@
+{
+    "nav": {
+        "tasks": "Tareas",
+        "customer": "Clientes",
+        "profile": "Mi Perfil",
+        "logout": "Cerrar Sesion"
+    },
+    "admin_dash": {
+        "main_title": "Panel Principal Administrativo",
+        "action": {
+            "create_account_button": "Crear",
+            "create_account_text": "una nueva cuenta de cliente",
+            "register_contract_button": "Registrar",
+            "register_contract_text": "un número de contrato",
+            "add_user_button": "Agregar",
+            "add_user_text": "un nuevo usuario",
+            "upload_report_button": "Cargar",
+            "upload_report_text": "un nuevo reporte",
+            "filter_account_button": "Filtrar por",
+            "filter_account_text": "nombre de cuenta de cliente",
+            "account_id": "ID de cuenta",
+            "account_name": "Cuenta"
+        },
+        "tables": {
+            "contracts": {
+                "name":"Contratos",
+                "id":"Contrato #",
+                "status":"Estado",
+                "startdate":"Inicio",
+                "enddate":"Expiracion",
+                "account":"Cuenta"
+            },
+            "users": {
+                "name":"Usuarios",
+                "user":"Nombre",
+                "email":"Correo",
+                "phone":"Teléfono",
+                "account":"Cuenta"
+            }
+        }
+    },
+    "reports": {
+        "report_id":"Informe #",
+        "risk_cat_report": {
+            "name":"Recuento de Vulnerabilidades por Categoría de Riesgo - "
+        },
+        "top_hosts_report": {
+            "name":"Recuento de Vulnerabilidades por Host Top 10 - "
+        },
+        "os_chart_report": {
+            "name":"Sistemas Operativos - "
+        },
+        "os_count_report": {
+            "name":"Recuento de Vulnerabilidades por Sistemas Operativos - "
+        },
+        "top_alerts_report": {
+            "name":"Recuento de Vulnerabilidades por las 10 Alertas Principales (Críticas, Altas, Medias) - "
+        },
+        "security_details_report": {
+            "name":"Detalles por Vulnerabilidades - ",
+            "vuln_name":"Vulnerabilidad",
+            "risk_category":"Categoria de Riesgo",
+            "count":"Cantidad"
+        },
+        "security_report": {
+            "name":"Reportes de Seguridad",
+            "date":"Fecha",
+            "report_id":"Informe #",
+            "scan_type":"Tipo de Escaneo",
+            "account":"Cuenta",
+            "action":"Accion",
+            "download":"Descargar"
+        }
+    }
+}

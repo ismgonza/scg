@@ -16,7 +16,7 @@
         <div class="container admin-portal">
             <div class="row heading-row">
                 <div class="col heading-row">
-                    <h1 class="text-center">Customer Administration</h1>
+                    <h1 class="text-center" data-i18n="admin_dash.main_title">main_title</h1>
                 </div>
             </div>
             <div class="row">
@@ -25,14 +25,14 @@
                         <form method="post" action="{% url 'crear_cuenta' nombre_cuenta %}">
                             {% csrf_token %}
                             <div class="input-group">
-                                <button class="btn" type="submit">Create</button>
-                                <input name="nombre" class="form-control" type="text" placeholder="a new customer account">
+                                <button class="btn" type="submit" data-i18n="admin_dash.action.create_account_button">create_account_button</button>
+                                <input name="nombre" class="form-control" type="text" data-i18n="[placeholder]admin_dash.action.create_account_text">
                             </div>
                         </form>
-                        <div class="input-group"><button class="btn" type="button" data-bs-target="#modal-register-contract" data-bs-toggle="modal">Register</button><span class="input-group-text">a contract #</span></div>
-                        <div class="input-group"><button class="btn" type="button" data-bs-target="#modal-create-user" data-bs-toggle="modal">Add</button><span class="input-group-text">a new user</span></div>
-                        <div class="input-group"><button class="btn" type="button" data-bs-target="#modal-security-report" data-bs-toggle="modal">Upload</button><span class="input-group-text">a new security report</span></div>
-                        <div class="input-group"><button id="filterBtn" class="btn filter" type="button">Filter by</button><input id="customerAccountInput" type="text" class="form-select input-group-text" list="customer_accounts" placeholder="customer account name"><datalist id="customer_accounts">
+                        <div class="input-group"><button class="btn" type="button" data-bs-target="#modal-register-contract" data-bs-toggle="modal" data-i18n="admin_dash.action.register_contract_button">register_contract_button</button><span class="input-group-text" data-i18n="admin_dash.action.register_contract_text">register_contract_text</span></div>
+                        <div class="input-group"><button class="btn" type="button" data-bs-target="#modal-create-user" data-bs-toggle="modal" data-i18n="admin_dash.action.add_user_button">add_user_button</button><span class="input-group-text" data-i18n="admin_dash.action.add_user_text">add_user_text</span></div>
+                        <div class="input-group"><button class="btn" type="button" data-bs-target="#modal-security-report" data-bs-toggle="modal" data-i18n="admin_dash.action.upload_report_button">upload_report_button</button><span class="input-group-text" data-i18n="admin_dash.action.upload_report_text">upload_report_text</span></div>
+                        <div class="input-group"><button id="filterBtn" class="btn filter" type="button" data-i18n="admin_dash.action.filter_account_button">filter_account_button</button><input id="customerAccountInput" type="text" class="form-select input-group-text" list="customer_accounts" data-i18n="[placeholder]admin_dash.action.filter_account_text"><datalist id="customer_accounts">
     {% for cuenta in cuentas %}
         <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
     {% endfor %}
@@ -42,10 +42,10 @@
                 <div class="col">
                     <div class="card" id="accountInfoCard">
                         <div class="input-group">
-                            <p class="input-group-text cust-info">Account ID</p><span class="input-group-text" id="accountID"></span>
+                            <p class="input-group-text cust-info" data-i18n="admin_dash.action.account_id">account_id</p><span class="input-group-text" id="accountID"></span>
                         </div>
                         <div class="input-group">
-                            <p class="input-group-text cust-info">Account Name</p><span class="input-group-text" id="accountName"></span>
+                            <p class="input-group-text cust-info" data-i18n="admin_dash.action.account_name">account_name</p><span class="input-group-text" id="accountName"></span>
                         </div>
                     </div>
                 </div>
@@ -53,15 +53,16 @@
             <div class="row">
                 <div class="col">
                     <div class="card">
-                        <h1 class="text-start">Contracts</h1>
+                        <h1 class="text-start" data-i18n="admin_dash.tables.contracts.name">contracts.name</h1>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Contract ID</th>
-                                        <th>Status</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
+                                        <th data-i18n="admin_dash.tables.contracts.id">contracts.id</th>
+                                        <th data-i18n="admin_dash.tables.contracts.status">contracts.status</th>
+                                        <th data-i18n="admin_dash.tables.contracts.startdate">contracts.startdate</th>
+                                        <th data-i18n="admin_dash.tables.contracts.enddate">contracts.enddate</th>
+                                        <th data-i18n="admin_dash.tables.contracts.account">contracts.account</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,6 +72,7 @@
                                             <td>{{ contrato.status }}</td>
                                             <td>{{ contrato.fecha_inicio }}</td>
                                             <td>{{ contrato.fecha_final }}</td>
+                                            <td>{{ contrato.cuenta_contrato }}</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
@@ -97,15 +99,15 @@
                 </div>
                 <div class="col">
                     <div class="card">
-                        <h1 class="text-start">Users</h1>
+                        <h1 class="text-start" data-i18n="admin_dash.tables.users.name">users.name</h1>
                         <div class="table-responsive">
                             <table id="userTable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Account</th>
+                                        <th data-i18n="admin_dash.tables.users.user">users.user</th>
+                                        <th data-i18n="admin_dash.tables.users.email">users.email</th>
+                                        <th data-i18n="admin_dash.tables.users.phone">users.phone</th>
+                                        <th data-i18n="admin_dash.tables.users.account">users.account</th>
                                     </tr>
                                 </thead>
                                 <tbody id="userTableBody">
@@ -142,44 +144,67 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <h1 class="text-start">Vulnerability Count by Risk Category - Report ID&nbsp;<span id="reportId" class="reportId">0000</span></h1><div class="canvas">
+                    <h1 class="text-start">
+                        <span data-i18n="reports.risk_cat_report.name"></span>
+                        <span data-i18n="reports.report_id">reports.report_id</span>&nbsp;
+                        <span id="reportId" class="reportId">0000</span>
+                      </h1>
+                    <div class="canvas">
                         <canvas id="vuln_by_risk"></canvas>
                     </div>
                 </div>
                 <div class="col">
-                    <h1 class="text-start">Vulnerability Count by Top 10 Hosts - Report ID&nbsp;<span id="reportId" class="reportId">0000</span></h1><div class="table-responsive" id="vuln_by_target">
-                    </div>
+                    <h1 class="text-start">
+                        <span data-i18n="reports.top_hosts_report.name"></span>
+                        <span data-i18n="reports.report_id">reports.report_id</span>&nbsp;
+                        <span id="reportId" class="reportId">0000</span>
+                      </h1>
+                    <div class="table-responsive" id="vuln_by_target"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <h1 class="text-start">Operating Systems - Report ID <span id="reportId" class="reportId">0000</span></h1>
+                    <h1 class="text-start">
+                        <span data-i18n="reports.os_chart_report.name"></span>
+                        <span data-i18n="reports.report_id">reports.report_id</span>&nbsp;
+                        <span id="reportId" class="reportId">0000</span>
+                      </h1>
                     <div class="canvas"><canvas id="os_count"></canvas></div>
                 </div>
                 <div class="col">
-                    <h1 class="text-start">Vulnerability Count by Operating Systems - Report ID <span id="reportId" class="reportId">0000</span></h1>
+                    <h1 class="text-start">
+                        <span data-i18n="reports.os_count_report.name"></span>
+                        <span data-i18n="reports.report_id">reports.report_id</span>&nbsp;
+                        <span id="reportId" class="reportId">0000</span>
+                      </h1>
                     <div id="vuln_by_os" class="table-responsive"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <h1 class="text-start">Vulnerability Count by Top 10 Alerts (Critical, High, Medium) - Report ID&nbsp;<span id="reportId-1" class="reportId">0000</span></h1><div class="table-responsive" id="top_alerts">
-                    </div>
+                    <h1 class="text-start">
+                        <span data-i18n="reports.security_details_report.name"></span>
+                        <span data-i18n="reports.report_id">reports.report_id</span>&nbsp;
+                        <span id="reportId" class="reportId">0000</span>
+                      </h1>
+                      <div class="table-responsive" id="top_alerts"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <h1 class="text-start">Security Reports</h1>
+                    <h1 class="text-start">
+                        <span data-i18n="reports.security_report.name"></span>
+                    </h1>
                     <div class="table-responsive">
                         <table id="reportTable" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Date</th>
-                                    <th>Report ID</th>
-                                    <th>Scan Type</th>
-                                    <th>Account</th>
-                                    <th>File</th>
+                                    <th data-i18n="reports.security_report.date">security_report.date</th>
+                                    <th data-i18n="reports.security_report.report_id">security_report.report_id</th>
+                                    <th data-i18n="reports.security_report.scan_type">security_report.scan_type</th>
+                                    <th data-i18n="reports.security_report.account">security_report.account</th>
+                                    <th data-i18n="reports.security_report.action">security_report.action</th>
                                 </tr>
                             </thead>
                             <tbody id="reportTableBody">
@@ -190,7 +215,7 @@
                                         <td><a href="{% url 'view_report_admin' nombre_cuenta=nombre_cuenta id_reporte=reporte.id_reporte %}">{{ reporte.id_reporte }}</a></td>
                                         <td>{{ reporte.tipo_reporte }}</td>
                                         <td>{{ reporte.cuenta_reporte }}</td>
-                                        <td><a href="#">Download</a></td>
+                                        <td><a href="#" data-i18n="reports.security_report.download">security_report.download</a></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -215,6 +240,8 @@
                     </nav>
                 </div>
             </div>
+            
+            <!--        MODALS START HERE        -->
             <div class="modal fade modal_format" role="dialog" tabindex="-1" id="modal-security-report">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
