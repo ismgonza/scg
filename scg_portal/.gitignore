@@ -4,9 +4,13 @@ requirements.txt
 .env
 *.pyc
 .DS_Store
+*/.DS_Store
 db.sqlite3
 datadump.json
+scg_main_db.drawio
 
 # Directories
 __pycache__/
 .vscode/
+static/reports/
+uploads/

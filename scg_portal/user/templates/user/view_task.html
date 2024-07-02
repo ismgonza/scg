@@ -82,13 +82,14 @@
                         <p class="d-xl-flex justify-content-xl-start" style="font-weight: bold;">Description:</p>
                         <div class="card comment-bordered">
                             <!-- Start: DJANGO - Task description -->
-                            <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">{{ tarea.descripcion }}</span>             </div>
+                            <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">{{ tarea.descripcion|linebreaks }}</span>
+                        </div>
                     </div>
                     <div class="card">
                         <!-- Start: DJANGO - Add new comment and LOE -->
                         <form class="comment" action="{% url 'crear_comment' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}" method="post">
                             {% csrf_token %}
-                            <textarea class="form-control" spellcheck="true" cols="57" rows="7" name="comment" placeholder="Enter your comment here"></textarea>
+                            <textarea class="form-control" spellcheck="true" cols="57" rows="2" name="comment" placeholder="Enter your comment here"></textarea>
                                 <div>
                                     {% if user_tipo == 'Admin' %}
                                         <input class="form-control" type="number" name="loe" placeholder="Add LOE hrs" {% if user_tipo != 'Admin' %}disabled{% endif %}>
@@ -97,18 +98,16 @@
                                 </div>
                         </form><!-- End: DJANGO - Add new comment and LOE -->
                     </div>
-                </div>
-                <div class="col">
                     <div class="comments_div">
                         {% for comentario in comentarios %}
-                        <p class="d-xl-flex justify-content-xl-start">Commented by:&nbsp;<span style="font-weight: bold;">{{ comentario.nombre }}</span></p>
                         <div class="comment_info">
-                            <p>LOE:&nbsp;<span style="font-weight: bold;">{{ comentario.loe }}</span><strong><span style="font-style: normal !important;">&nbsp;hrs</span></strong></p>
-                            <p>On date:&nbsp;<span style="font-weight: bold;">{{ comentario.fecha }}</span></p>
+                            <p class="d-xl-flex justify-content-xl-start comment-line">Commented by:&nbsp;<span style="font-weight: bold;">{{ comentario.nombre }}</span></p>
+                            <p class="comment-line">On date:&nbsp;<span style="font-weight: bold;">{{ comentario.fecha }}</span></p>
+                            <p class="comment-line">LOE:&nbsp;<span style="font-weight: bold;">{{ comentario.loe }}</span><strong><span style="font-style: normal !important;">&nbsp;hrs</span></strong></p>
                         </div>
                         <div class="card comment-bordered">
                             <!-- Start: DJANGO - comment text -->
-                            <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">{{ comentario.comment }}</span></p><!-- End: DJANGO - comment text -->
+                            <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">{{ comentario.comment|linebreaks }}</span></p><!-- End: DJANGO - comment text -->
                         </div>
                         {% endfor %}
                     </div>
