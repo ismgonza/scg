@@ -29,15 +29,21 @@
                         <form method="POST" action="{% url 'update_status_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}">
                             {% csrf_token %}
                             <div class="input-group">
-                                <!-- Start: DJANGO - save to database --><button class="btn filter" type="submit">Status</button><!-- End: DJANGO - save to database -->
-                                <!-- Start: DJANGO - load from database --><select class="form-select" name="status">
-                                    <option value="{{ tarea.status }}" selected>{{ tarea.status }}</option>
-                                    {% for option in opciones_status %}
-                                        {% if option != tarea.status %}
-                                            <option value="{{ option.0 }}">{{ option.1 }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select><!-- End: DJANGO - load from database -->
+                                <!-- Start: DJANGO - save to database --><button class="btn filter" type="submit" {% if user_tipo != 'Admin' %}disabled{% endif %}>Status</button><!-- End: DJANGO - save to database -->
+                                <!-- Start: DJANGO - load from database -->{% if user_tipo == 'Admin' %}
+                                    <!-- Para el administrador -->
+                                    <select class="form-select" name="status">
+                                        <option value="{{ tarea.status }}" selected>{{ tarea.status }}</option>
+                                        {% for option in opciones_status %}
+                                            {% if option != tarea.status %}
+                                                <option value="{{ option.0 }}">{{ option.1 }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                {% else %}
+                                    <!-- Para el cliente -->
+                                    <input type="text" class="form-control" name="status" value="{{ tarea.status }}" readonly>
+                                {% endif %}<!-- End: DJANGO - load from database -->
                             </div>
                         </form>
                         {% if user_tipo == 'Admin' %}
@@ -105,23 +111,6 @@
                         </div>
                         {% endfor %}
                     </div>
-                    <nav class="d-xl-flex justify-content-xl-end">
-                        <ul class="pagination pagination-sm">
-                            {% if comentarios.has_previous %}
-                                <li class="page-item"><a class="page-link" href="?page=1" aria-label="First"><span aria-hidden="true">««</span></a></li>
-                                <li class="page-item"><a class="page-link" href="?page={{ comentarios.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                            {% endif %}
-                            
-                            {% for num in comentarios.paginator.page_range %}
-                                <li class="page-item{% if comentarios.number == num %} active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                            {% endfor %}
-                            
-                            {% if comentarios.has_next %}
-                                <li class="page-item"><a class="page-link" href="?page={{ comentarios.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                                <li class="page-item"><a class="page-link" href="?page={{ comentarios.paginator.num_pages }}" aria-label="Last"><span aria-hidden="true">»»</span></a></li>
-                            {% endif %}
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
