@@ -142,7 +142,7 @@ def index_view(request, nombre_cuenta):
         # Verificar si el usuario tiene el tipo correcto y la cuenta correcta
         if user_tipo == 'Admin' and user_cuenta_nombre == nombre_cuenta:
             # Tu lógica de vista aquí
-            usuarios = Usuario.objects.all()
+            usuarios = Usuario.objects.all().order_by('nombre')
             cuentas = Cuenta.objects.all()
             cuentas_cliente = Cuenta.objects.exclude(nombre='SCG')
             reportes = Reporte.objects.all().order_by('fecha_reporte')
@@ -220,30 +220,13 @@ def view_reporte(request, id_reporte, nombre_cuenta):
     reporte = get_object_or_404(Reporte, id_reporte=id_reporte, cuenta_reporte__nombre=nombre_cuenta)
 
     # Verifica que el usuario tenga acceso a la cuenta asociada al informe
-    if user_cuenta_nombre != reporte.cuenta_reporte.nombre:  # Asumiendo que tienes una relación ForeignKey entre Cuenta y Usuario en tu modelo
+    if user_cuenta_nombre != reporte.cuenta_reporte.nombre:
         return HttpResponseForbidden("No tienes permisos para ver este informe.")
 
-    # Construye la ruta del archivo HTML basándote en el nombre de cuenta y el id_reporte
-    filename = f"uploads/nessus/{id_reporte}_{nombre_cuenta.lower()}.html"
-
-    try:
-        # Abre y lee el contenido del archivo HTML
-        with open(filename, 'r', encoding='utf-8') as file:
-            html_content = file.read()
-
-        # Renderiza la plantilla con el contenido del archivo HTML
-        rendered_html = render_to_string('user/view_reporte.html', {'nombre_cuenta': nombre_cuenta, 'reporte': reporte, 'html_content': html_content})
-
-        # Devuelve la respuesta HTTP con el HTML renderizado
-        return HttpResponse(rendered_html)
-
-    except FileNotFoundError:
-        print(f"Archivo no encontrado: {filename}")
-        return HttpResponse("El informe no está disponible.")
-
-    except IOError as e:
-        print(f"Error al leer el archivo: {e}")
-        return HttpResponse("Error al leer el informe.")
+    return render(request, 'user/view_reporte.html', {
+        'nombre_cuenta': nombre_cuenta,
+        'reporte': reporte
+    })
     
 def download_report(request, id_reporte, nombre_cuenta):
     # Construye la ruta del archivo HTML basándote en el nombre de cuenta y el id_reporte
@@ -382,6 +365,7 @@ def crear_contrato(request, nombre_cuenta):
 
 def crear_comment(request, nombre_cuenta, id_tarea):
     user_nombre = request.session.get('user_nombre')
+    user_tipo = request.session.get('user_tipo')  # Obtener el tipo de usuario de la sesión
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -405,11 +389,19 @@ def crear_comment(request, nombre_cuenta, id_tarea):
             tarea.loe += loe_comentario
             tarea.save()
 
-            # Redirigir al usuario a la página de éxito
-            return redirect('view_task_admin' , nombre_cuenta=nombre_cuenta, id_tarea=id_tarea)
+            # Redirigir al usuario basado en su tipo de usuario
+            if user_tipo == 'Admin':
+                return redirect('view_task_admin', nombre_cuenta=nombre_cuenta, id_tarea=id_tarea)
+            else:
+                return redirect('view_task', nombre_cuenta=nombre_cuenta, id_tarea=id_tarea)
     else:
         form = CommentForm()
-    return redirect('view_task_admin' , nombre_cuenta=nombre_cuenta, id_tarea=id_tarea)
+    
+    # Redirigir en caso de que el método no sea POST
+    if user_tipo == 'Admin':
+        return redirect('view_task_admin', nombre_cuenta=nombre_cuenta, id_tarea=id_tarea)
+    else:
+        return redirect('view_task', nombre_cuenta=nombre_cuenta, id_tarea=id_tarea)
 
 def view_perfil(request, nombre_cuenta):
     user_cuenta_nombre = request.session.get('user_cuenta_nombre', '')
@@ -757,29 +749,22 @@ def get_account_data(request, nombre_cuenta):
     
 def view_detalle_tarea(request, nombre_cuenta, id_tarea):
     user_tipo = request.session.get('user_tipo')
+    
+    # Obtener la tarea específica y sus comentarios ordenados por fecha de creación descendente
     tarea = get_object_or_404(Tarea, id_tarea=id_tarea, cuenta_tarea__nombre=nombre_cuenta)
-    comentarios = tarea.tareas_comments.all()
+    comentarios = tarea.tareas_comments.all().order_by('-fecha')
 
-    # Configurar la paginación
-    elementos_por_pagina = 3  # Ajusta según tus necesidades
-    paginator_comment = Paginator(comentarios, elementos_por_pagina)
-    page_number = request.GET.get('page')
-
-    try:
-        paginator_comments = paginator_comment.page(page_number)
-    except PageNotAnInteger:
-        # Si el número de página no es un entero, mostrar la primera página
-        paginator_comments = paginator_comment.page(1)
-    except EmptyPage:
-        # Si el número de página está fuera de rango, mostrar la última página de resultados
-        paginator_comments = paginator_comment.page(paginator_comment.num_pages)
-
-    return render(request, 'user/view_task.html', {'nombre_cuenta': nombre_cuenta, 'tarea': tarea, 'comentarios': paginator_comments, 'user_tipo': user_tipo})
+    return render(request, 'user/view_task.html', {
+        'nombre_cuenta': nombre_cuenta,
+        'tarea': tarea,
+        'comentarios': comentarios,
+        'user_tipo': user_tipo
+    })
 
 def view_detalle_tarea_admin(request, nombre_cuenta, id_tarea):
     user_tipo = request.session.get('user_tipo')
     tarea = get_object_or_404(Tarea, id_tarea=id_tarea)
-    comentarios = tarea.tareas_comments.all()
+    comentarios = tarea.tareas_comments.all().order_by('-fecha')
     opciones_status = Tarea.OPCIONES_STATUS
 
     # Configurar la paginación
