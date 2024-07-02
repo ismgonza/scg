@@ -53,7 +53,7 @@
             <div class="row">
                 <div class="col">
                     <div class="card">
-                        <h1 class="text-start" data-i18n="admin_dash.tables.contracts.name">contracts.name</h1>
+                        <h1 class="text-start" data-i18n="admin_dash.tables.contracts.title">contracts.name</h1>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -99,7 +99,7 @@
                 </div>
                 <div class="col">
                     <div class="card">
-                        <h1 class="text-start" data-i18n="admin_dash.tables.users.name">users.name</h1>
+                        <h1 class="text-start" data-i18n="admin_dash.tables.users.title">users.name</h1>
                         <div class="table-responsive">
                             <table id="userTable" class="table table-striped">
                                 <thead>
@@ -145,7 +145,7 @@
             <div class="row">
                 <div class="col">
                     <h1 class="text-start">
-                        <span data-i18n="reports.risk_cat_report.name"></span>
+                        <span data-i18n="reports.risk_cat_report.title"></span>
                         <span data-i18n="reports.report_id">reports.report_id</span>&nbsp;
                         <span id="reportId" class="reportId">0000</span>
                       </h1>
@@ -155,7 +155,7 @@
                 </div>
                 <div class="col">
                     <h1 class="text-start">
-                        <span data-i18n="reports.top_hosts_report.name"></span>
+                        <span data-i18n="reports.top_hosts_report.title"></span>
                         <span data-i18n="reports.report_id">reports.report_id</span>&nbsp;
                         <span id="reportId" class="reportId">0000</span>
                       </h1>
@@ -165,7 +165,7 @@
             <div class="row">
                 <div class="col">
                     <h1 class="text-start">
-                        <span data-i18n="reports.os_chart_report.name"></span>
+                        <span data-i18n="reports.os_chart_report.title"></span>
                         <span data-i18n="reports.report_id">reports.report_id</span>&nbsp;
                         <span id="reportId" class="reportId">0000</span>
                       </h1>
@@ -173,7 +173,7 @@
                 </div>
                 <div class="col">
                     <h1 class="text-start">
-                        <span data-i18n="reports.os_count_report.name"></span>
+                        <span data-i18n="reports.os_count_report.title"></span>
                         <span data-i18n="reports.report_id">reports.report_id</span>&nbsp;
                         <span id="reportId" class="reportId">0000</span>
                       </h1>
@@ -183,7 +183,7 @@
             <div class="row">
                 <div class="col">
                     <h1 class="text-start">
-                        <span data-i18n="reports.security_details_report.name"></span>
+                        <span data-i18n="reports.security_details_report.title"></span>
                         <span data-i18n="reports.report_id">reports.report_id</span>&nbsp;
                         <span id="reportId" class="reportId">0000</span>
                       </h1>
@@ -193,7 +193,7 @@
             <div class="row">
                 <div class="col">
                     <h1 class="text-start">
-                        <span data-i18n="reports.security_report.name"></span>
+                        <span data-i18n="reports.security_report.title"></span>
                     </h1>
                     <div class="table-responsive">
                         <table id="reportTable" class="table table-striped">
@@ -246,22 +246,26 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Upload a Security Report</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                            <h4 class="modal-title" data-i18n="admin_dash.modal.upload_report.title">upload_report.title</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <form method="POST" action="{% url 'crear_reporte' nombre_cuenta=nombre_cuenta %}" enctype="multipart/form-data" class="d-flex flex-column" style="padding: 10px;">
                             {% csrf_token %}
                                 <div>
-                                    <label class="form-label" for="scan_type" data-i18n="section_contact.form_name">Scan Type</label>
+                                    <label class="form-label" for="scan_description" data-i18n="admin_dash.modal.upload_report.scan_type.descrption">scan_type.descrption</label>
+                                    <input class="form-control" type="text" name="scan_description" required>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="scan_type" data-i18n="admin_dash.modal.upload_report.scan_type.title">upload_report.scan_type.title</label>
                                     <select class="form-select" name="tipo_reporte" required>
-                                        <option value="Vulnerability Scan (Network)">Vulnerability Scan (Network)</option>
-                                        <option value="Vulnerability Scan (WebApp)">Vulnerability Scan (WebApp)</option>
-                                        <option value="pentest" selected>PenTest</option>
-                                        <option value="PerfTest" selected>PerfTest</option>
+                                        <option value="Vulnerability Scan (Network)" data-i18n="admin_dash.modal.upload_report.scan_type.vuln_scan_net">scan_type.vuln_scan_net</option>
+                                        <option value="Vulnerability Scan (WebApp)" data-i18n="admin_dash.modal.upload_report.scan_type.vuln_scan_app">scan_type.vuln_scan_app</option>
+                                        <option value="pentest" data-i18n="admin_dash.modal.upload_report.scan_type.pentest">scan_type.pentest</option>
+                                        <option value="PerfTest" data-i18n="admin_dash.modal.upload_report.scan_type.perftest">scan_type.perftest</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="form-label" for="customer_account" data-i18n="section_contact.form_name">Customer Account</label>
+                                    <label class="form-label" for="customer_account" data-i18n="admin_dash.modal.upload_report.account">upload_report.account</label>
                                     <select name="cuenta_reporte" class="form-select" id="cuenta_reporte">
                                         {% for cuenta in form_reporte.cuenta_reporte.field.queryset %}
                                             <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
@@ -269,14 +273,14 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="form-label" for="raw_source" data-i18n="section_contact.form_name">RAW Source (json)</label>
+                                    <label class="form-label" for="raw_source" data-i18n="admin_dash.modal.upload_report.raw_file">upload_report.raw_file</label>
                                     <input type="file" name="source" required>
                                 </div>
                                 <div>
-                                    <label class="form-label" for="parsed_source" data-i18n="section_contact.form_name">Parsed Source (Dradis PDF)</label>
+                                    <label class="form-label" for="parsed_source" data-i18n="admin_dash.modal.upload_report.parsed_file">upload_report.parsed_file</label>
                                     <input type="file" name="file_report">
                                 </div>
-                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
+                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="admin_dash.modal.upload_report.submit_button">upload_report.submit_button</button>
                             </form>
                         </div>
                     </div>
@@ -286,13 +290,13 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Add a new user</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                            <h4 class="modal-title" data-i18n="admin_dash.modal.add_user.title">add_user.title</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <form method="POST" action="{% url 'crear_usuario' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
                                 {% csrf_token %}
                                 <div class="input-group">
-                                    <label class="form-label" for="customer_account" data-i18n="section_contact.form_name">Customer Account</label>
+                                    <label class="form-label" for="customer_account" data-i18n="admin_dash.modal.add_user.account">add_user.account</label>
                                     <select name="cuenta" class="form-select" id="cuenta">
                                         {% for cuenta in form_usuario.cuenta.field.queryset %}
                                             <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
@@ -300,66 +304,26 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Name</label>
+                                    <label class="form-label" for="name" data-i18n="admin_dash.modal.add_user.name">add_user.name</label>
                                     <input class="form-control" type="text" name="nombre" required>
                                 </div>
                                 <div>
-                                    <label class="form-label" for="email" data-i18n="section_contact.form_email">Email</label>
+                                    <label class="form-label" for="email" data-i18n="admin_dash.modal.add_user.email">add_user.email</label>
                                     <input class="form-control" type="email" name="correo" required>
                                 </div>
                                 <div>
-                                    <label class="form-label" for="phone" data-i18n="section_contact.form_phone">Phone</label>
+                                    <label class="form-label" for="phone" data-i18n="admin_dash.modal.add_user.phone">add_user.phone</label>
                                     <input class="form-control" type="text" name="telefono" required>
                                 </div>
                                 <div>
-                                    <label class="form-label" for="tipo" data-i18n="section_contact.form_user_type">User Type</label>
+                                    <label class="form-label" for="tipo" data-i18n="admin_dash.modal.add_user.user_type">add_user.user_type</label>
                                     <select class="form-control" name="tipo" required>
                                         {% for tipo in tipos %}
                                             <option value="{{ tipo.0 }}">{{ tipo.1 }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde; border-style: none; max-width: 50%; margin-right: 25%; margin-left: 25%; margin-top: 15px; margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade modal_format" role="dialog" tabindex="-1" id="modal-edit-user">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Edit User</h4>
-                            <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="POST" action="{% url 'editar_usuario' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
-                                {% csrf_token %}
-                                <input id='edit_user_id' type="hidden" name="user_id" value="">
-                                <div>
-                                    <label class="form-label" for="edit_name" data-i18n="section_contact.form_name">Name</label>
-                                    <input id="edit_name" class="form-control" type="text" name="nombre" value="">
-                                </div>
-                                <div>
-                                    <label class="form-label" for="edit_email" data-i18n="section_contact.form_name">Email</label>
-                                    <input id="edit_email" class="form-control" type="email" name="correo" value="">
-                                </div>
-                                <div>
-                                    <label class="form-label" for="edit_phone" data-i18n="section_contact.form_name">Phone</label>
-                                    <input id="edit_phone" class="form-control" type="tel" name="telefono" value="">
-                                </div>
-                                <div>
-                                    <label class="form-label" for="edit_status" data-i18n="section_contact.form_name">Status</label>
-                                    <select id="edit_status" class="form-select" name="status" value="">
-                                        {% for status in status %}
-                                        <option value="{{ status.0 }}" {% if user.status == status.0 %} selected {% endif %}>{{ status.1 }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div>
-                                    <button id="reset-password-btn" class="btn reset_password" type="button" data-i18n="section_contact.form_button">Reset Password</button>
-                                    <button class="btn submit" type="submit" data-i18n="section_contact.form_button">Submit</button>
-                                </div>
+                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde; border-style: none; max-width: 50%; margin-right: 25%; margin-left: 25%; margin-top: 15px; margin-bottom: 15px;" data-i18n="admin_dash.modal.add_user.submit_button">upload_report.submit_button</button>
                             </form>
                         </div>
                     </div>
@@ -369,13 +333,13 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Register a contract #</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                            <h4 class="modal-title" data-i18n="admin_dash.modal.register_contract.title">register_contract.title</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <form method="POST" action="{% url 'crear_contrato' nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
                                 {% csrf_token %}
                                 <div class="input-group">
-                                    <label class="form-label" for="customer_account">Customer Account</label>
+                                    <label class="form-label" for="customer_account" data-i18n="admin_dash.modal.register_contract.account">register_contract.account</label>
                                     <select name="cuenta_contrato" class="form-select" id="cuenta">
                                         {% for cuenta in form_contrato.cuenta_contrato.field.queryset %}
                                             <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
@@ -383,18 +347,18 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="form-label" for="contract_number">Contract #</label>
+                                    <label class="form-label" for="contract_number" data-i18n="admin_dash.modal.register_contract.contract_id">register_contract.contract_id</label>
                                     <input name="id_contrato" class="form-control" type="text" id="contract_number">
                                 </div>
                                 <div>
-                                    <label class="form-label" for="start_date">Start Date</label>
+                                    <label class="form-label" for="start_date" data-i18n="admin_dash.modal.register_contract.startdate">register_contract.startdate</label>
                                     <input name="fecha_inicio" class="form-control" type="date" id="start_date">
                                 </div>
                                 <div>
-                                    <label class="form-label" for="end_date">End Date</label>
+                                    <label class="form-label" for="end_date" data-i18n="admin_dash.modal.register_contract.enddate">register_contract.enddate</label>
                                     <input name="fecha_final" class="form-control" type="date" id="end_date">
                                 </div>
-                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
+                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="admin_dash.modal.register_contract.submit_button">register_contract.submit_button</button>
                             </form>
                         </div>
                     </div>
@@ -404,20 +368,26 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Edit Contract</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                            <h4 class="modal-title" data-i18n="admin_dash.modal.edit_contract.title">edit_contract.title</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <form method="POST" action="{% url 'editar_contrato' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
                                 {% csrf_token %}
                                 <input type="hidden" id="id_contrato" name="id_contrato" value="">
                                 <div>
-                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Contract #&nbsp;<span id ="id_contract"></span></label>
+                                    <label>
+                                        <span class="form-label" for="name" data-i18n="admin_dash.modal.edit_contract.contract_id">edit_contract.contract_id</span>&nbsp;
+                                        <span id ="id_contract"></span>
+                                    </label>
                                 </div>
                                 <div>
-                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Cuenta&nbsp;<span id ="cuenta_contrato"></span></label>
+                                    <label>
+                                        <span class="form-label" for="name" data-i18n="admin_dash.modal.edit_contract.account">edit_contract.account</span>&nbsp;
+                                        <span id ="cuenta_contrato"></span>
+                                    </label>
                                 </div>
                                 <div>
-                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Status</label>
+                                    <label class="form-label" for="name" data-i18n="admin_dash.modal.edit_contract.status">edit_contract.status</label>
                                     <select id="status" class="form-select" name="status">
                                     {% for status in status_contract %}
                                         <option value="{{ status.0 }}">{{ status.1 }}</option>
@@ -425,13 +395,53 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">Start Date</label>
+                                    <label class="form-label" for="name" data-i18n="admin_dash.modal.edit_contract.startdate">edit_contract.startdate</label>
                                     <input id="fecha_inicio" name="fecha_inicio" class="form-control" required="" type="date"></div>
                                 <div>
-                                    <label class="form-label" for="name" data-i18n="section_contact.form_name">End Date</label>
+                                    <label class="form-label" for="name" data-i18n="admin_dash.modal.edit_contract.enddate">edit_contract.enddate</label>
                                     <input id ="fecha_final" name="fecha_final" class="form-control" required="" type="date">
                                 </div>
-                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="section_contact.form_button">Submit</button>
+                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" style="background: #3a8dde;border-style: none;max-width: 50%;margin-right: 25%;margin-left: 25%;margin-top: 15px;margin-bottom: 15px;" data-i18n="admin_dash.modal.edit_contract.submit_button">edit_contract.submit_button</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade modal_format" role="dialog" tabindex="-1" id="modal-edit-user">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" data-i18n="admin_dash.modal.edit_user.title">edit_user.title</h4>
+                            <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{% url 'editar_usuario' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
+                                {% csrf_token %}
+                                <input id='edit_user_id' type="hidden" name="user_id" value="">
+                                <div>
+                                    <label class="form-label" for="edit_name" data-i18n="admin_dash.modal.edit_user.name">edit_user.name</label>
+                                    <input id="edit_name" class="form-control" type="text" name="nombre" value="">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="edit_email" data-i18n="admin_dash.modal.edit_user.email">edit_user.email</label>
+                                    <input id="edit_email" class="form-control" type="email" name="correo" value="">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="edit_phone" data-i18n="admin_dash.modal.edit_user.phone">edit_user.phone</label>
+                                    <input id="edit_phone" class="form-control" type="tel" name="telefono" value="">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="edit_status" data-i18n="admin_dash.modal.edit_user.status">edit_user.status</label>
+                                    <select id="edit_status" class="form-select" name="status" value="">
+                                        {% for status in status %}
+                                        <option value="{{ status.0 }}" {% if user.status == status.0 %} selected {% endif %}>{{ status.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <button id="reset-password-btn" class="btn reset_password" type="button" data-i18n="admin_dash.modal.edit_user.rst_pass_button">rst_pass_button</button>
+                                    <button class="btn submit" type="submit" data-i18n="admin_dash.modal.edit_user.submit_button">edit_user.submit_button</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -442,15 +452,9 @@
         <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="successModalLabel">Notificación</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
                     <div class="modal-body">
                         <!-- El mensaje se actualizará dinámicamente -->
-                        <p id="modalMessage"></p>
+                        <p id="modalMessage" data-i18n="admin_dash.modal.notification"></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Cerrar</button>
@@ -563,10 +567,10 @@
             const registroEditado = {{ registro_editado|yesno:"true,false" }};
 
             if (registroExitoso) {
-                $('#modalMessage').text('El registro se ha creado exitosamente.');
+                $('#modalMessage').text('admin_dash.modal.notification');
                 $('#successModal').modal('show');
             } else if (registroEditado) {
-                $('#modalMessage').text('El registro se ha editado exitosamente.');
+                $('#modalMessage').text('admin_dash.modal.notification');
                 $('#successModal').modal('show');
             }
         });
