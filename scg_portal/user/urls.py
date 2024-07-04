@@ -53,6 +53,7 @@ urlpatterns = [
     
     path('<str:nombre_cuenta>/Perfil', views.view_perfil, name="perfil"),
     path('<str:nombre_cuenta>/Perfil/update_name/', views.update_name, name='update_name'),
+    path('<str:nombre_cuenta>/Perfil/update_lname/', views.update_lname, name='update_lname'),
     path('<str:nombre_cuenta>/Perfil/update_email/', views.update_email, name='update_email'),
     path('<str:nombre_cuenta>/Perfil/update_phone/', views.update_phone, name='update_phone'),
     path('<str:nombre_cuenta>/Perfil/update_password/', views.update_password, name='update_password')

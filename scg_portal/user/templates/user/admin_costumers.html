@@ -69,7 +69,6 @@
                                     {% for contrato in paginator_contratos %}
                                         <tr>
                                             <td><a href="#" onclick="openUserModalContract('{{ contrato.id_contrato }}')" data-bs-target="#modal-edit-contract" data-bs-toggle="modal">{{ contrato.id_contrato }}</a></td>
-                                            <td>{{ contrato.cuenta_contrato }}</td>
                                             <td>{{ contrato.status }}</td>
                                             <td>{{ contrato.fecha_inicio }}</td>
                                             <td>{{ contrato.fecha_final }}</td>
@@ -100,12 +99,12 @@
                 </div>
                 <div class="col">
                     <div class="card">
-                        <h1 class="text-start" data-i18n="admin_dash.tables.users.title">users.name</h1>
+                        <h1 class="text-start" data-i18n="admin_dash.tables.users.title">users.title</h1>
                         <div class="table-responsive">
                             <table id="userTable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th data-i18n="admin_dash.tables.users.user">users.user</th>
+                                        <th data-i18n="admin_dash.tables.users.name">users.name</th>
                                         <th data-i18n="admin_dash.tables.users.email">users.email</th>
                                         <th data-i18n="admin_dash.tables.users.phone">users.phone</th>
                                         <th data-i18n="admin_dash.tables.users.account">users.account</th>
@@ -114,7 +113,9 @@
                                 <tbody id="userTableBody">
                                     {% for usuario in paginator_users %}
                                         <tr>
-                                            <td><a href="#" onclick="openUserModalUser('{{ usuario.user_id }}')" data-bs-target="#modal-edit-user" data-bs-toggle="modal">{{ usuario.nombre }}</a></td>
+                                            <td>
+                                                <a href="#" onclick="openUserModalUser('{{ usuario.user_id }}')" data-bs-target="#modal-edit-user" data-bs-toggle="modal">{{ usuario.nombre }} {{ usuario.lname }}</a>
+                                            </td>
                                             <td>{{ usuario.correo }}</td>
                                             <td>{{ usuario.telefono }}</td>
                                             <td>{{ usuario.cuenta }}</td>
@@ -309,6 +310,10 @@
                                     <input class="form-control" type="text" name="nombre" required>
                                 </div>
                                 <div>
+                                    <label class="form-label" for="name" data-i18n="admin_dash.modal.add_user.lname">add_user.lname</label>
+                                    <input class="form-control" type="text" name="lname" required>
+                                </div>
+                                <div>
                                     <label class="form-label" for="email" data-i18n="admin_dash.modal.add_user.email">add_user.email</label>
                                     <input class="form-control" type="email" name="correo" required>
                                 </div>
@@ -424,6 +429,10 @@
                                     <input id="edit_name" class="form-control" type="text" name="nombre" value="">
                                 </div>
                                 <div>
+                                    <label class="form-label" for="edit_lname" data-i18n="admin_dash.modal.edit_user.lname">edit_user.lname</label>
+                                    <input id="edit_lname" class="form-control" type="text" name="lname" value="">
+                                </div>
+                                <div>
                                     <label class="form-label" for="edit_email" data-i18n="admin_dash.modal.edit_user.email">edit_user.email</label>
                                     <input id="edit_email" class="form-control" type="email" name="correo" value="">
                                 </div>
@@ -509,6 +518,7 @@
                     // Actualiza los campos del modal con los detalles del usuario obtenidos de la respuesta
                     $('#modal-edit-user').find('#edit_user_id').val(response.user_id);
                     $('#modal-edit-user').find('#edit_name').val(response.nombre);
+                    $('#modal-edit-user').find('#edit_lname').val(response.lname);
                     $('#modal-edit-user').find('#edit_email').val(response.correo);
                     $('#modal-edit-user').find('#edit_phone').val(response.telefono);
                     $('#modal-edit-user').find('#edit_status').val(response.status);
@@ -603,6 +613,18 @@
         $('#filterBtn').click(function() {
             var selectedAccount = $('#customerAccountInput').val(); // Obtener la cuenta de cliente seleccionada
     
+            // Filtrar la tabla de contratos
+            $('#contractTableBody tr').each(function() {
+                var rowAccount = $(this).find('td:eq(4)').text(); // Obtener la cuenta de cliente de la fila actual
+    
+                // Comprobar si la cuenta de cliente de la fila coincide con la cuenta seleccionada o si no se selecciona ninguna cuenta
+                if (rowAccount === selectedAccount || selectedAccount === '') {
+                    $(this).show(); // Mostrar la fila si coincide
+                } else {
+                    $(this).hide(); // Ocultar la fila si no coincide
+                }
+            });
+
             // Filtrar la tabla de usuarios
             $('#userTableBody tr').each(function() {
                 var rowAccount = $(this).find('td:eq(3)').text(); // Obtener la cuenta de cliente de la fila actual
@@ -618,18 +640,6 @@
             // Filtrar la tabla de reportes
             $('#reportTableBody tr').each(function() {
                 var rowAccount = $(this).find('td:eq(4)').text(); // Obtener la cuenta de cliente de la fila actual
-    
-                // Comprobar si la cuenta de cliente de la fila coincide con la cuenta seleccionada o si no se selecciona ninguna cuenta
-                if (rowAccount === selectedAccount || selectedAccount === '') {
-                    $(this).show(); // Mostrar la fila si coincide
-                } else {
-                    $(this).hide(); // Ocultar la fila si no coincide
-                }
-            });
-
-            // Filtrar la tabla de reportes
-            $('#contractTableBody tr').each(function() {
-                var rowAccount = $(this).find('td:eq(1)').text(); // Obtener la cuenta de cliente de la fila actual
     
                 // Comprobar si la cuenta de cliente de la fila coincide con la cuenta seleccionada o si no se selecciona ninguna cuenta
                 if (rowAccount === selectedAccount || selectedAccount === '') {

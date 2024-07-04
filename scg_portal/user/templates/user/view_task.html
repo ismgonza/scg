@@ -14,23 +14,27 @@
         <div class="container">
             <div class="row heading-row">
                 <div class="col heading-row">
-                    <h1>Ticket:&nbsp;<span>{{ tarea.id_tarea }}</span></h1>
+                    <h1>
+                        <span data-i18n="task_view.main_title">task_view.main_title</span>&nbsp;
+                        <span>{{ tarea.id_tarea }}</span>
+                    </h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <div class="card">
                         <div class="input-group">
-                            <p class="input-group-text cust-info">Summary</p><!-- Start: DJANGO - load from database --><span class="input-group-text">{{ tarea.incidente }}</span><!-- End: DJANGO - load from database -->
+                            <p class="input-group-text cust-info" data-i18n="task_view.summary">task_view.summary</p><span class="input-group-text">{{ tarea.incidente }}</span>
                         </div>
                         <div class="input-group">
-                            <p class="input-group-text cust-info">Created By</p><!-- Start: DJANGO - load from database --><span class="input-group-text">{{ tarea.cuenta_tarea }}</span><!-- End: DJANGO - load from database -->
+                            <p class="input-group-text cust-info" data-i18n="task_view.created_by">task_view.created_by</p>
+                            <span class="input-group-text">{{ tarea.cuenta_tarea }}</span>
                         </div>
                         <form method="POST" action="{% url 'update_status_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}">
                             {% csrf_token %}
                             <div class="input-group">
-                                <!-- Start: DJANGO - save to database --><button class="btn filter" type="submit" {% if user_tipo != 'Admin' %}disabled{% endif %}>Status</button><!-- End: DJANGO - save to database -->
-                                <!-- Start: DJANGO - load from database -->{% if user_tipo == 'Admin' %}
+                                <button class="btn filter" type="submit" {% if user_tipo != 'Admin' %}disabled{% endif %} data-i18n="task_view.status">task_view.status</button>
+                                {% if user_tipo == 'Admin' %}
                                     <!-- Para el administrador -->
                                     <select class="form-select" name="status">
                                         <option value="{{ tarea.status }}" selected>{{ tarea.status }}</option>
@@ -43,14 +47,14 @@
                                 {% else %}
                                     <!-- Para el cliente -->
                                     <input type="text" class="form-control" name="status" value="{{ tarea.status }}" readonly>
-                                {% endif %}<!-- End: DJANGO - load from database -->
+                                {% endif %}
                             </div>
                         </form>
                         {% if user_tipo == 'Admin' %}
                             <form method="POST" action="{% url 'update_asignee_tarea' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}">
                                 {% csrf_token %}
                                 <div class="input-group">
-                                    <button class="btn filter" type="submit">Assignee</button>
+                                    <button class="btn filter" type="submit" data-i18n="task_view.assigned_to">task_view.assigned_to</button>
                                     <select class="form-select" name="asignee">
                                         <option value="{{ tarea.asignee }}" selected>{{ tarea.asignee }}</option>
                                         <option value="Ismael">Ismael</option>
@@ -65,13 +69,19 @@
                 <div class="col">
                     <div class="card">
                         <div class="input-group">
-                            <p class="input-group-text cust-info">Total LOE</p><!-- Start: DJANGO - calculate total loe --><span class="input-group-text">{{ tarea.loe }} hrs</span><!-- End: DJANGO - calculate total loe -->
+                            <p class="input-group-text cust-info" data-i18n="task_view.total_loe">task_view.total_loe</p><!-- Start: DJANGO - calculate total loe -->
+                            <span class="input-group-text">{{ tarea.loe }} hrs</span>
+                            <!-- End: DJANGO - calculate total loe -->
                         </div>
                         <div class="input-group">
-                            <p class="input-group-text cust-info">Created on</p><!-- Start: DJANGO - task created date --><span class="input-group-text">{{ tarea.fecha }}</span><!-- End: DJANGO - task created date -->
+                            <p class="input-group-text cust-info" data-i18n="task_view.created_on">task_view.created_on</p><!-- Start: DJANGO - task created date -->
+                            <span class="input-group-text">{{ tarea.fecha }}</span>
+                            <!-- End: DJANGO - task created date -->
                         </div>
                         <div class="input-group">
-                            <p class="input-group-text cust-info">Closed on</p><!-- Start: DJANGO - task closed date --><span class="input-group-text">{{ tarea.fecha_final }}</span><!-- End: DJANGO - task closed date -->
+                            <p class="input-group-text cust-info" data-i18n="task_view.closed_on">task_view.closed_on</p><!-- Start: DJANGO - task closed date -->
+                            <span class="input-group-text">{{ tarea.fecha_final }}</span>
+                            <!-- End: DJANGO - task closed date -->
                         </div>
                     </div>
                 </div>
@@ -79,7 +89,7 @@
             <div class="row">
                 <div class="col">
                     <div class="comments_div">
-                        <p class="d-xl-flex justify-content-xl-start" style="font-weight: bold;">Description:</p>
+                        <p class="d-xl-flex justify-content-xl-start" style="font-weight: bold;" data-i18n="task_view.action.description">task_view.action.description</p>
                         <div class="card comment-bordered">
                             <!-- Start: DJANGO - Task description -->
                             <p><span style="font-weight: normal !important; font-style: normal !important; color: rgb(65, 72, 77);">{{ tarea.descripcion|linebreaks }}</span>
@@ -89,21 +99,31 @@
                         <!-- Start: DJANGO - Add new comment and LOE -->
                         <form class="comment" action="{% url 'crear_comment' nombre_cuenta=nombre_cuenta id_tarea=tarea.id_tarea %}" method="post">
                             {% csrf_token %}
-                            <textarea class="form-control" spellcheck="true" cols="57" rows="2" name="comment" placeholder="Enter your comment here"></textarea>
+                            <textarea class="form-control" spellcheck="true" cols="57" rows="2" name="comment" data-i18n="[placeholder]task_view.action.comment_phld"></textarea>
                                 <div>
                                     {% if user_tipo == 'Admin' %}
-                                        <input class="form-control" type="number" name="loe" placeholder="Add LOE hrs" {% if user_tipo != 'Admin' %}disabled{% endif %}>
+                                        <input class="form-control" type="number" name="loe" data-i18n="[placeholder]task_view.action.loe_phld" {% if user_tipo != 'Admin' %}disabled{% endif %}>
                                     {% endif %}
-                                    <button class="btn submit" type="submit" >Submit</button>
+                                    <button class="btn submit" type="submit" data-i18n="task_view.action.submit_button">task_view.action.submit_button</button>
                                 </div>
                         </form><!-- End: DJANGO - Add new comment and LOE -->
                     </div>
                     <div class="comments_div">
                         {% for comentario in comentarios %}
                         <div class="comment_info">
-                            <p class="d-xl-flex justify-content-xl-start comment-line">Commented by:&nbsp;<span style="font-weight: bold;">{{ comentario.nombre }}</span></p>
-                            <p class="comment-line">On date:&nbsp;<span style="font-weight: bold;">{{ comentario.fecha }}</span></p>
-                            <p class="comment-line">LOE:&nbsp;<span style="font-weight: bold;">{{ comentario.loe }}</span><strong><span style="font-style: normal !important;">&nbsp;hrs</span></strong></p>
+                            <p class="d-xl-flex justify-content-xl-start comment-line">
+                                <span data-i18n="task_view.comments.author">task_view.comments.author</span>&nbsp;
+                                <span style="font-weight: bold;">{{ comentario.nombre }}</span>
+                            </p>
+                            <p class="comment-line">
+                                <span data-i18n="task_view.comments.date">task_view.comments.date</span>&nbsp;
+                                <span style="font-weight: bold;">{{ comentario.fecha }}</span>
+                            </p>
+                            <p class="comment-line">
+                                <span data-i18n="task_view.comments.loe">task_view.comments.loe</span>&nbsp;
+                                <span style="font-weight: bold;">{{ comentario.loe }}</span>&nbsp;
+                                <strong><span style="font-style: normal !important;">hrs</span></strong>
+                            </p>
                         </div>
                         <div class="card comment-bordered">
                             <!-- Start: DJANGO - comment text -->

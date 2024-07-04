@@ -6,7 +6,7 @@ from .models import Cuenta, Usuario, Reporte, Tarea, Contrato, Comment
 class UserForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        exclude = ["tipo", "cuenta", "nombre", "telefono", "status"]
+        exclude = ["tipo", "cuenta", "nombre", "lname", "telefono", "status"]
         placeholders = {
             "correo": "Email",
             "password": "Password"
@@ -29,11 +29,12 @@ class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
         exclude = ["password", "status"]
-        fields = ['correo', 'tipo', 'cuenta', 'nombre', 'telefono']
+        fields = ['correo', 'tipo', 'cuenta', 'nombre', 'lname', 'telefono']
         widgets = {
             'correo': forms.EmailInput(attrs={'class': 'form-control'}),
             'tipo': forms.Select(attrs={'class': 'form-control'}),
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'lname': forms.TextInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'})
         }
 
@@ -46,9 +47,10 @@ class UsuarioFormEdit(forms.ModelForm):
     class Meta:
         model = Usuario
         # exclude = ['password', 'tipo', 'cuenta']  # Excluye el campo de contraseña del formulario
-        fields = ['nombre','correo', 'telefono', 'status']
+        fields = ['nombre', 'lname', 'correo', 'telefono', 'status']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'lname': forms.TextInput(attrs={'class': 'form-control'}),
             'correo': forms.EmailInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
@@ -93,7 +95,7 @@ class CambiarClaveForm(forms.Form):
         if nueva_contraseña and confirmar_contraseña and nueva_contraseña != confirmar_contraseña:
             raise forms.ValidationError(_('Las contraseñas no coinciden.'))
 
-        return cleaned_data
+        return self.cleaned_data
     
 class TareaForm(forms.ModelForm):
     class Meta:
@@ -185,6 +187,9 @@ class UpdateStatusTareaForm(forms.ModelForm):
 
 class UpdateNameForm(forms.Form):
     nombre = forms.CharField(max_length=100)
+    
+class UpdateLNameForm(forms.Form):
+    lname = forms.CharField(max_length=100)
 
 class UpdateEmailForm(forms.Form):
     correo = forms.EmailField()

@@ -32,7 +32,7 @@
             },
             "users": {
                 "title":"Users",
-                "user":"Name",
+                "name":"Name",
                 "email":"Email",
                 "phone":"Phone",
                 "account":"Account"
@@ -57,7 +57,8 @@
             "add_user": {
                 "title":"Add new user",
                 "account":"Account",
-                "name":"Name and Lastname",
+                "name":"Name",
+                "lname":"Last Name",
                 "email":"Email",
                 "phone":"Phone",
                 "user_type":"User Type",
@@ -82,7 +83,8 @@
             },
             "edit_user": {
                 "title":"Edit user",
-                "name":"Name and Lastname",
+                "name":"Name",
+                "lname":"Last Name",
                 "email":"Email",
                 "phone":"Phone",
                 "status":"Status",
@@ -166,6 +168,43 @@
                 "description":"Please enter a description",
                 "submit_button":"Submit"
             }
+        }
+    },
+    "task_view": {
+        "main_title": "Ticket:",
+        "summary": "Summary",
+        "created_by": "Created by",
+        "status": "Status",
+        "assigned_to": "Assigned to",
+        "total_loe": "Total LOE",
+        "created_on": "Date Created",
+        "closed_on": "Date Closed",
+        "action": {
+            "description":"Issue Description",
+            "comment_phld":"Enter your comment here",
+            "loe_phld":"Add LOE in hours",
+            "submit_button":"Submit"
+        },
+        "comments": {
+            "author":"Author:",
+            "date":"Date:",
+            "loe":"LOE:"
+        }
+    },
+    "profile": {
+        "main_title":"My Profile",
+        "action": {
+            "account":"Account",
+            "name":"Name",
+            "lname":"Last Name",
+            "email":"Email",
+            "phone":"Phone",
+            "update_button":"Update",
+            "update_password":"Update Password"
+        },
+        "modal": {
+            "pass_phld":"Enter your new password",
+            "submit_button":"Submit"
         }
     },
     "sec_report_dash":{

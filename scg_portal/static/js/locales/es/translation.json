@@ -32,7 +32,7 @@
             },
             "users": {
                 "title":"Usuarios",
-                "user":"Nombre",
+                "name":"Nombre",
                 "email":"Correo",
                 "phone":"Teléfono",
                 "account":"Cliente"
@@ -57,7 +57,8 @@
             "add_user": {
                 "title":"Agregar un nuevo usuario",
                 "account":"Cliente",
-                "name":"Nombre y Apellido",
+                "name":"Nombre",
+                "lname":"Apellido",
                 "email":"Correo",
                 "phone":"Teléfono",
                 "user_type":"Tipo de Usuario",
@@ -82,7 +83,8 @@
             },
             "edit_user": {
                 "title":"Editar usuario",
-                "name":"Nombre y Apellido",
+                "name":"Nombre",
+                "lname":"Apellido",
                 "email":"Correo",
                 "phone":"Teléfono",
                 "status":"Estado",
@@ -166,6 +168,43 @@
                 "description":"Por favor ingrese una descripción",
                 "submit_button":"Enviar"
             }
+        }
+    },
+    "task_view": {
+        "main_title": "Tiquete:",
+        "summary": "Titulo",
+        "created_by": "Creado por",
+        "status": "Estado",
+        "assigned_to": "Assignado a",
+        "total_loe": "Tiempo Dedicado",
+        "created_on": "Creado en",
+        "closed_on": "Cerrado en",
+        "action": {
+            "description":"Descripción del Caso",
+            "comment_phld":"Ingrese su comentario aquí",
+            "loe_phld":"Agregue el tiempo de esfuerzo en horas",
+            "submit_button":"Enviar"
+        },
+        "comments": {
+            "author":"Autor:",
+            "date":"Fecha:",
+            "loe":"Esfuerzo:"
+        }
+    },
+    "profile": {
+        "main_title":"Mi Perfil",
+        "action": {
+            "account":"Cuenta",
+            "name":"Nombre",
+            "lname":"Apellido",
+            "email":"Correo",
+            "phone":"Telefono",
+            "update_button":"Actualizar",
+            "update_password":"Actualizar Contrasena"
+        },
+        "modal": {
+            "pass_phld":"Ingrese su nueva contrasena",
+            "submit_button":"Enviar"
         }
     },
     "sec_report_dash":{

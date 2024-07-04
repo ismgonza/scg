@@ -12,7 +12,7 @@ from django.utils.encoding import force_bytes
 from .models import generate_reset_token
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils import timezone
-from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm, UpdateNameForm, UpdateEmailForm, UpdatePhoneForm, UpdatePasswordForm, TareaFormClient, CommentForm, EditContractForm, UpdateStatusTareaForm
+from .forms import UserForm, CuentaForm, ReporteForm, UsuarioForm, UsuarioFormEdit, CambiarClaveForm, TareaForm, CustomPasswordResetForm, ContratoForm, UpdateNameForm, UpdateLNameForm, UpdateEmailForm, UpdatePhoneForm, UpdatePasswordForm, TareaFormClient, CommentForm, EditContractForm, UpdateStatusTareaForm
 from .models import Usuario, Cuenta, Reporte, Tarea, Contrato, Comment
 
 def sign_in(request):
@@ -43,6 +43,7 @@ def sign_in(request):
                             request.session['user_cuenta_nombre'] = usuario.cuenta.nombre
                             request.session['user_tel'] = usuario.telefono
                             request.session['user_nombre'] = usuario.nombre
+                            request.session['user_lname'] = usuario.lname
                             cuenta_nombre = usuario.cuenta.nombre
 
                             return HttpResponseRedirect(reverse("index", kwargs={'nombre_cuenta': cuenta_nombre}))
@@ -54,6 +55,7 @@ def sign_in(request):
                             request.session['user_cuenta_nombre'] = usuario.cuenta.nombre
                             request.session['user_tel'] = usuario.telefono
                             request.session['user_nombre'] = usuario.nombre
+                            request.session['user_lname'] = usuario.lname
                             cuenta_nombre = usuario.cuenta.nombre
 
                             return HttpResponseRedirect(reverse("client", kwargs={'nombre_cuenta': cuenta_nombre}))
@@ -83,6 +85,7 @@ def sign_out(request):
     del request.session['user_cuenta_nombre']
     del request.session['user_tel']
     del request.session['user_nombre']
+    del request.session['user_lname']
 
     # Redirige a la página de inicio de sesión u otra página deseada
     return redirect('login')
@@ -409,6 +412,7 @@ def view_perfil(request, nombre_cuenta):
     user_tipo = request.session.get('user_tipo', '')
     user_tel = request.session.get('user_tel', '')
     user_nombre = request.session.get('user_nombre', '')
+    user_lname = request.session.get('user_lname', '')
 
     # Puedes agregar más datos según sea necesario
 
@@ -418,7 +422,8 @@ def view_perfil(request, nombre_cuenta):
         'user_correo': user_correo,
         'user_tipo': user_tipo,
         'user_tel': user_tel,
-        'user_nombre': user_nombre
+        'user_nombre': user_nombre,
+        'user_lname': user_lname
     })
 
 def view_reset_correo(request):
@@ -803,6 +808,22 @@ def update_name(request, nombre_cuenta):
         form = UpdateNameForm()
     return redirect('perfil', nombre_cuenta=nombre_cuenta)
 
+def update_lname(request, nombre_cuenta):
+    user_id = request.session.get('user_id')
+    if request.method == 'POST':
+        form = UpdateLNameForm(request.POST)
+        if form.is_valid():
+           # Obtiene el usuario basado en su user_id
+            usuario = Usuario.objects.get(pk=user_id)
+
+            # Actualiza los campos del usuario con los datos del formulario
+            usuario.lname = form.cleaned_data['lname']
+            usuario.save()
+            request.session['user_lname'] = usuario.lname
+    else:
+        form = UpdateLNameForm()
+    return redirect('perfil', nombre_cuenta=nombre_cuenta)
+
 def update_email(request, nombre_cuenta):
     user_id = request.session.get('user_id')
     if request.method == 'POST':
@@ -887,6 +908,7 @@ def get_user_data(request, nombre_cuenta):
             data = {
                 'user_id': usuario.user_id,
                 'nombre': usuario.nombre,
+                'lname': usuario.lname,
                 'correo': usuario.correo,
                 'telefono': usuario.telefono,
                 'status': usuario.status,
