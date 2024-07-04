@@ -15,19 +15,19 @@
         <div class="container admin-portal">
             <div class="row heading-row">
                 <div class="col heading-row">
-                    <h1 class="text-center">Tasks / Tickets Administration</h1>
+                    <h1 class="text-center" data-i18n="admin_tasks_dash.main_title">admin_tasks_dash.main_title</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <div class="card">
-                        <h1 class="text-start">Tickets by Open Status</h1>
+                        <h1 class="text-start" data-i18n="admin_tasks_dash.summary_table.title">summary_table.title</h1>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Status</th>
-                                        <th>Count</th>
+                                        <th data-i18n="admin_tasks_dash.summary_table.status">summary_table.status</th>
+                                        <th data-i18n="admin_tasks_dash.summary_table.count">summary_table.count</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,40 +44,55 @@
                 </div>
                 <div class="col">
                     <div class="card">
-                        <div class="input-group"><button class="btn" type="button" data-bs-target="#log-ticket-admin" data-bs-toggle="modal">Log</button><span class="input-group-text">a new task or effort</span></div>
-                        <div class="input-group"><button id="filterAccountBtn" class="btn filter" type="button">Filter by</button><input id="customerAccountInput" type="text" class="form-select input-group-text" list="customer_accounts" placeholder="customer account"><datalist id="customer_accounts">
-    {% for cuenta in cuentas %}
-        <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
-    {% endfor %}
-    </datalist></div>
-                        <div class="input-group"><button id="filterStatusBtn" class="btn filter" type="button">Filter by</button><input id="ticketStatusInput" type="text" class="form-select input-group-text" list="ticket_status" placeholder="ticket status"><datalist id="ticket_status">
-    {% for opcion in opciones_status %}
-        <option value="{{ opcion.0 }}">{{ opcion.1 }}</option>
-    {% endfor %}
-    </datalist></div>
-                        <div class="input-group"><button id="filterSeverityBtn" class="btn filter" type="button">Filter by</button><input id="severitiesInput" type="text" class="form-select input-group-text" list="severities" placeholder="severity"><datalist id="severities">
-    {% for opcion in opciones_sev %}
-        <option value="{{ opcion.0 }}">{{ opcion.1 }}</option>
-    {% endfor %}
-    </datalist></div>
+                        <div class="input-group">
+                          <button class="btn" type="button" data-bs-target="#log-ticket-admin" data-bs-toggle="modal" data-i18n="admin_tasks_dash.action.log_ticket_button">action.log_ticket_button</button>
+                          <span class="input-group-text" data-i18n="admin_tasks_dash.action.log_ticket_text">action.log_ticket_text</span>
+                        </div>
+                        <div class="input-group">
+                          <button id="filterAccountBtn" class="btn filter" type="button" data-i18n="admin_tasks_dash.action.filter_cust_button">action.filter_cust_button</button>
+                          <input id="customerAccountInput" type="text" class="form-select input-group-text" list="customer_accounts" data-i18n="[placeholder]admin_tasks_dash.action.filter_cust_text">
+                          <datalist id="customer_accounts">
+                            {% for cuenta in cuentas %}
+                            <option value="{{ cuenta.nombre }}">{{ cuenta.nombre }}</option>
+                            {% endfor %}
+                          </datalist>
+                        </div>
+                        <div class="input-group">
+                          <button id="filterStatusBtn" class="btn filter" type="button" data-i18n="admin_tasks_dash.action.filter_ticket_stat_button">action.filter_ticket_stat_button</button>
+                          <input id="ticketStatusInput" type="text" class="form-select input-group-text" list="ticket_status" data-i18n="[placeholder]admin_tasks_dash.action.filter_ticket_stat_text">
+                          <datalist id="ticket_status">
+                            {% for opcion in opciones_status %}
+                            <option value="{{ opcion.0 }}">{{ opcion.1 }}</option>
+                            {% endfor %}
+                          </datalist>
+                        </div>
+                        <div class="input-group">
+                          <button id="filterSeverityBtn" class="btn filter" type="button" data-i18n="admin_tasks_dash.action.filter_severity_button">action.filter_severity_button</button>
+                          <input id="severitiesInput" type="text" class="form-select input-group-text" list="severities" data-i18n="[placeholder]admin_tasks_dash.action.filter_severity_text">
+                          <datalist id="severities">
+                            {% for opcion in opciones_sev %}
+                            <option value="{{ opcion.0 }}">{{ opcion.1 }}</option>
+                            {% endfor %}
+                          </datalist>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <div class="card">
-                        <h1 class="text-start">Tasks</h1>
+                        <h1 class="text-start" data-i18n="admin_tasks_dash.task_lists.title">task_lists.title</h1>
                         <div class="table-responsive">
                             <table id="tasksTable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Task ID</th>
-                                        <th>Severity</th>
-                                        <th>Date Created</th>
-                                        <th>Account</th>
-                                        <th>Description</th>
-                                        <th>Status</th>
-                                        <th>Total LOE</th>
+                                        <th data-i18n="admin_tasks_dash.task_lists.task_id">task_lists.task_id</th>
+                                        <th data-i18n="admin_tasks_dash.task_lists.severity">task_lists.severity</th>
+                                        <th data-i18n="admin_tasks_dash.task_lists.date">task_lists.date</th>
+                                        <th data-i18n="admin_tasks_dash.task_lists.account">task_lists.account</th>
+                                        <th data-i18n="admin_tasks_dash.task_lists.description">task_lists.description</th>
+                                        <th data-i18n="admin_tasks_dash.task_lists.status">task_lists.status</th>
+                                        <th data-i18n="admin_tasks_dash.task_lists.total_loe">task_lists.total_loe</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -119,34 +134,34 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Log a New Task</h4>
+                            <h4 class="modal-title" data-i18n="admin_tasks_dash.modal.log_ticket.title">log_ticket.title</h4>
                             <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <form method="post" action="{% url 'crear_tarea_admin' nombre_cuenta=nombre_cuenta %}" class="d-flex flex-column" style="padding: 10px;">
                                 {% csrf_token %}
                                 <div>
-                                    <label class="form-label" for="incidente">Subject</label>
+                                    <label class="form-label" for="incidente" data-i18n="admin_tasks_dash.modal.log_ticket.subject">log_ticket.subject</label>
                                     <input name="incidente" type="text" id="incidente" required="">
                                 </div>
                                 <div class="input-group">
-                                    <label class="form-label" for="cuenta_tarea">Customer Account</label>
+                                    <label class="form-label" for="cuenta_tarea" data-i18n="admin_tasks_dash.modal.log_ticket.account">log_ticket.account</label>
                                     <select name="cuenta_tarea" class="form-select" id="cuenta_tarea">
                                         {% for cuenta in form.cuenta_tarea.field.queryset %}
                                             <option value="{{ cuenta.pk }}">{{ cuenta.nombre }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <div><label class="form-label" data-i18n="section_contact.form_email" for="email">Severity:</label><select class="form-select" name="severity">
-                                    <option value="1">1 - High</option>
-                                    <option value="2">2 - Medium</option>
-                                    <option value="3" selected="">3 - Low</option>
+                                <div><label class="form-label" for="severity" data-i18n="admin_tasks_dash.modal.log_ticket.severity.title">log_ticket.severity</label><select class="form-select" name="severity">
+                                    <option value="1" data-i18n="admin_tasks_dash.modal.log_ticket.severity.high">log_ticket.severity.high</option>
+                                    <option value="2" data-i18n="admin_tasks_dash.modal.log_ticket.severity.medium">log_ticket.severity.medium</option>
+                                    <option value="3" selected="" data-i18n="admin_tasks_dash.modal.log_ticket.severity.low">log_ticket.severity.low</option>
                                 </select></div>
                                 <div>
-                                    <label class="form-label" for="descripcion">Please describe the request:</label>
+                                    <label class="form-label" for="descripcion" data-i18n="admin_tasks_dash.modal.log_ticket.description">log_ticket.description</label>
                                     <textarea name="descripcion" class="form-control" id="descripcion" maxlength="300" rows="6"></textarea>
                                 </div>
-                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit">Submit</button>
+                                <button class="btn btn-primary justify-content-center justify-content-lg-center" type="submit" data-i18n="admin_tasks_dash.modal.log_ticket.submit_button">log_ticket.submit_button</button>
                             </form>
                         </div>
                     </div>

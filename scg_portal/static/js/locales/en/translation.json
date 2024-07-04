@@ -1,0 +1,217 @@
+{
+    "nav": {
+        "tasks": "Tickets",
+        "customer": "Customers",
+        "profile": "My Profile",
+        "logout": "Logout"
+    },
+    "admin_dash": {
+        "main_title":"Customer Administration Dashboard",
+        "action": {
+            "create_account_button": "Create",
+            "create_account_text": "a new customer account",
+            "register_contract_button": "Register",
+            "register_contract_text": "a contract #",
+            "add_user_button": "Add",
+            "add_user_text": "a new user",
+            "upload_report_button": "Upload",
+            "upload_report_text": "a new report",
+            "filter_account_button": "Filter by",
+            "filter_account_text": "customer account name",
+            "account_id": "Account ID",
+            "account_name": "Account Name"
+        },
+        "tables": {
+            "contracts": {
+                "title":"Contracts",
+                "id":"Contract #",
+                "status":"Status",
+                "startdate":"Start Date",
+                "enddate":"End Date",
+                "account":"Account"
+            },
+            "users": {
+                "title":"Users",
+                "name":"Name",
+                "email":"Email",
+                "phone":"Phone",
+                "account":"Account"
+            }
+        },
+        "modal": {
+            "upload_report": {
+                "title":"Upload a new report",
+                "scan_type": {
+                    "title":"Scan Type",
+                    "descrption":"Description",
+                    "vuln_scan_net":"Vulnerability Scan (Network)",
+                    "vuln_scan_app":"Vulnerability Scan (WebApp)",
+                    "pentest":"Penetration Test",
+                    "perftest":"Performance Test"
+                },
+                "account":"Account",
+                "raw_file":"Raw JSON",
+                "parsed_file":"Parsed Source (Dradis PDF)",
+                "submit_button":"Submit"
+            },
+            "add_user": {
+                "title":"Add new user",
+                "account":"Account",
+                "name":"Name",
+                "lname":"Last Name",
+                "email":"Email",
+                "phone":"Phone",
+                "user_type":"User Type",
+                "submit_button":"Submit"
+            },
+            "register_contract": {
+                "title":"Register a new contract",
+                "account":"Account",
+                "contract_id":"Contract -",
+                "startdate":"Start Date",
+                "enddate":"End Date",
+                "submit_button":"Submit"
+            },
+            "edit_contract": {
+                "title":"Edit contract",
+                "contract_id":"Contract #",
+                "account":"Account -",
+                "status":"Status",
+                "startdate":"Start Date",
+                "enddate":"End Date",
+                "submit_button":"Submit"
+            },
+            "edit_user": {
+                "title":"Edit user",
+                "name":"Name",
+                "lname":"Last Name",
+                "email":"Email",
+                "phone":"Phone",
+                "status":"Status",
+                "rst_pass_button":"Reset Password",
+                "submit_button":"Submit"
+            },
+            "notification":"Change was successful!!"
+        }
+    },
+    "reports": {
+        "report_id":"Report ID",
+        "risk_cat_report": {
+            "title":"Vulnerability Count by Risk Category - "
+        },
+        "top_hosts_report": {
+            "title":"Vulnerability Count by Top 10 Hosts - "
+        },
+        "os_chart_report": {
+            "title":"Operating Systems - "
+        },
+        "os_count_report": {
+            "title":"Vulnerability Count by Operating Systems - "
+        },
+        "top_alerts_report": {
+            "title":"Vulnerability Count by Top 10 Alerts (Critical, High, Medium) - "
+        },
+        "security_details_report": {
+            "title":"Details by Vulnerabilities - ",
+            "vuln_name":"Vulnerability Name",
+            "risk_category":"Risk Category",
+            "count":"Count"
+        },
+        "security_report": {
+            "title":"Security Reports",
+            "date":"Date",
+            "report_id":"Report ID",
+            "scan_type":"Scan Type",
+            "account":"Account",
+            "action":"Action",
+            "download":"Download"
+        }
+    },
+    "admin_tasks_dash": {
+        "main_title":"Ticket Administration Dashboard",
+        "action": {
+            "log_ticket_button":"Log",
+            "log_ticket_text":"a new ticket",
+            "filter_cust_button":"Filter by",
+            "filter_cust_text":"customer account",
+            "filter_ticket_stat_button":"Filter by",
+            "filter_ticket_stat_text":"ticket status",
+            "filter_severity_button":"Filter by",
+            "filter_severity_text":"severity"
+        },
+        "summary_table": {
+            "title":"Tickets by Open Status",
+            "status":"Status",
+            "count":"Count"
+        },
+        "task_lists": {
+            "title":"Tickets",
+            "task_id":"ID",
+            "severity":"Severity",
+            "date":"Created on",
+            "account":"Account",
+            "description":"Description",
+            "status":"Status",
+            "total_loe":"Total LOE"
+        },
+        "modal": {
+            "log_ticket": {
+                "title":"Log a new ticket",
+                "subject":"Subject",
+                "account":"Account",
+                "severity":{
+                    "title": "Severity",
+                    "high":"1 - High",
+                    "medium":"2 - Medium",
+                    "low":"3 - Low"
+                },
+                "description":"Please enter a description",
+                "submit_button":"Submit"
+            }
+        }
+    },
+    "task_view": {
+        "main_title": "Ticket:",
+        "summary": "Summary",
+        "created_by": "Created by",
+        "status": "Status",
+        "assigned_to": "Assigned to",
+        "total_loe": "Total LOE",
+        "created_on": "Date Created",
+        "closed_on": "Date Closed",
+        "action": {
+            "description":"Issue Description",
+            "comment_phld":"Enter your comment here",
+            "loe_phld":"Add LOE in hours",
+            "submit_button":"Submit"
+        },
+        "comments": {
+            "author":"Author:",
+            "date":"Date:",
+            "loe":"LOE:"
+        }
+    },
+    "profile": {
+        "main_title":"My Profile",
+        "action": {
+            "account":"Account",
+            "name":"Name",
+            "lname":"Last Name",
+            "email":"Email",
+            "phone":"Phone",
+            "update_button":"Update",
+            "update_password":"Update Password"
+        },
+        "modal": {
+            "pass_phld":"Enter your new password",
+            "submit_button":"Submit"
+        }
+    },
+    "sec_report_dash":{
+        "main_title":"Security Report:",
+        "text_intro":"As leaders of our company, we face a critical issue highlighted in this second Vulnerability Assessment report: unresolved vulnerabilities from prior assessments still pose risks to our systems. <br><br>Vulnerability Assessment is our proactive approach to identifying and prioritizing these weaknesses, a vital step in our cybersecurity strategy. This report underscores its significance, stressing the need for prompt action. <br><br>Vulnerabilities left unaddressed can lead to potential cyberattacks with severe consequences. As stewards of our digital assets, we must act swiftly to rectify these issues. <br><br>Join us in this critical examination of Vulnerability Assessment to ensure our continued digital security. In an ever-evolving cyber landscape, our ability to respond decisively is paramount.",
+        "scope_title":"Scope",
+        "scope_text":"Following, the item(s) covered by this assessment:",
+        "accordion_vuln_by_host":"Vulnerability by Hosts"
+    }
+}

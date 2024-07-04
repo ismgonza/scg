@@ -1,0 +1,217 @@
+{
+    "nav": {
+        "tasks": "Tiquetes",
+        "customer": "Clientes",
+        "profile": "Mi Perfil",
+        "logout": "Cerrar Sesion"
+    },
+    "admin_dash": {
+        "main_title": "Panel Principal Administrativo",
+        "action": {
+            "create_account_button": "Crear",
+            "create_account_text": "un nuevo cliente",
+            "register_contract_button": "Registrar",
+            "register_contract_text": "un número de contrato",
+            "add_user_button": "Agregar",
+            "add_user_text": "un nuevo usuario",
+            "upload_report_button": "Cargar",
+            "upload_report_text": "un nuevo reporte",
+            "filter_account_button": "Filtrar por",
+            "filter_account_text": "nombre de cliente",
+            "account_id": "ID de Cliente",
+            "account_name": "Cliente"
+        },
+        "tables": {
+            "contracts": {
+                "title":"Contratos",
+                "id":"Contrato #",
+                "status":"Estado",
+                "startdate":"Inicio",
+                "enddate":"Expiracion",
+                "account":"Cliente"
+            },
+            "users": {
+                "title":"Usuarios",
+                "name":"Nombre",
+                "email":"Correo",
+                "phone":"Teléfono",
+                "account":"Cliente"
+            }
+        },
+        "modal": {
+            "upload_report": {
+                "title":"Cargar un nuevo reporte",
+                "scan_type": {
+                    "title":"Tipo de Escaneo",
+                    "descrption":"Descripcion",
+                    "vuln_scan_net":"Escaneo de Vulnerabilidad (Red)",
+                    "vuln_scan_app":"Escaneo de Vulnerabilidad (Aplicación)",
+                    "pentest":"Prueba de Penetración",
+                    "perftest":"Prueba de Rendimiento"
+                },
+                "account":"Cliente",
+                "raw_file":"Archivo JSON",
+                "parsed_file":"Archivo PDF (Dradis)",
+                "submit_button":"Enviar"
+            },
+            "add_user": {
+                "title":"Agregar un nuevo usuario",
+                "account":"Cliente",
+                "name":"Nombre",
+                "lname":"Apellido",
+                "email":"Correo",
+                "phone":"Teléfono",
+                "user_type":"Tipo de Usuario",
+                "submit_button":"Enviar"
+            },
+            "register_contract": {
+                "title":"Registrar un nuevo contrato",
+                "account":"Cliente",
+                "contract_id":"# de Contrato",
+                "startdate":"Fecha de Inicio",
+                "enddate":"Fecha Final",
+                "submit_button":"Enviar"
+            },
+            "edit_contract": {
+                "title":"Editar contrato",
+                "contract_id":"Contrato -",
+                "account":"Cliente -",
+                "status":"Estado",
+                "startdate":"Fecha de Inicio",
+                "enddate":"Fecha Final",
+                "submit_button":"Enviar"
+            },
+            "edit_user": {
+                "title":"Editar usuario",
+                "name":"Nombre",
+                "lname":"Apellido",
+                "email":"Correo",
+                "phone":"Teléfono",
+                "status":"Estado",
+                "rst_pass_button":"Restablecer Contraseña",
+                "submit_button":"Enviar"
+            },
+            "notification":"El Cambio fue exitoso!!"
+        }
+    },
+    "reports": {
+        "report_id":"Informe #",
+        "risk_cat_report": {
+            "title":"Conteo de Vulnerabilidades por Categoría de Riesgo - "
+        },
+        "top_hosts_report": {
+            "title":"Conteo de Vulnerabilidades por Host Top 10 - "
+        },
+        "os_chart_report": {
+            "title":"Sistemas Operativos - "
+        },
+        "os_count_report": {
+            "title":"Conteo de Vulnerabilidades por Sistemas Operativos - "
+        },
+        "top_alerts_report": {
+            "title":"Conteo de Vulnerabilidades por las 10 Alertas Principales (Críticas, Altas, Medias) - "
+        },
+        "security_details_report": {
+            "title":"Detalles por Vulnerabilidades - ",
+            "vuln_name":"Vulnerabilidad",
+            "risk_category":"Categoria de Riesgo",
+            "count":"Cantidad"
+        },
+        "security_report": {
+            "title":"Reportes de Seguridad",
+            "date":"Fecha",
+            "report_id":"Informe #",
+            "scan_type":"Tipo de Escaneo",
+            "account":"Cliente",
+            "action":"Accion",
+            "download":"Descargar"
+        }
+    },
+    "admin_tasks_dash": {
+        "main_title":"Panel de Administración de Tiquetes",
+        "action": {
+            "log_ticket_button":"Crear",
+            "log_ticket_text":"un nuevo tiquete",
+            "filter_cust_button":"Filtrar por",
+            "filter_cust_text":"nombre de cliente",
+            "filter_ticket_stat_button":"Filtrar por",
+            "filter_ticket_stat_text":"estado de tiquete",
+            "filter_severity_button":"Filtrar por",
+            "filter_severity_text":"severidad"
+        },
+        "summary_table": {
+            "title":"Tiquetes Activos",
+            "status":"Estado",
+            "count":"Conteo"
+        },
+        "task_lists": {
+            "title":"Lista de Tiquetes",
+            "task_id":"ID",
+            "severity":"Severidad",
+            "date":"Creado en",
+            "account":"Cliente",
+            "description":"Descripción",
+            "status":"Estado",
+            "total_loe":"LOE Total"
+        },
+        "modal": {
+            "log_ticket": {
+                "title":"Registrar un nuevo tiquete",
+                "subject":"Titulo",
+                "account":"Cliente",
+                "severity":{
+                    "title": "Severidad",
+                    "high":"1 - Alta",
+                    "medium":"2 - Media",
+                    "low":"3 - Baja"
+                },
+                "description":"Por favor ingrese una descripción",
+                "submit_button":"Enviar"
+            }
+        }
+    },
+    "task_view": {
+        "main_title": "Tiquete:",
+        "summary": "Titulo",
+        "created_by": "Creado por",
+        "status": "Estado",
+        "assigned_to": "Assignado a",
+        "total_loe": "Tiempo Dedicado",
+        "created_on": "Creado en",
+        "closed_on": "Cerrado en",
+        "action": {
+            "description":"Descripción del Caso",
+            "comment_phld":"Ingrese su comentario aquí",
+            "loe_phld":"Agregue el tiempo de esfuerzo en horas",
+            "submit_button":"Enviar"
+        },
+        "comments": {
+            "author":"Autor:",
+            "date":"Fecha:",
+            "loe":"Esfuerzo:"
+        }
+    },
+    "profile": {
+        "main_title":"Mi Perfil",
+        "action": {
+            "account":"Cuenta",
+            "name":"Nombre",
+            "lname":"Apellido",
+            "email":"Correo",
+            "phone":"Telefono",
+            "update_button":"Actualizar",
+            "update_password":"Actualizar Contrasena"
+        },
+        "modal": {
+            "pass_phld":"Ingrese su nueva contrasena",
+            "submit_button":"Enviar"
+        }
+    },
+    "sec_report_dash":{
+        "main_title":"Reporte de Seguridad:",
+        "text_intro":"Como líderes de nuestra empresa, enfrentamos un problema crítico destacado en este segundo informe de Evaluación de Vulnerabilidades: las vulnerabilidades no resueltas de evaluaciones anteriores aún representan riesgos para nuestros sistemas. <br><br>La Evaluación de Vulnerabilidades es nuestro enfoque proactivo para identificar y priorizar estas debilidades, un paso vital en nuestra estrategia de ciberseguridad. Este informe subraya su importancia, enfatizando la necesidad de una acción inmediata. <br><br>Las vulnerabilidades que no se abordan pueden llevar a posibles ciberataques con graves consecuencias. Como administradores de nuestros activos digitales, debemos actuar rápidamente para rectificar estos problemas. <br><br>Únanse a nosotros en este examen crítico de la Evaluación de Vulnerabilidades para garantizar nuestra continua seguridad digital. En un panorama cibernético en constante evolución, nuestra capacidad de responder de manera decisiva es primordial.",
+        "scope_title":"Enfoque",
+        "scope_text":"A continuación, los elementos cubiertos en esta evaluación:",
+        "accordion_vuln_by_host":"Vulnerabilidades por Hosts"
+    }
+}

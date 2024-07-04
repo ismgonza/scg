@@ -400,3 +400,10 @@ body #myprofile .card .input-group form input.form-control {
 body #myprofile .card .input-group form .btn {
   width: 30%;
 }
+.flag-icon {
+  /* /* font-size: 25px; */
+  display: inline-block;
+  height: 25px;
+  line-height: 27px;
+  vertical-align: middle;
+}

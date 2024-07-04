@@ -52,6 +52,7 @@ class Usuario(models.Model):
         Cuenta, on_delete=models.CASCADE, related_name="cuentas_usuarios")
     
     nombre = models.CharField(max_length=100)
+    lname = models.CharField(max_length=100)
     telefono = models.CharField(max_length=100)
 
     STATUS_EN = 'Enabled'
